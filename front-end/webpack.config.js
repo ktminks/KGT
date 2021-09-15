@@ -24,7 +24,7 @@ module.exports = {
   ],
   devServer: {
     historyApiFallback: true,
-    port: 3001,
+    port: 3000,
   },
   externals: {
     // global app config object

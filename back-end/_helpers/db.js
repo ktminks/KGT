@@ -1,4 +1,3 @@
-const config = require("../../config.json");
 const mongoose = require("mongoose");
 const connectionOptions = {
   useCreateIndex: true,
@@ -8,10 +7,7 @@ const connectionOptions = {
 };
 
 mongoose
-  .connect(
-    process.env.MONGODB_URI || config.connectionString,
-    connectionOptions
-  )
+  .connect(process.env.MONGODB_URI, connectionOptions)
   .then(() => {
     console.log("Connected to the database!");
   })
