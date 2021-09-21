@@ -1,7 +1,9 @@
 import axios from "axios";
+import config from "./config.json";
+const url = config.baseURL + "/api";
 
 export default axios.create({
-  baseURL: "http://ec2-52-0-165-153.compute-1.amazonaws.com/",
+  baseURL: url,
   headers: {
     "Content-type": "application/json",
   },

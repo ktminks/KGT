@@ -19,5 +19,5 @@ mongoose
 mongoose.Promise = global.Promise;
 
 module.exports = {
-  User: require("../users/user.model"),
+  Kitten: require("../models/model"),
 };

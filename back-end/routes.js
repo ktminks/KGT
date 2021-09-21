@@ -1,6 +1,5 @@
 module.exports = (app) => {
-  const kittens = require("controller.js");
-
+  const kittens = require("./controller");
   var router = require("express").Router();
 
   // Create a new Kitten
