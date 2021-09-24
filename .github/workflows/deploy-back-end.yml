@@ -29,6 +29,11 @@ jobs:
         source: "back-end/*"
         target: "KGT/back-end/"
       
+  start:
+    runs-on: [self-hosted, linux]
+    needs: build
+    
+    steps:
     - name: RunServer
       run: |
         pm2 delete all
