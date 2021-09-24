@@ -1,67 +1,60 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import KittenDataService from "../_services/data.service";
 
-export default class EditKitten extends Component {
-  componentWillUnmount() {}
+const EditKitten = ({ currentKitten }) => {
+  const history = useHistory();
+  const [newName, changeName] = React.useState("");
+  const [newSex, changeSex] = React.useState("");
 
-  render() {
-    const {
-      currentKitten,
-      deleteKitten,
-      updateKitten,
-      onChangeGender,
-      onChangeName,
-    } = this.props;
+  const updateKitten = (e) => {
+    e.preventDefault();
+    currentKitten = { ...currentKitten, sex: newSex, name: newName };
+    console.log(currentKitten);
+    KittenDataService.update(currentKitten.id, currentKitten)
+      .then((response) => {
+        console.log(response.data);
+        history.push("/");
+      })
+      .catch((e) => console.log(e));
+  };
 
-    return (
-      <div className="m-2">
-        <h4>Kitten</h4>
-        <form>
-          <div className="input-group">
-            <span className="input-group-text" htmlFor="name">
-              Name:
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              value={currentKitten.name}
-              onChange={onChangeName}
-            />
-          </div>
-          <div className="input-group">
-            <span className="input-group-text" htmlFor="gender">
-              Gender
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              id="gender"
-              value={currentKitten.gender}
-              onChange={onChangeGender}
-            />
-          </div>
-
-          <div className="input-group">
-            <span className="input-group-text">Age:</span>
-            <input type="number" className="form-control" id="age" />
-          </div>
-        </form>
-
+  return (
+    <div className="m-auto w-75">
+      <h4 className="text-center">Edit {currentKitten.name}</h4>
+      <form onSubmit={updateKitten}>
+        <div className="input-group">
+          <span className="input-group-text">Name</span>
+          <input
+            type="text"
+            className="form-control"
+            value={newName}
+            onChange={(e) => changeName(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <span className="input-group-text">Sex</span>
+          <input
+            type="text"
+            className="form-control"
+            value={newSex}
+            onChange={(e) => changeSex(e.target.value)}
+          />
+        </div>
         <div className="d-flex justify-content-evenly">
           <Link to="/" className="btn btn-secondary w-50 m-1">
             Back
           </Link>
 
-          <button
+          <input
             type="submit"
             className="btn btn-success w-50 m-1"
-            onClick={updateKitten}
-          >
-            Update
-          </button>
+            value="Update"
+          />
         </div>
-      </div>
-    );
-  }
-}
+      </form>
+    </div>
+  );
+};
+
+export default EditKitten;

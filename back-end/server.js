@@ -30,6 +30,8 @@ if (mode === "PRODUCTION") {
     cert: certificate,
     ca: ca,
   };
+  // not sure if I need this next line
+  app.use(express.static("public"));
   const httpsServer = https.createServer(credentials, app);
   httpsServer.listen("8443", () => {
     console.log("listening on https://kgt.ktminks.com:8443");

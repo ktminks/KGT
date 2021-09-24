@@ -1,21 +1,75 @@
 import React, { Component } from "react";
+import { BrowserRouter } from "react-router-dom";
 import "./public/bootstrap.min.css";
 import "./public/App.css";
 
 import Navbar from "./components/navbar";
 import KittenDisplay from "./components/kittendisplay";
+import KittenDataService from "./_services/data.service";
 
-class App extends Component {
+export default class App extends Component {
+  state = {
+    kittens: [],
+    currentIndex: -1,
+    currentKitten: {
+      id: null,
+      name: "",
+      sex: "",
+      birthdate: "",
+      age: 0,
+    },
+    message: "",
+  };
+
+  componentDidMount() {
+    this.retrieveKittens();
+  }
+
+  retrieveKittens = () => {
+    KittenDataService.getAll()
+      .then((response) => {
+        this.setState({
+          kittens: response.data,
+        });
+        console.log(response.data);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  setActiveKitten = (kitten, index) => {
+    this.setState({
+      currentKitten: kitten,
+      currentIndex: index,
+    });
+  };
+
+  searchName = (e, searchTerm) => {
+    e.preventDefault();
+    KittenDataService.findByName(searchTerm)
+      .then((response) => {
+        this.setState({
+          kittens: response.data,
+        });
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   render() {
     return (
       <div>
-        <Navbar />
-        <div className="container mt-3">
-          <KittenDisplay />
+        <Navbar searchName={this.searchName} />
+        <div className="container-fluid mt-3">
+          <BrowserRouter>
+            <KittenDisplay
+              state={this.state}
+              setActiveKitten={this.setActiveKitten}
+            />
+          </BrowserRouter>
         </div>
       </div>
     );
   }
 }
-
-export default App;

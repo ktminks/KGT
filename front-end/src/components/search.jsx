@@ -1,27 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 
-class SearchKittens extends Component {
-  render() {
-    const { searchName, onChange, onSearch } = this.props;
-    return (
-      <div className="input-group mb-3">
+const SearchKittens = ({ searchName }) => {
+  const [searchTerm, changeName] = React.useState("");
+  return (
+    <form className="d-flex" onSubmit={(e) => searchName(e, searchTerm)}>
+      <div className="input-group me-2">
         <input
           type="text"
-          className="form-control"
           placeholder="Search by name"
-          value={searchName}
-          onChange={onChange}
+          className="form-control"
+          value={searchTerm}
+          onChange={(e) => changeName(e.target.value)}
         />
-        <button
+        <input
           className="btn btn-outline-secondary"
-          type="button"
-          onClick={onSearch}
-        >
-          Search
-        </button>
+          type="submit"
+          value="Search"
+        />
       </div>
-    );
-  }
-}
+    </form>
+  );
+};
 
 export default SearchKittens;

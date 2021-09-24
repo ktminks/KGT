@@ -1,0 +1,22 @@
+{
+  "name": "kgt",
+  "version": "1.0.0",
+  "description": "Kitten Growth Tracker using MERN on AWS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ktminks/KGT.git"
+  },
+  "keywords": [
+    "health",
+    "kitten",
+    "cat",
+    "growth",
+    "tracker"
+  ],
+  "author": "Kathleen Minckler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ktminks/KGT/issues"
+  },
+  "homepage": "https://github.com/ktminks/KGT#readme"
+}

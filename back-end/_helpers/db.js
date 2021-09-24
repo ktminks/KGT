@@ -19,5 +19,5 @@ mongoose
 mongoose.Promise = global.Promise;
 
 module.exports = {
-  Kitten: require("../models/model"),
+  Kitten: require("../models/kitten"),
 };

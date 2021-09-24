@@ -1,28 +1,32 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import SearchKittens from "./search";
 
-class Navbar extends Component {
-  render() {
-    return (
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a href="/kittens" className="navbar-brand ms-2">
+const Navbar = ({ searchName }) => {
+  return (
+    <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <div className="container-fluid">
+        <Link to={"/kittens"} className="navbar-brand ms-2">
           myClowder
-        </a>
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link to={"/kittens"} className="nav-link">
-              Kittens
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to={"/add"} className="nav-link">
-              Add
-            </Link>
-          </li>
+        </Link>
+        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link to={"/kittens"} className="nav-link">
+                Kittens
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/add"} className="nav-link">
+                Add
+              </Link>
+            </li>
+          </ul>
         </div>
-      </nav>
-    );
-  }
-}
+        <SearchKittens searchName={searchName} />
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;

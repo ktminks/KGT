@@ -1,103 +1,76 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import KittenDataService from "../services/data.service";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import KittenDataService from "../_services/data.service";
 
-export default class AddKitten extends Component {
-  state = {
-    id: null,
-    name: "",
-    gender: "",
+const AddKitten = () => {
+  const history = useHistory();
+  const [name, setName] = React.useState("Kitten name");
+  const [sex, setSex] = React.useState("NA");
+  const [birthdate, setBirthdate] = React.useState("2021-09-01");
+
+  const getAge = () => {
+    const today = new Date();
+    const dob = new Date(birthdate);
+    return Math.ceil((today - dob) / (1000 * 60 * 60 * 24));
   };
 
-  onChangeName = (e) => {
-    this.setState({
-      name: e.target.value,
-    });
-  };
-
-  onChangeGender = (e) => {
-    this.setState({
-      gender: e.target.value,
-    });
-  };
-
-  saveKitten = () => {
-    var data = {
-      name: this.state.name,
-      gender: this.state.gender,
-    };
-
+  const saveKitten = (e) => {
+    e.preventDefault();
+    const age = getAge();
+    const data = { name, sex, birthdate, age };
     KittenDataService.create(data)
-      .then((response) => {
-        this.setState({
-          id: response.data.id,
-          name: response.data.name,
-          gender: response.data.gender,
-        });
-        console.log(response.data);
+      .then((res) => {
+        console.log(res.data);
+        history.push("/");
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => console.log(e));
   };
 
-  newKitten = () => {
-    this.setState({
-      id: null,
-      name: "",
-      gender: "",
-    });
-  };
-
-  render() {
-    const {} = this.props;
-
-    return (
-      <div className="m-2">
-        <div>
-          <div className="input-group">
-            <span className="input-group-text" htmlFor="name">
-              Name
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              required
-              value={this.state.name}
-              onChange={this.onChangeName}
-              name="name"
-            />
-          </div>
-
-          <div className="input-group mt-2">
-            <span className="input-group-text" htmlFor="gender">
-              Gender
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              id="gender"
-              required
-              value={this.state.gender}
-              onChange={this.onChangeGender}
-              name="gender"
-            />
-          </div>
-
-          <div className="d-flex justify-content-evenly mt-2">
-            <Link to="/" className="btn btn-secondary w-75 m-1">
-              Back
-            </Link>
-            <button
-              onClick={this.saveKitten}
-              className="btn btn-success w-75 m-1"
-            >
-              Submit
-            </button>
-          </div>
+  return (
+    <div className="m-auto w-75">
+      <h4 className="text-center">Add a new kitten!</h4>
+      <form onSubmit={saveKitten}>
+        <div className="input-group">
+          <span className="input-group-text">Name</span>
+          <input
+            type="text"
+            className="form-control"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
-      </div>
-    );
-  }
-}
+
+        <div className="input-group mt-2">
+          <span className="input-group-text">Sex</span>
+          <input
+            type="text"
+            className="form-control"
+            maxLength="2"
+            value={sex}
+            onChange={(e) => setSex(e.target.value)}
+          />
+        </div>
+
+        <div className="input-group mt-2">
+          <span className="input-group-text">Birthdate</span>
+          <input
+            type="date"
+            className="form-control"
+            required
+            value={birthdate}
+            onChange={(e) => setBirthdate(e.target.value)}
+          />
+        </div>
+
+        <div className="d-flex justify-content-evenly mt-2">
+          <Link to="/" className="btn btn-secondary w-75 m-1">
+            Back
+          </Link>
+          <input type="submit" className="btn btn-success w-75 m-1" />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default AddKitten;

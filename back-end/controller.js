@@ -12,8 +12,9 @@ exports.create = (req, res) => {
   // Create a Kitten
   const kitten = new Kitten({
     name: req.body.name,
-    gender: req.body.gender,
-    published: req.body.published ? req.body.published : false,
+    sex: req.body.sex,
+    birthdate: req.body.birthdate,
+    age: req.body.age,
   });
 
   // Save Kitten in the database
@@ -33,14 +34,12 @@ exports.create = (req, res) => {
 // Retrieve all Kittens from the database.
 exports.findAll = (req, res) => {
   const name = req.query.name;
-  var condition = name
+  let condition = name
     ? { name: { $regex: new RegExp(name), $options: "i" } }
     : {};
 
   Kitten.find(condition)
-    .then((data) => {
-      res.send(data);
-    })
+    .then((data) => res.send(data))
     .catch((err) => {
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving kittens.",
@@ -102,7 +101,7 @@ exports.delete = (req, res) => {
         });
       } else {
         res.send({
-          message: "Kitten was deleted successfully!",
+          message: `${data.name} was deleted successfully!`,
         });
       }
     })
@@ -113,31 +112,33 @@ exports.delete = (req, res) => {
     });
 };
 
+// ALTER THESE FUNCTIONS VVV
+
 // Delete all Kittens from the database.
-exports.deleteAll = (req, res) => {
-  Kitten.deleteMany({})
-    .then((data) => {
-      res.send({
-        message: `${data.deletedCount} Kittens were deleted successfully!`,
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all kittens.",
-      });
-    });
-};
+// exports.deleteAll = (req, res) => {
+//   Kitten.deleteMany({})
+//     .then((data) => {
+//       res.send({
+//         message: `${data.deletedCount} Kittens were deleted successfully!`,
+//       });
+//     })
+//     .catch((err) => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while removing all kittens.",
+//       });
+//     });
+// };
 
 // Find all published Kittens
-exports.findAllPublished = (req, res) => {
-  Kitten.find({ published: true })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving kittens.",
-      });
-    });
-};
+// exports.findAllPublished = (req, res) => {
+//   Kitten.find({ published: true })
+//     .then((data) => {
+//       res.send(data);
+//     })
+//     .catch((err) => {
+//       res.status(500).send({
+//         message: err.message || "Some error occurred while retrieving kittens.",
+//       });
+//     });
+// };

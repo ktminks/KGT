@@ -1,6 +1,7 @@
 {
   "name": "front-end",
   "version": "0.1.0",
+  "main": "index.jsx",
   "dependencies": {
     "axios": "^0.21.4",
     "css-loader": "^6.2.0",
@@ -11,15 +12,14 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.0.0",
-    "@webpack-cli/serve": "^1.5.2",
     "babel-loader": "^8.2.2",
     "html-webpack-plugin": "^5.3.2",
     "path": "^0.12.7",
     "postcss": "^8.3.6",
-    "webpack": "^5.52.1",
+    "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.1"
   },
