@@ -2,40 +2,56 @@ name: NodeJS back-end deployment
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
 
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Build
-      run: |
-        cd back-end
-        npm install
-        
-    - name: Transfer
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.KGT_HOST }}
-        username: ${{ secrets.KGT_USERNAME }}
-        key: ${{ secrets.KGT_KEY }}
-        source: "back-end/*"
-        target: "KGT/back-end/"
-      
-  start:
-    runs-on: ubuntu-latest
-    needs: build
-    
     steps:
-    - name: RunServer
-      run: |
-        npm install pm2
-        npm run start
-        
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$KGT_KEY" > ~/.ssh/kgt.key
+          chmod 600 ~/.ssh/kgt.key
+          cat >>~/.ssh/config <<END
+          Host kgt
+            HostName $KGT_HOST
+            User $KGT_USER
+            IdentityFile ~/.ssh/kgt.key
+            StrictHostKeyChecking no
+          END
+        env:
+          KGT_USER: ${{ secrets.KGT_USERNAME }}
+          KGT_KEY: ${{ secrets.KGT_KEY }}
+          KGT_HOST: ${{ secrets.KGT_HOST }}
+
+      - name: Stop the server
+        run: ssh kgt 'sudo pm2 delete all'
+
+      - name: Transfer
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.KGT_HOST }}
+          username: ${{ secrets.KGT_USERNAME }}
+          key: ${{ secrets.KGT_KEY }}
+          source: "back-end/*"
+          target: "KGT/back-end/"
+
+      - name: Build
+        run: |
+          ssh kgt
+          'cd back-end'
+          'npm install'
+
+      - name: Start the server
+        if: ${{ always() }}
+        run: |
+          ssh kgt
+          'pm2 start server.js'

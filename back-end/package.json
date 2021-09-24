@@ -15,7 +15,8 @@
     "fs": "0.0.1-security",
     "https": "^1.0.0",
     "mongodb": "^3.5.9",
-    "mongoose": "^5.9.21"
+    "mongoose": "^5.9.21",
+    "pm2": "^5.1.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
