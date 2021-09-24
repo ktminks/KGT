@@ -37,6 +37,7 @@ jobs:
 
       - name: Transfer
         uses: appleboy/scp-action@master
+        if: ${{ always() }}
         with:
           host: ${{ secrets.KGT_HOST }}
           username: ${{ secrets.KGT_USERNAME }}
@@ -45,9 +46,10 @@ jobs:
           target: "KGT/back-end/"
 
       - name: Build
-        run: ssh kgt 'cd back-end && npm install'
+        if: ${{ steps.Transfer.conclusion == success }}
+        run: ssh kgt 'cd ~/KGT/back-end && npm install'
 
       - name: Start the server
         if: ${{ always() }}
         run: |
-          ssh kgt 'cd back-end && pm2 start server.js'
+          ssh kgt 'cd ~/KGT/back-end && pm2 start server.js'
