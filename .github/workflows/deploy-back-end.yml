@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
+  transfer:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,6 +15,20 @@ jobs:
         with:
           node-version: "14"
 
+      - uses: appleboy/scp-action@master
+        if: ${{ always() }}
+        with:
+          host: ${{ secrets.KGT_HOST }}
+          username: ${{ secrets.KGT_USERNAME }}
+          key: ${{ secrets.KGT_KEY }}
+          source: "back-end/*"
+          target: "KGT/back-end/"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: transfer
+
+    steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -33,20 +47,9 @@ jobs:
           KGT_HOST: ${{ secrets.KGT_HOST }}
 
       - name: Stop the server
-        run: ssh kgt 'sudo pm2 stop all'
-
-      - name: Transfer
-        uses: appleboy/scp-action@master
-        if: ${{ always() }}
-        with:
-          host: ${{ secrets.KGT_HOST }}
-          username: ${{ secrets.KGT_USERNAME }}
-          key: ${{ secrets.KGT_KEY }}
-          source: "back-end/*"
-          target: "KGT/back-end/"
+        run: ssh kgt 'pm2 update && sudo pm2 stop all'
 
       - name: Build
-        if: ${{ steps.Transfer.conclusion == "success" }}
         run: ssh kgt 'cd ~/KGT/back-end && npm install'
 
       - name: Start the server
