@@ -45,13 +45,9 @@ jobs:
           target: "KGT/back-end/"
 
       - name: Build
-        run: |
-          ssh kgt
-          'cd back-end'
-          'npm install'
+        run: ssh kgt 'cd back-end && npm install'
 
       - name: Start the server
         if: ${{ always() }}
         run: |
-          ssh kgt
-          'pm2 start server.js'
+          ssh kgt 'pm2 start server.js'
