@@ -33,7 +33,7 @@ jobs:
           KGT_HOST: ${{ secrets.KGT_HOST }}
 
       - name: Stop the server
-        run: ssh kgt 'sudo pm2 delete all'
+        run: ssh kgt 'sudo pm2 stop all'
 
       - name: Transfer
         uses: appleboy/scp-action@master
@@ -50,4 +50,4 @@ jobs:
       - name: Start the server
         if: ${{ always() }}
         run: |
-          ssh kgt 'pm2 start server.js'
+          ssh kgt 'cd back-end && pm2 start server.js'
