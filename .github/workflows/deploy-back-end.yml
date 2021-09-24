@@ -46,7 +46,7 @@ jobs:
           target: "KGT/back-end/"
 
       - name: Build
-        if: ${{ steps.Transfer.conclusion == success }}
+        if: ${{ steps.Transfer.conclusion == "success" }}
         run: ssh kgt 'cd ~/KGT/back-end && npm install'
 
       - name: Start the server
