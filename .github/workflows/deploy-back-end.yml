@@ -36,6 +36,7 @@ jobs:
     steps:
     - name: RunServer
       run: |
+        cd back-end
         npm install pm2
         npm run start
         
