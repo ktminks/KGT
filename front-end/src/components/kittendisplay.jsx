@@ -1,10 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import KittenList from "./kittenlist";
-import CurrentKitten from "./currentkitten";
-import AddKitten from "./add-kitten";
-import EditKitten from "./editkitten";
+import { KittenList, CurrentKitten, AddKitten, EditKitten } from "./index";
 
 const KittenDisplay = ({ state, setActiveKitten }) => {
   const { kittens, currentIndex, currentKitten } = state;

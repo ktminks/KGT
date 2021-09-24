@@ -1,4 +1,5 @@
 const db = require("./models");
+const getGrowth = require("./_helpers/getGrowth");
 const Kitten = db.kittens;
 
 // Create and Save a new Kitten
@@ -10,12 +11,14 @@ exports.create = (req, res) => {
   }
 
   // Create a Kitten
-  const kitten = new Kitten({
+  let kitten = new Kitten({
     name: req.body.name,
     sex: req.body.sex,
     birthdate: req.body.birthdate,
     age: req.body.age,
   });
+
+  kitten = getGrowth(kitten);
 
   // Save Kitten in the database
   kitten
