@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "NodeJS + MongoDB API",
   "scripts": {
-    "start": "node ./server.js",
+    "start": "pm2 start server.js",
     "start:dev": "nodemon ./server.js"
   },
   "author": "Kathleen Minckler",
