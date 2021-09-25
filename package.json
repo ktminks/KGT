@@ -18,5 +18,18 @@
   "bugs": {
     "url": "https://github.com/ktminks/KGT/issues"
   },
-  "homepage": "https://github.com/ktminks/KGT#readme"
+  "homepage": "https://github.com/ktminks/KGT#readme",
+  "proxy": "http://localhost:4000",
+  "scripts": {
+    "client": "cd ./front-end && npm build",
+    "client:dev": "cd ./front-end && npm run start",
+    "server": "cd ./back-end && npm start",
+    "server:dev": "cd ./back-end && npm run start:dev",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "kill": "cd ./back-end && pm2 stop server.js"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1"
+  }
 }

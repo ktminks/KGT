@@ -8,6 +8,10 @@ const AddKitten = () => {
   const [sex, setSex] = React.useState("NA");
   const [birthdate, setBirthdate] = React.useState("2021-09-01");
 
+  useEffect(() => {
+    console.log("Add Kitten refreshed the DOM");
+  });
+
   const getAge = () => {
     const today = new Date();
     const dob = new Date(birthdate);

@@ -4,6 +4,7 @@
   "description": "NodeJS + MongoDB API",
   "scripts": {
     "start": "pm2 start server.js",
+    "restart": "pm2 restart server.js",
     "start:dev": "nodemon ./server.js"
   },
   "author": "Kathleen Minckler",

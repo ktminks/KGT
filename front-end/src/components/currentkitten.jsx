@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 
-const CurrentKitten = ({ currentKitten }) => {
+const CurrentKitten = ({ currentKitten, retrieveKittens }) => {
   const history = useHistory();
+  const { name, sex, birthdate, age, id, milestones, food, concerns, weights } =
+    currentKitten;
+
+  useEffect(() => {
+    console.log("Current Kitten refreshed the DOM");
+  });
 
   const deleteKitten = () => {
     KittenDataService.delete(currentKitten.id)
@@ -15,9 +21,6 @@ const CurrentKitten = ({ currentKitten }) => {
         console.log(e);
       });
   };
-
-  const { name, sex, birthdate, age, id, milestones, food, concerns, weights } =
-    currentKitten;
 
   const printObject = (obj) => {
     let result = ``;

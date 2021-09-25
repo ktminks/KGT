@@ -17,7 +17,7 @@ export default class App extends Component {
       birthdate: "",
       age: 0,
       milestones: {
-        temperatures: [[0, 0]],
+        temperature: [[0, 0]],
         eyes: [["", 0]],
         ears: [["", 0]],
         teeth: [["", 0]],
@@ -28,8 +28,8 @@ export default class App extends Component {
       },
       food: {
         foodtype: [["", 0]],
-        capacities: [[0, 0]],
-        frequencies: [[0, 0]],
+        capacity: [[0, 0]],
+        frequency: [[0, 0]],
         weaning: [[false, 0]],
       },
       concerns: [["", 0]],
@@ -83,6 +83,7 @@ export default class App extends Component {
             <KittenDisplay
               state={this.state}
               setActiveKitten={this.setActiveKitten}
+              retrieveKittens={this.retrieveKittens}
             />
           </BrowserRouter>
         </div>
