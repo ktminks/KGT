@@ -37,7 +37,7 @@ jobs:
           cat >>~/.ssh/config <<END
           Host kgt
             HostName $KGT_HOST
-            User $KGT_USER
+            User $KGT_USERNAME
             IdentityFile ~/.ssh/kgt.key
             StrictHostKeyChecking no
           END
@@ -47,12 +47,21 @@ jobs:
           KGT_HOST: ${{ secrets.KGT_HOST }}
 
       - name: Stop the server
-        run: ssh kgt 'pm2 update && sudo pm2 stop all'
+        run: |
+          ssh kgt
+          npm install pm2@latest -g
+          sudo pm2 stop all'
 
       - name: Build
-        run: ssh kgt 'cd ~/KGT/back-end && npm install'
+        if: ${{ always() }}
+        run: |
+          ssh kgt 
+          cd ~/KGT/back-end
+          npm install'
 
       - name: Start the server
         if: ${{ always() }}
         run: |
-          ssh kgt 'cd ~/KGT/back-end && pm2 start server.js'
+          ssh kgt
+          cd ~/KGT/back-end
+          pm2 start server.js'
