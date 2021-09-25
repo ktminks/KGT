@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const EnvironmentPlugin = require("node-env-webpack-plugin");
 
 module.exports = {
-  mode: process.env.MODE ? process.env.MODE : "DEVELOPMENT",
+  mode: "DEVELOPMENT",
   resolve: {
     extensions: [".js", ".jsx"],
   },
