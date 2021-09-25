@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const mode = process.env.MODE ? process.env.MODE : "DEVELOPMENT";
+const mode = process.env.NODE_ENV ? process.env.NODE_ENV : "DEVELOPMENT";
 const URL =
   mode === "PRODUCTION"
     ? "https://kgt.ktminks.com/api"

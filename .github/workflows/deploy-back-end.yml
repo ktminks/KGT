@@ -20,11 +20,6 @@ jobs:
           cd back-end
           npm install
 
-      - name: Run server
-        run: |
-          cd back-end
-          npm run start
-
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
@@ -35,31 +30,12 @@ jobs:
           REMOTE_USER: ${{ secrets.KGT_USER }}
           TARGET: "/home/ktkat/KGT/back-end/"
 
-      # - name: Run build task
-      #   run: npm run start --if-present
+      # need some way of ssh'ing into machine before doing this. not sure if it's necessary anyway
 
-  # transfer:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: "14"
-
-  #     - uses: appleboy/scp-action@master
-  #       if: ${{ always() }}
-  #       with:
-  #         host: ${{ secrets.KGT_HOST }}
-  #         username: ${{ secrets.KGT_USERNAME }}
-  #         key: ${{ secrets.KGT_KEY }}
-  #         source: "back-end/*"
-  #         target: "KGT/"
-
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: transfer
+      # - name: Run server
+      #   run: |
+      #     cd back-end
+      #     npm run start
 
   #   steps:
   #     - name: Configure SSH
@@ -79,11 +55,11 @@ jobs:
   #         KGT_KEY: ${{ secrets.KGT_KEY }}
   #         KGT_HOST: ${{ secrets.KGT_HOST }}
 
-  #     # - name: Stop the server
-  #     #   run: ssh kgt 'pm2 stop all'
+  #     - name: Stop the server
+  #       run: ssh kgt 'pm2 stop all'
 
   #     - name: Build
-  #       if: ${{ always() }}
+  #         if: ${{ always() }}
   #       run: |
   #         ssh kgt
   #         'cd /home/ktkat/KGT/back-end && npm install'
