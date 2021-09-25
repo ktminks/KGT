@@ -37,12 +37,12 @@ jobs:
           cat >>~/.ssh/config <<END
           Host kgt
             HostName $KGT_HOST
-            User $KGT_USERNAME
+            User $KGT_USER
             IdentityFile ~/.ssh/kgt.key
             StrictHostKeyChecking no
           END
         env:
-          KGT_USER: ${{ secrets.KGT_USERNAME }}
+          KGT_USER: ${{ secrets.KGT_USER }}
           KGT_KEY: ${{ secrets.KGT_KEY }}
           KGT_HOST: ${{ secrets.KGT_HOST }}
 
