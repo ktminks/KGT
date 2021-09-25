@@ -46,13 +46,17 @@ jobs:
           KGT_KEY: ${{ secrets.KGT_KEY }}
           KGT_HOST: ${{ secrets.KGT_HOST }}
 
-      - name: Stop the server
-        run: ssh kgt 'pm2 stop all'
+      # - name: Stop the server
+      #   run: ssh kgt 'pm2 stop all'
 
       - name: Build
         if: ${{ always() }}
-        run: ssh kgt 'cd /home/ktkat/KGT/back-end && npm install'
+        run: |
+          ssh kgt 
+          'cd /home/ktkat/KGT/back-end && npm install'
 
       - name: Start the server
         if: ${{ always() }}
-        run: ssh kgt 'pm2 start /home/ktkat/KGT/back-end/server.js'
+        run: |
+          ssh kgt 
+          'pm2 start /home/ktkat/KGT/back-end/server.js'
