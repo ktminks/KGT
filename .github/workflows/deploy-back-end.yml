@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.KGT_USERNAME }}
           key: ${{ secrets.KGT_KEY }}
           source: "back-end/*"
-          target: "KGT/back-end/"
+          target: "KGT/"
 
   deploy:
     runs-on: ubuntu-latest
