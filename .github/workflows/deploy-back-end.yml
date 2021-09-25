@@ -20,6 +20,11 @@ jobs:
           cd back-end
           npm install
 
+      - name: Run server
+        run: |
+          cd back-end
+          npm run start
+
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
@@ -30,8 +35,8 @@ jobs:
           REMOTE_USER: ${{ secrets.KGT_USER }}
           TARGET: "/home/ktkat/KGT/back-end/"
 
-      - name: Run build task
-        run: npm run start --if-present
+      # - name: Run build task
+      #   run: npm run start --if-present
 
   # transfer:
   #   runs-on: ubuntu-latest

@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const config = require("../config.json");
+const config = require("./config.json");
 const mode = process.env.MODE ? process.env.MODE : config.MODE || "DEVELOPMENT";
 
 app.use(bodyParser.urlencoded({ extended: true }));
