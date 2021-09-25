@@ -25,7 +25,7 @@
     "webpack-dev-server": "^4.2.1"
   },
   "scripts": {
-    "build": "webpack --mode PRODUCTION",
+    "build": "webpack --mode production",
     "start": "webpack-dev-server --open"
   }
 }
