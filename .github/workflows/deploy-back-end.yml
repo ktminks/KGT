@@ -49,19 +49,18 @@ jobs:
       - name: Stop the server
         run: |
           ssh kgt
-          npm install pm2@latest -g
-          sudo pm2 stop all'
+          sudo pm2 stop all
 
       - name: Build
         if: ${{ always() }}
         run: |
           ssh kgt 
-          cd ~/KGT/back-end
+          cd /home/ktkat/KGT/back-end
           npm install'
 
       - name: Start the server
         if: ${{ always() }}
         run: |
           ssh kgt
-          cd ~/KGT/back-end
+          cd /home/ktkat/KGT/back-end
           pm2 start server.js'
