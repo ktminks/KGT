@@ -1,5 +1,4 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const EnvironmentPlugin = require("node-env-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -22,7 +21,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
-    new EnvironmentPlugin(["NODE_ENV", this.mode]),
   ],
   devServer: {
     historyApiFallback: true,

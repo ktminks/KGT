@@ -1,4 +1,4 @@
-import http from "./http-common";
+import http from "front-end/src/_services/http-common";
 
 class KittenDataService {
   getAll = () => http.get("/kittens");
