@@ -29,6 +29,7 @@ jobs:
           SOURCE: "back-end/"
           REMOTE_HOST: ${{ secrets.KGT_HOST }}
           REMOTE_USER: ${{ secrets.KGT_USER }}
+          TARGET: "/home/ktkat/KGT/back-end/"
           EXCLUDE: "/node_modules/"
 
   # transfer:
