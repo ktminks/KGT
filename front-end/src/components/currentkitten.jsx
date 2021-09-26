@@ -41,11 +41,13 @@ const CurrentKitten = ({ currentKitten }) => {
 
   const printArray = (arr) => {
     let result = `<div class="d-flex flex-column flex-nowrap">`;
-    for (let n of arr) {
-      result += `<div class="d-flex justify-content-between">
+    if (arr.length) {
+      for (let n of arr) {
+        result += `<div class="d-flex justify-content-between">
                         <div>${n[0]}:</div>
                         <div>${n[1]} days</div>
                       </div>`;
+      }
     }
     return (result += `</div>`);
   };
