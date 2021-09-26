@@ -45,32 +45,71 @@ jobs:
             fi
           done < files.txt
 
+  # build_backend:
+  #   runs-on: ubuntu-latest
+  #   needs: [check]
+  #   if: needs.check_files.outputs.server_updated == 'true'
+  #   defaults:
+  #     run:
+  #       working-directory: back-end
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Install Node.js
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: "16.x"
+
+  #     - name: Install npm dependencies
+  #       run: npm install
+
+  #     - name: Deploy to Server
+  #       uses: easingthemes/ssh-deploy@main
+  #       env:
+  #         SSH_PRIVATE_KEY: ${{ secrets.KGT_KEY }}
+  #         ARGS: "-rltgoDzvO --delete"
+  #         REMOTE_HOST: ${{ secrets.KGT_HOST }}
+  #         REMOTE_USER: ${{ secrets.KGT_USER }}
+  #         TARGET: "/home/ktkat/KGT/back-end/"
+
   build_backend:
     runs-on: ubuntu-latest
-    needs: [check]
-    if: needs.check_files.outputs.server_updated == 'true'
+    # needs: [check]
+    # if: needs.check_files.outputs.server_updated == 'true'
     defaults:
       run:
         working-directory: back-end
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "16.x"
 
-      - name: Install npm dependencies
-        run: npm install
-
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
+          sudo chmod 600 ~/.ssh/deploy.key
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        shell: bash
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.KGT_KEY }}
-          ARGS: "-rltgoDzvO --delete"
-          REMOTE_HOST: ${{ secrets.KGT_HOST }}
-          REMOTE_USER: ${{ secrets.KGT_USER }}
-          TARGET: "/home/ktkat/KGT/back-end/"
+          KGT_KEY: ${{ secrets.KGT_KEY }}
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo KGT_USER=${{ secrets.KGT_USER }} >> .env
+          echo KGT_HOST=${{ secrets.KGT_HOST }} >> .env
+          cat .env
+
+      - name: Install PM2
+        run: npm i pm2
+
+      - name: Deploy
+        run: npm run deploy --force
 
   build_frontend:
     runs-on: ubuntu-latest
