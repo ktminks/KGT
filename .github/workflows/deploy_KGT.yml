@@ -91,7 +91,7 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh/
-          echo ${{ secrets.KGT_KEY }} > ~/.ssh/deploy.key
+          echo "$KGT_KEY" > ~/.ssh/deploy.key
           sudo chmod 600 ~/.ssh/deploy.key
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         shell: bash
