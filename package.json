@@ -4,7 +4,7 @@
   "description": "Kitten Growth Tracker using MERN on AWS",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ktminks/KGT.git"
+    "url": "git@github.com:ktminks/KGT.git"
   },
   "keywords": [
     "health",
