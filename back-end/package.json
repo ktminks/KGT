@@ -7,7 +7,7 @@
     "url": "git@github.com:ktminks/KGT.git"
   },
   "scripts": {
-    "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js production --force",
+    "restart": "pm2 restart server.js",
     "start": "pm2 start server.js",
     "start:dev": "nodemon ./server.js"
   },

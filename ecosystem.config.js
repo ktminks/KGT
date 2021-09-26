@@ -22,10 +22,8 @@ module.exports = {
       ref: "origin/main",
       repo: "git@github.com:ktminks/KGT.git",
       path: "/home/ktkat/KGT/back-end",
-      // "pre-deploy-local":
-      //   'echo "is it possible to navigate to back-end here?" cd back-end',
       "post-deploy":
-        "npm install && pm2 reload ecosystem.config.js --env production && pm2 save",
+        "cd ~/KGT/back-end && rsync -a -I ~/KGT/back-end/back-end/ ~/KGT/back-end && yes | rm -rI back-end front-end README.md && npm install && npm run restart && pm2 save",
       env: {
         NODE_ENV: "production",
       },
