@@ -11,18 +11,16 @@ module.exports = {
       max_memory_restart: "1G",
       env: {
         PORT: 4000,
-        KGT_USER: "KGT_USER",
-        KGT_HOST: "KGT_HOST",
       },
     },
   ],
   deploy: {
     production: {
-      user: "KGT_USER",
-      host: "KGT_HOST",
+      user: "ktkat",
+      host: "ec2-52-0-165-153.compute-1.amazonaws.com",
       key: "~/.ssh/deploy.key",
       ref: "origin/main",
-      repo: "https://github.com/ktminks/kgt",
+      repo: "git@github.com:ktminks/KGT.git",
       path: "/home/ktkat/KGT/back-end",
       // "pre-deploy-local":
       //   'echo "is it possible to navigate to back-end here?" cd back-end',
@@ -30,8 +28,6 @@ module.exports = {
         "npm install && pm2 reload ecosystem.config.js --env production && pm2 save",
       env: {
         NODE_ENV: "production",
-        KGT_USER: "KGT_USER",
-        KGT_HOST: "KGT_HOST",
       },
     },
   },

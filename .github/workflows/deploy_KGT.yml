@@ -36,11 +36,9 @@ jobs:
               then
                 echo "This file is not under the directory 'front-end/.'"
                 echo "::set-output name=client_updated::false"
-                break
               else
                 echo "::set-output name=client_updated::true"
               fi
-              break
             else
               echo "::set-output name=server_updated::true"
             fi
@@ -95,14 +93,7 @@ jobs:
         shell: bash
         env:
           KGT_KEY: ${{ secrets.KGT_KEY }}
-          KGT_USER: ${{ secrets.KGT_USER }}
           KGT_HOST: ${{ secrets.KGT_HOST }}
-
-      - name: Create env file
-        run: |
-          touch .env
-          echo KGT_USER=${{ secrets.KGT_USER }} >> .env
-          echo KGT_HOST=${{ secrets.KGT_HOST }} >> .env
 
       - name: Install PM2
         run: npm i pm2

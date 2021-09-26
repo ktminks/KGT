@@ -32,8 +32,8 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo KGT_USER=${{ secrets.KGT_USER }} >> .env
-          echo KGT_HOST=${{ secrets.KGT_HOST }} >> .env
+          echo kgt_user=${{ secrets.kgt_user }} >> .env
+          echo kgt_host=${{ secrets.kgt_host }} >> .env
           cat .env
 
       - name: Install PM2
