@@ -31,17 +31,16 @@ jobs:
             if [[ $file != "back-end/"* ]]; then
               echo "This file is not under the directory 'back-end/.'"
               echo "::set-output name=server_updated::false"
-              break
+              if [[ $file != "front-end/"* ]]; then
+                echo "This file is not under the directory 'front-end/.'"
+                echo "::set-output name=client_updated::false"
+                break
+              else
+                echo "::set-output name=client_updated::true"
+                break
+              fi
             else
               echo "::set-output name=server_updated::true"
-            fi
-            
-            if [[ $file != "front-end/"* ]]; then
-              echo "This file is not under the directory 'front-end/.'"
-              echo "::set-output name=client_updated::false"
-              break
-            else
-              echo "::set-output name=client_updated::true"
             fi
           done < files.txt
 
