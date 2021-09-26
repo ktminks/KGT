@@ -12,13 +12,14 @@ module.exports = {
       env: {
         PORT: 4000,
         KGT_USER: "KGT_USER",
+        KGT_HOST: "KGT_HOST",
       },
     },
   ],
   deploy: {
     production: {
       user: "KGT_USER",
-      host: "52.0.165.153",
+      host: "KGT_HOST",
       key: "~/.ssh/deploy.key",
       ref: "origin/main",
       repo: "https://github.com/ktminks/kgt",
@@ -30,6 +31,7 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         KGT_USER: "KGT_USER",
+        KGT_HOST: "KGT_HOST",
       },
     },
   },

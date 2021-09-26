@@ -69,9 +69,7 @@ export default class App extends Component {
         });
         console.log(response.data);
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => console.log(e));
   };
 
   render() {
