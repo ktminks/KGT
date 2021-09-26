@@ -20,12 +20,12 @@ module.exports = {
     production: {
       user: "KGT_USER",
       host: "KGT_HOST",
-      key: "deploy.key",
+      key: "./ssh/deploy.key",
       ref: "origin/main",
       repo: "https://github.com/ktminks/kgt",
       path: "/home/ktkat/KGT/back-end",
-      "pre-deploy-local":
-        'echo "is it possible to navigate to back-end here?" cd back-end',
+      // "pre-deploy-local":
+      //   'echo "is it possible to navigate to back-end here?" cd back-end',
       "post-deploy":
         "npm install && pm2 reload ecosystem.config.js --env production && pm2 save",
     },
