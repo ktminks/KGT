@@ -1,33 +1,53 @@
 name: NodeJS back-end deployment
 
+on:
+  push:
+    branches: [main]
+
 defaults:
   run:
     working-directory: back-end
 
-on:
-  push:
-    branches: [main]
-    paths:
-      - "back-end"
-
 jobs:
-  # check_commits:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     server_updated: ${{ steps.check_server.outputs.server_updated }}
+  check_commits:
+    runs-on: ubuntu-latest
+    outputs:
+      server_updated: ${{ steps.check_server.outputs.server_updated }}
 
-  #   steps:
-  #     - name: push commits
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
-  #     - name: check if server was updated
-  #       id: check_server
-  #       run: |
-  #         # here you need to replace "(sub-directories are updated)" with the actual if statement
-  #         if [[ (sub-directories are updated) ]]; then
-  #           echo "::set-output name=server_updated::true"
-  #         else
-  #           echo "::set-output name=server_updated::false"
-  #         fi
+      - name: check if server was updated
+        id: check_server
+        run: |
+          echo "=============== list changed files ==============="
+          git diff --name-only HEAD^ HEAD
+
+          echo "========== check paths of changed files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != "back-end/"* ]]; then
+              echo "This file is not under the directory 'back-end/."
+              echo "::set-output name=server_updated::false"
+              break
+            else
+              echo "::set-output name=server_updated::true"
+            fi
+          done < files.txt
+
+  job_for_env1:
+    name: Job for env1
+    needs: check_server
+    if: needs.check.outputs.server_updated == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: run for env1
+        run: echo "Updates made to env1"
 
   build:
     runs-on: ubuntu-latest
