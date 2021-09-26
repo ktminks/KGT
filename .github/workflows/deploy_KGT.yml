@@ -97,6 +97,7 @@ jobs:
         shell: bash
         env:
           KGT_KEY: ${{ secrets.KGT_KEY }}
+          KGT_USER: ${{ secrets.KGT_USER }}
           KGT_HOST: ${{ secrets.KGT_HOST }}
 
       - name: Create env file
