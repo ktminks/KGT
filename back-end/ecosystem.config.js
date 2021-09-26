@@ -9,7 +9,7 @@ module.exports = {
       max_restarts: 50,
       watch: false,
       max_memory_restart: "1G",
-      env_production: {
+      env: {
         PORT: 4000,
         KGT_USER: "KGT_USER",
         KGT_HOST: "KGT_HOST",
@@ -28,11 +28,11 @@ module.exports = {
       //   'echo "is it possible to navigate to back-end here?" cd back-end',
       "post-deploy":
         "npm install && pm2 reload ecosystem.config.js --env production && pm2 save",
-    },
-    env_production: {
-      NODE_ENV: "production",
-      KGT_USER: "KGT_USER",
-      KGT_HOST: "KGT_HOST",
+      env: {
+        NODE_ENV: "production",
+        KGT_USER: "KGT_USER",
+        KGT_HOST: "KGT_HOST",
+      },
     },
   },
 };
