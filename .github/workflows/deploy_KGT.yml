@@ -91,7 +91,7 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy.key
+          echo ${{ secrets.KGT_KEY }} > ~/.ssh/deploy.key
           sudo chmod 600 ~/.ssh/deploy.key
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         shell: bash
@@ -103,7 +103,6 @@ jobs:
           touch .env
           echo KGT_USER=${{ secrets.KGT_USER }} >> .env
           echo KGT_HOST=${{ secrets.KGT_HOST }} >> .env
-          cat .env
 
       - name: Install PM2
         run: npm i pm2
