@@ -6,6 +6,8 @@ defaults:
 
 on:
   push:
+    paths:
+      - "back-end"
     branches: [main]
 
 jobs:
@@ -29,7 +31,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: [check_commits]
+    # needs: [check_commits]
     if: needs.check_commits.outputs.server_updated == 'true'
 
     steps:
