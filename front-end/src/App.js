@@ -17,7 +17,7 @@ export default class App extends Component {
       birthdate: "",
       age: 0,
       milestones: {
-        temperature: [[0, 0]],
+        temperature: [[0, 0, 0]],
         eyes: [["", 0]],
         ears: [["", 0]],
         teeth: [["", 0]],
@@ -33,7 +33,7 @@ export default class App extends Component {
         weaning: [[false, 0]],
       },
       concerns: [["", 0]],
-      weights: [[0, 0]],
+      weight: [[0, 0]],
     },
     message: "",
   };

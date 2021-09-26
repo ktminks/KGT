@@ -4,10 +4,10 @@ import { Switch, Route } from "react-router-dom";
 import { KittenList, CurrentKitten, AddKitten, EditKitten } from "./index";
 
 const KittenDisplay = ({ state, setActiveKitten, retrieveKittens }) => {
-  const { currentIndex, currentKitten } = state;
+  const { kittens, currentIndex, currentKitten } = state;
   // const [kittens, updateKittens] = React.useState([state.kittens]);
   useEffect(() => {
-    console.log("do something every time the page refreshes");
+    console.log("Kitten Display refreshed the DOM");
   });
 
   return (

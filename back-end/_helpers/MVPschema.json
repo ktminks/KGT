@@ -85,7 +85,7 @@
       "description": "Information on major concerns and priorities by age",
       "type": "array"
     },
-    "weights": {
+    "weight": {
       "description": "Estimated progression of this kitten's weight by age",
       "type": "array"
     }

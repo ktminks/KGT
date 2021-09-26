@@ -24,7 +24,7 @@ const kittenSchema = new Schema(
       weaning: [],
     },
     concerns: [],
-    weights: [],
+    weight: [],
   },
   { timestamps: true }
 );

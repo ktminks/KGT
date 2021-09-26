@@ -4,7 +4,7 @@ import KittenDataService from "../_services/data.service";
 
 const CurrentKitten = ({ currentKitten, retrieveKittens }) => {
   const history = useHistory();
-  const { name, sex, birthdate, age, id, milestones, food, concerns, weights } =
+  const { name, sex, birthdate, age, id, milestones, food, concerns, weight } =
     currentKitten;
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const CurrentKitten = ({ currentKitten, retrieveKittens }) => {
 
           <div className="d-flex justify-content-around">
             <div className="d-flex flex-column w-75 me-2">
-              <h5 className="text-center">Milestones:</h5>
+              <h5 className="text-center">milestones:</h5>
               <div
                 dangerouslySetInnerHTML={{ __html: printObject(milestones) }}
               ></div>
@@ -105,9 +105,9 @@ const CurrentKitten = ({ currentKitten, retrieveKittens }) => {
               </div>
 
               <div className="d-flex justify-content-around flex-column">
-                <h5 className="text-center">Weights:</h5>
+                <h5 className="text-center">Weight:</h5>
                 <div
-                  dangerouslySetInnerHTML={{ __html: printArray(weights) }}
+                  dangerouslySetInnerHTML={{ __html: printArray(weight) }}
                 ></div>
               </div>
             </div>

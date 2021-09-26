@@ -1,9 +1,9 @@
 class Kitten {
-  initMilestones(age) {
+  initMilestones = (age) => {
     let { temperature, eyes, ears, teeth, litterbox, mobility, socialization } =
       this.milestones;
 
-    if (!temperature.length) {
+    if (temperature.length > 0) {
       if (age < 7) temperature.push([85, age, 90]);
       else if (age < 14) temperature.push([80, age, 85]);
       else if (age < 21) temperature.push([75, age, 80]);
@@ -51,18 +51,18 @@ class Kitten {
       else if (age < 21) socialization.push(["frequent handling", age]);
       else socialization.push(["acclimation period", age]);
     }
-  }
+  };
 
-  initConcerns(age) {
+  initConcerns = (age) => {
     if (!this.concerns.length) {
       if (age < 28)
         this.concerns.push(["hypothermia, lethargy, diarrhea, vomiting", age]);
       else
         this.concerns.push(["diarrhea, vomiting, developmental delays", age]);
     }
-  }
+  };
 
-  initFood(age) {
+  initFood = (age) => {
     const { foodtype, frequency, weaning } = this.food;
 
     if (!foodtype.length) {
@@ -77,15 +77,15 @@ class Kitten {
       if (age < 28) weaning.push([false, age]);
       else if (age < 42) weaning.push([true, age]);
     }
-  }
+  };
 
-  initStatus(age) {
+  initStatus = (age) => {
     this.initFood(age);
     this.initConcerns(age);
     this.initMilestones(age);
-  }
+  };
 
-  estimateGrowth() {
+  estimateGrowth = () => {
     // start estimation at current age
     let age = this.age;
     const {
@@ -162,7 +162,7 @@ class Kitten {
     mobility.push(["coordinated", 49]);
     vet.push(["Second visit", 63]);
     vet.push(["Third visit", 84]);
-  }
+  };
 
   constructor(dob, name = "Name me!", sex = "NA") {
     this.name = name;
@@ -193,8 +193,15 @@ class Kitten {
 
 const getGrowth = (newKitten) => {
   let kitkat = new Kitten(newKitten.birthdate);
-  const growth = ["milestones", "food", "concerns", "weights"];
-  for (let g of growth) for (let item of newKitten[g]) item = kitkat[g][i];
+  const growth = ["milestones", "food", "concerns", "weight"];
+  for (let g of growth) {
+    console.log(g);
+    for (let item of newKitten[g]) {
+      console.log(item);
+      item = kitkat[g][item];
+      console.log(item);
+    }
+  }
   return newKitten;
 };
 

@@ -83,7 +83,7 @@ class Kitten {
     this.name = name;
     this.breed = breed;
     this.gender = gender;
-    this.milestone = {
+    this.milestones = {
       weight: [[today, weight]],
       eyes: eyes,
       ears: ears,
@@ -104,34 +104,34 @@ class Kitten {
     return `<div class="kittens-data d-flex flex-column">
                     <div class="d-flex justify-content-between flex-wrap data">
                         <p>Date:</p>
-                        <p>${this.milestone.weight[0][0]}</p>
+                        <p>${this.milestones.weight[0][0]}</p>
                     </div>
                     
                     <div class="d-flex justify-content-between flex-wrap data">
                         <p>Weight:</p>
-                        <p>${this.milestone.weight[0][1]}g</p>
+                        <p>${this.milestones.weight[0][1]}g</p>
                     </div>
                     
                     <div class="d-flex justify-content-between flex-wrap data">
                         <p>Eyes:</p>
-                        <p>${this.milestone.eyes}</p>
+                        <p>${this.milestones.eyes}</p>
                     </div>
                     
                     <div class="d-flex justify-content-between flex-wrap data">
                         <p>Ears:</p>
-                        <p>${this.milestone.ears}</p>
+                        <p>${this.milestones.ears}</p>
                     </div>
                     
                     <div class="d-flex justify-content-between flex-wrap data">
                         <p>Eating:</p>
-                        <p>${this.milestone.eating}</p>
+                        <p>${this.milestones.eating}</p>
                     </div>
                 </div>`;
   };
   printKitten = () => {
     return `<p>Kitten #${this.kittenNum}: ${this.name}</p>
                 <p>Age: ${Math.floor(this.age / 7)} weeks</p>
-                <h3>Milestones:</h3>
+                <h3>milestones:</h3>
                 <div class="milestones d-flex justify-content-evenly flex-wrap">
                     <div class="last-reported mx-2">
                         <h4>Last reported:</h4>
@@ -166,8 +166,8 @@ estimateAge = (kitten, min = 0, max = 999, weightCheck = false) => {
       `${kitten.name} is approximately ${Math.floor(kitten.age / 7)} weeks old!`
     );
     return;
-  } else if (kitten.milestone.weight.length > 0 && weightCheck == false) {
-    let weight = kitten.milestone.weight[0][1]; // in grams
+  } else if (kitten.milestones.weight.length > 0 && weightCheck == false) {
+    let weight = kitten.milestones.weight[0][1]; // in grams
     if (weight > 2600) {
       // cat is probably at least 6 months
     } else {
@@ -176,7 +176,7 @@ estimateAge = (kitten, min = 0, max = 999, weightCheck = false) => {
     }
   } else {
     // adjust minimum
-    if (kitten.milestone["litter-trained"]) {
+    if (kitten.milestones["litter-trained"]) {
       // at least a few weeks
     } else {
       // must be very young
