@@ -11,13 +11,15 @@ module.exports = {
       max_memory_restart: "1G",
       env: {
         PORT: 4000,
+        KGT_USER: "$KGT_USER",
+        KGT_HOST: "$KGT_HOST",
       },
     },
   ],
   deploy: {
     production: {
-      user: "USER",
-      host: "HOST",
+      user: "KGT_USER",
+      host: "KGT_HOST",
       key: "deploy.key",
       ref: "origin/main",
       repo: "https://github.com/ktminks/kgt",
@@ -27,8 +29,8 @@ module.exports = {
     },
     env: {
       NODE_ENV: "production",
-      USER: "KGT_USER",
-      HOST: "KGT_HOST",
+      KGT_USER: "$KGT_USER",
+      KGT_HOST: "$KGT_HOST",
     },
   },
 };
