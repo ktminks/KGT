@@ -96,7 +96,7 @@ jobs:
 
   restart_server:
     runs-on: ubuntu-latest
-    needs: [check_server]
+    # needs: [check_server]
     # if: needs.check_server.outputs.server_updated == 'true'
 
     steps:
@@ -115,6 +115,7 @@ jobs:
       # (optional - only needed if your config uses environment variables)
       - name: Create env file
         run: |
+          cd back-end
           touch .env
           echo KGT_USER: ${{ secrets.KGT_USER }} >> .env
           echo KGT_HOST: ${{ secrets.KGT_HOST }} >> .env
@@ -123,7 +124,7 @@ jobs:
         run: npm i pm2
 
       - name: Deploy
-        run: env $(cat .env | grep -v \"#\" | xargs) pm2 deploy back-end/ecosystem.config.js staging
+        run: npm run deploy
 
   build_frontend:
     runs-on: ubuntu-latest

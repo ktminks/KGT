@@ -49,6 +49,8 @@ typings/
 *.tgz
 
 # deployment variables & files
+.env
+**/.env
 .deploy.env
 **/deploy.env
 

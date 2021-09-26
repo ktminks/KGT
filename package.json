@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/ktminks/KGT/issues"
   },
-  "homepage": "https://github.com/ktminks/KGT#readme"
+  "homepage": "https://github.com/ktminks/KGT#readme",
+  "scripts": {
+    "deploy": "cd back-end && npm run deploy"
+  }
 }
