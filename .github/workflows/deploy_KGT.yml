@@ -69,7 +69,7 @@ jobs:
   build_backend:
     runs-on: ubuntu-latest
     # needs: [check]
-    # if: needs.check_files.outputs.server_updated == 'true'
+    # if: needs.check.outputs.server_updated == 'true'
 
     steps:
       - uses: actions/checkout@v2
@@ -82,8 +82,8 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$KGT_KEY" > ./deploy.key
-          sudo chmod 600 ./deploy.key
+          echo "$KGT_KEY" > ~/.ssh/deploy.key
+          sudo chmod 600 ~/.ssh/deploy.key
           echo "$KGT_KNOWN_HOSTS" > ~/.ssh/known_hosts
         shell: bash
         env:
@@ -99,7 +99,7 @@ jobs:
   build_frontend:
     runs-on: ubuntu-latest
     needs: [check]
-    if: needs.check_files.outputs.client_updated == 'true'
+    if: needs.check.outputs.client_updated == 'true'
     defaults:
       run:
         working-directory: front-end
