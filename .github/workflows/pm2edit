@@ -1,0 +1,36 @@
+name: upload & restart PM2 server
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  restart_server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > ./deploy.key
+          sudo chmod 600 ./deploy.key
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        shell: bash
+        env:
+          KGT_USER: ${{ secrets.KGT_USER }}
+          KGT_KEY: ${{ secrets.KGT_KEY }}
+          KGT_HOST: ${{ secrets.KGT_HOST }}
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo KGT_USER: ${{ secrets.KGT_USER }} >> .env
+          echo KGT_HOST: ${{ secrets.KGT_HOST }} >> .env
+
+      - name: Install PM2
+        run: npm i pm2
+
+      - name: Deploy
+        run: npm run deploy
