@@ -3,53 +3,52 @@ import { Link, useHistory } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 
 const CurrentKitten = ({ currentKitten }) => {
-  // const history = useHistory();
+  const history = useHistory();
+  const { name, sex, birthdate, age, id, milestones, food, concerns, weight } =
+    currentKitten;
 
   const deleteKitten = () => {
     KittenDataService.delete(currentKitten.id)
       .then((response) => {
         console.log(response.data);
-        // history.push("/kittens");
+        history.push({ pathname: "/kittens" });
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => console.log(e));
   };
-
-  const { name, sex, birthdate, age, id, milestones, food, concerns, weight } =
-    currentKitten;
 
   const printObject = (obj) => {
     let result = ``;
     console.log(obj);
-    for (let m in obj) {
+    for (let m in obj)
       if (obj[m].length) {
         result += `<div class="d-flex justify-content-between">
                     <h6>${m}:</h6>
-                    <div class="w-75 d-flex flex-column flex-nowrap">`;
-        for (let n of obj[m]) {
-          result += `<div class="d-flex justify-content-between">
-                        <div>${n[0]}:</div>
-                        <div>${n[1]} days</div>
-                      </div>`;
-        }
-        result += `</div></div>`;
+                    <div class="w-75 d-flex flex-column flex-nowrap">
+                    ${printArray(obj[m])}</div></div>`;
       }
-    }
     return result;
   };
 
   const printArray = (arr) => {
-    let result = `<div class="d-flex flex-column flex-nowrap">`;
+    let result = ``,
+      prevValue;
     if (arr.length) {
       for (let n of arr) {
-        result += `<div class="d-flex justify-content-between">
-                        <div>${n[0]}:</div>
-                        <div>${n[1]} days</div>
-                      </div>`;
+        if (n[0] !== prevValue) {
+          let days = n[1] - age;
+          if (days < 14) {
+            result += `<div class="d-flex justify-content-between">
+                            <div>${n[0]}</div>
+                            <div>${
+                              days === 0 ? "today" : `in ${days} days`
+                            }</div>
+                          </div>`;
+          }
+        }
+        prevValue = n[0];
       }
     }
-    return (result += `</div>`);
+    return result === "" ? "Nothing in the next two weeks!" : result;
   };
 
   const getDate = (date) => {
@@ -79,7 +78,7 @@ const CurrentKitten = ({ currentKitten }) => {
 
           <div className="d-flex justify-content-around">
             <h5 className="text-center">Age:</h5>
-            {age}
+            {age} days (about {Math.round(age / 7)} weeks)
           </div>
 
           <div className="d-flex justify-content-around">
