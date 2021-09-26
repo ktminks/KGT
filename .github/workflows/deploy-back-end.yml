@@ -6,9 +6,9 @@ defaults:
 
 on:
   push:
+    branches: [main]
     paths:
       - "back-end"
-    branches: [main]
 
 jobs:
   # check_commits:

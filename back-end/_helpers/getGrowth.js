@@ -347,7 +347,7 @@ const getGrowth = (newKitten) => {
   newKitten.milestones = kitkat.milestones;
   newKitten.food = kitkat.food;
   newKitten.concerns = kitkat.concerns;
-  newKitten.weights = kitkat.weights;
+  newKitten.weight = kitkat.weight;
   return newKitten;
 };
 

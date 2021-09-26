@@ -8,7 +8,7 @@ const kittenSchema = new Schema(
     birthdate: { type: Date, default: Date.now },
     age: { type: Number, default: 0 },
     milestones: {
-      temperatures: [],
+      temperature: [],
       eyes: [],
       ears: [],
       teeth: [],
@@ -19,12 +19,12 @@ const kittenSchema = new Schema(
     },
     food: {
       foodtype: [],
-      capacities: [],
-      frequencies: [],
+      capacity: [],
+      frequency: [],
       weaning: [],
     },
     concerns: [],
-    weights: [],
+    weight: [],
   },
   { timestamps: true }
 );

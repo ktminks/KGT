@@ -16,7 +16,7 @@ const CurrentKitten = ({ currentKitten }) => {
       });
   };
 
-  const { name, sex, birthdate, age, id, milestones, food, concerns, weights } =
+  const { name, sex, birthdate, age, id, milestones, food, concerns, weight } =
     currentKitten;
 
   const printObject = (obj) => {
@@ -102,9 +102,9 @@ const CurrentKitten = ({ currentKitten }) => {
               </div>
 
               <div className="d-flex justify-content-around flex-column">
-                <h5 className="text-center">Weights:</h5>
+                <h5 className="text-center">weight:</h5>
                 <div
-                  dangerouslySetInnerHTML={{ __html: printArray(weights) }}
+                  dangerouslySetInnerHTML={{ __html: printArray(weight) }}
                 ></div>
               </div>
             </div>

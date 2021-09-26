@@ -25,7 +25,7 @@
       "description": "Estimated ages this kitten will reach these milestones",
       "type": "object",
       "properties": {
-        "temperatures": {
+        "temperature": {
           "description": "Maintain the kitten's environment at these temps at these ages",
           "type": "array"
         },
@@ -67,11 +67,11 @@
           "description": "Estimated ages a kitten should eat these types of foods",
           "type": "array"
         },
-        "capacities": {
+        "capacity": {
           "description": "Estimated ages a kitten should eat this amount of food",
           "type": "array"
         },
-        "frequencies": {
+        "frequency": {
           "description": "Estimated ages a kitten should eat this many times per day",
           "type": "array"
         },
@@ -85,7 +85,7 @@
       "description": "Information on major concerns and priorities by age",
       "type": "array"
     },
-    "weights": {
+    "weight": {
       "description": "Estimated progression of this kitten's weight by age",
       "type": "array"
     }
