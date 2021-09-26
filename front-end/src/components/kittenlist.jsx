@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import KittenListItem from "./kittenlistitem";
 
 const KittenList = ({ kittens, currentIndex, setActiveKitten }) => {
   // componentDidUpdate(prevProps) {
