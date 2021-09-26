@@ -7,10 +7,18 @@ on:
 jobs:
   restart_server:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: back-end
 
     steps:
       - uses: actions/checkout@v2
-      
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh/
