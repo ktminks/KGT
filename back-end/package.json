@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "NodeJS + MongoDB API",
   "scripts": {
-    "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js production",
+    "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js production --force",
     "start": "pm2 start server.js",
     "start:dev": "nodemon ./server.js"
   },
