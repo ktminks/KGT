@@ -76,9 +76,6 @@ jobs:
     runs-on: ubuntu-latest
     # needs: [check]
     # if: needs.check_files.outputs.server_updated == 'true'
-    defaults:
-      run:
-        working-directory: back-end
 
     steps:
       - uses: actions/checkout@v2

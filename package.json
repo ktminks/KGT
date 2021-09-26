@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ktminks/KGT#readme",
   "scripts": {
-    "deploy": "yes | rm -rI front-end package.json README.md && mv back-end/* . && rmdir back-end && npm run start"
+    "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js production --force",
+    "setup": "yes | rm -rI front-end package.json README.md && mv back-end/* . && rmdir back-end && npm run start"
   }
 }

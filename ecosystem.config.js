@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "kgt-api",
-      script: "npm run deploy",
+      script: "npm run setup",
       time: true,
       instances: 1,
       autorestart: true,
