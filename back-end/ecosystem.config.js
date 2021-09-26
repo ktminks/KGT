@@ -24,6 +24,8 @@ module.exports = {
       ref: "origin/main",
       repo: "https://github.com/ktminks/kgt",
       path: "/home/ktkat/KGT/back-end",
+      "pre-deploy-local":
+        'echo "is it possible to navigate to back-end here?" cd back-end',
       "post-deploy":
         "npm install && pm2 reload ecosystem.config.js --env production && pm2 save",
     },

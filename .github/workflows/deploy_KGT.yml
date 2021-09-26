@@ -109,7 +109,7 @@ jobs:
         run: npm i pm2
 
       - name: Deploy
-        run: npm run deploy
+        run: 'env $(cat .env | grep -v "#" | xargs) pm2 deploy ecosystem.config.js production --force'
 
   build_frontend:
     runs-on: ubuntu-latest
