@@ -1,0 +1,118 @@
+name: KGT deployment
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  check_commits:
+    runs-on: ubuntu-latest
+    outputs:
+      server_updated: ${{ steps.check_server.outputs.server_updated }}
+      client_updated: ${{ steps.check_server.outputs.client_updated }}
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: check if server was updated
+        id: check_server
+        run: |
+          echo "=============== list changed files ==============="
+          git diff --name-only HEAD^ HEAD
+
+          echo "========== check paths of changed files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != "back-end/"* ]]; then
+              echo "This file is not under the directory 'back-end/."
+              echo "::set-output name=server_updated::false"
+              break
+            else
+              echo "::set-output name=server_updated::true"
+            fi
+          done < files.txt
+          
+      - name: check if client was updated
+        id: check_client
+        run: |
+          echo "=============== list changed files ==============="
+          git diff --name-only HEAD^ HEAD
+
+          echo "========== check paths of changed files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != "front-end/"* ]]; then
+              echo "This file is not under the directory "front-end/."
+              echo "::set-output name=client_updated::false"
+              break
+            else
+              echo "::set-output name=client_updated::true"
+            fi
+          done < files.txt
+
+  build_backend:
+    runs-on: ubuntu-latest
+    needs: [check_commits]
+    if: needs.check_commits.outputs.server_updated == 'true'
+    defaults:
+      run:
+        working-directory: back-end
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.KGT_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          REMOTE_HOST: ${{ secrets.KGT_HOST }}
+          REMOTE_USER: ${{ secrets.KGT_USER }}
+          TARGET: "/home/ktkat/KGT/back-end/"
+
+  build_frontend:
+    runs-on: ubuntu-latest
+    needs: [check_commits]
+    if: needs.check_commits.outputs.client_updated == 'true'
+    defaults:
+      run:
+        working-directory: front-end
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.KGT_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "front-end/dist/*"
+          REMOTE_HOST: ${{ secrets.KGT_HOST }}
+          REMOTE_USER: ${{ secrets.KGT_USER }}
+          TARGET: "/home/ktkat/KGT/front-end/dist"
