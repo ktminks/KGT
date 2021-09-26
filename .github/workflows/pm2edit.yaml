@@ -36,6 +36,7 @@ jobs:
           touch .env
           echo KGT_USER: ${{ secrets.KGT_USER }} >> .env
           echo KGT_HOST: ${{ secrets.KGT_HOST }} >> .env
+          cat .env
 
       - name: Install PM2
         run: npm i pm2
