@@ -81,6 +81,7 @@ export default class App extends Component {
             <KittenDisplay
               state={this.state}
               setActiveKitten={this.setActiveKitten}
+              retrieveKittens={this.retrieveKittens}
             />
           </BrowserRouter>
         </div>

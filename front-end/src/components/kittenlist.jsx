@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const KittenList = ({ kittens, currentIndex, setActiveKitten }) => {
+  useEffect(() => {
+    console.log("Kitten list refreshed the DOM");
+  });
   // componentDidUpdate(prevProps) {
   //   const { kittens } = this.props;
   //   if (prevProps.kittens.length !== kittens.length) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 
@@ -6,6 +6,10 @@ const EditKitten = ({ currentKitten }) => {
   const history = useHistory();
   const [newName, changeName] = React.useState("");
   const [newSex, changeSex] = React.useState("");
+
+  useEffect(() => {
+    console.log("Edit Kitten refreshed the DOM");
+  });
 
   const updateKitten = (e) => {
     e.preventDefault();

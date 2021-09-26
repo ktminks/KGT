@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 
@@ -7,6 +7,10 @@ const AddKitten = () => {
   const [name, setName] = React.useState("Kitten name");
   const [sex, setSex] = React.useState("NA");
   const [birthdate, setBirthdate] = React.useState("2021-09-01");
+
+  useEffect(() => {
+    console.log("Add Kitten refreshed the DOM");
+  });
 
   const getAge = () => {
     const today = new Date();
