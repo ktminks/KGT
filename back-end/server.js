@@ -41,5 +41,5 @@ if (mode === "PRODUCTION") {
 // start server
 const port = process.env.PORT ? process.env.PORT || 80 : config.PORT;
 app.listen(port, function () {
-  console.log("Server listening on port " + port);
+  console.log("HTTP server listening on port " + port);
 });
