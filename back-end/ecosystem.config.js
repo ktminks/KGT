@@ -9,7 +9,7 @@ module.exports = {
       max_restarts: 50,
       watch: false,
       max_memory_restart: "1G",
-      env: {
+      env_production: {
         PORT: 4000,
         KGT_USER: "KGT_USER",
         KGT_HOST: "KGT_HOST",
@@ -18,8 +18,8 @@ module.exports = {
   ],
   deploy: {
     production: {
-      user: $KGT_USER,
-      host: $KGT_HOST,
+      user: "KGT_USER",
+      host: "KGT_HOST",
       key: "~/.ssh/deploy.key",
       ref: "origin/main",
       repo: "https://github.com/ktminks/kgt",
@@ -29,7 +29,7 @@ module.exports = {
       "post-deploy":
         "npm install && pm2 reload ecosystem.config.js --env production && pm2 save",
     },
-    env: {
+    env_production: {
       NODE_ENV: "production",
       KGT_USER: "KGT_USER",
       KGT_HOST: "KGT_HOST",
