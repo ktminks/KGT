@@ -54,3 +54,4 @@ typings/
 
 # old build versions
 dist/
+debug/
