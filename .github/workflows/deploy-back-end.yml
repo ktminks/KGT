@@ -21,7 +21,6 @@ jobs:
 
       - name: Install npm dependencies
         run: |
-          cd back-end
           npm install
 
       - name: Deploy to Server
@@ -29,7 +28,6 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.KGT_KEY }}
           ARGS: "-rltgoDzvO --delete"
-          SOURCE: "back-end/"
           REMOTE_HOST: ${{ secrets.KGT_HOST }}
           REMOTE_USER: ${{ secrets.KGT_USER }}
           TARGET: "/home/ktkat/KGT/back-end/"
