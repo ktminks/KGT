@@ -102,7 +102,7 @@ const CurrentKitten = ({ currentKitten }) => {
               </div>
 
               <div className="d-flex justify-content-around flex-column">
-                <h5 className="text-center">weight:</h5>
+                <h5 className="text-center">Weight:</h5>
                 <div
                   dangerouslySetInnerHTML={{ __html: printArray(weight) }}
                 ></div>

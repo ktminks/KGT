@@ -18,7 +18,7 @@ module.exports = {
     production: {
       user: "ktkat",
       host: "ec2-52-0-165-153.compute-1.amazonaws.com",
-      key: "~/.ssh/deploy.key",
+      key: "deploy.key",
       ref: "origin/main",
       repo: "git@github.com:ktminks/KGT.git",
       path: "/home/ktkat/KGT/back-end",
