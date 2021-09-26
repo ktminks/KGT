@@ -89,11 +89,9 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$KGT_KEY" > ~/.ssh/deploy.key
           sudo chmod 600 ~/.ssh/deploy.key
-          echo "$KGT_HOST" > ~/.ssh/known_hosts
         shell: bash
         env:
           KGT_KEY: ${{ secrets.KGT_KEY }}
-          KGT_HOST: ${{ secrets.KGT_HOST }}
 
       - name: Install PM2
         run: npm i pm2
