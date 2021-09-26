@@ -1,12 +1,12 @@
 name: NodeJS front-end deployment
 
-on:
-  push:
-    branches: [main]
-
 defaults:
   run:
     working-directory: front-end
+
+on:
+  push:
+    branches: [main]
 
 jobs:
   build:

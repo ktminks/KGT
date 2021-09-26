@@ -1,16 +1,36 @@
 name: NodeJS back-end deployment
 
-on:
-  push:
-    branches: [main]
-
 defaults:
   run:
     working-directory: back-end
 
+on:
+  push:
+    branches: [main]
+
 jobs:
+  # check_commits:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     server_updated: ${{ steps.check_server.outputs.server_updated }}
+
+  #   steps:
+  #     - name: push commits
+
+  #     - name: check if server was updated
+  #       id: check_server
+  #       run: |
+  #         # here you need to replace "(sub-directories are updated)" with the actual if statement
+  #         if [[ (sub-directories are updated) ]]; then
+  #           echo "::set-output name=server_updated::true"
+  #         else
+  #           echo "::set-output name=server_updated::false"
+  #         fi
+
   build:
     runs-on: ubuntu-latest
+    needs: [check_commits]
+    if: needs.check_commits.outputs.server_updated == 'true'
 
     steps:
       - uses: actions/checkout@v2
