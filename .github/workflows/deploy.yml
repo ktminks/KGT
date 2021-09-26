@@ -12,7 +12,7 @@ jobs:
       client_updated: ${{ steps.check_client.outputs.client_updated }}
 
     steps:
-      - name: checkout code
+      - name: checkout server
         uses: actions/checkout@v2
         with:
           fetch-depth: 2
@@ -36,6 +36,11 @@ jobs:
               echo "::set-output name=server_updated::true"
             fi
           done < files.txt
+
+      - name: checkout client
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: check if client was updated
         id: check_client
