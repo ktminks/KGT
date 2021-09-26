@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       server_updated: ${{ steps.check_server.outputs.server_updated }}
-      client_updated: ${{ steps.check_server.outputs.client_updated }}
+      client_updated: ${{ steps.check_client.outputs.client_updated }}
 
     steps:
       - name: checkout code
@@ -36,7 +36,7 @@ jobs:
               echo "::set-output name=server_updated::true"
             fi
           done < files.txt
-          
+
       - name: check if client was updated
         id: check_client
         run: |
