@@ -11,8 +11,8 @@ module.exports = {
       max_memory_restart: "1G",
       env: {
         PORT: 4000,
-        KGT_USER: "$KGT_USER",
-        KGT_HOST: "$KGT_HOST",
+        KGT_USER: "KGT_USER",
+        KGT_HOST: "KGT_HOST",
       },
     },
   ],
@@ -31,8 +31,8 @@ module.exports = {
     },
     env: {
       NODE_ENV: "production",
-      KGT_USER: "$KGT_USER",
-      KGT_HOST: "$KGT_HOST",
+      KGT_USER: "KGT_USER",
+      KGT_HOST: "KGT_HOST",
     },
   },
 };
