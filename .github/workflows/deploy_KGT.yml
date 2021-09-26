@@ -103,8 +103,8 @@ jobs:
 
   build_frontend:
     runs-on: ubuntu-latest
-    needs: [check]
-    if: needs.check_files.outputs.client_updated == 'true'
+    # needs: [check]
+    # if: needs.check_files.outputs.client_updated == 'true'
     defaults:
       run:
         working-directory: front-end
