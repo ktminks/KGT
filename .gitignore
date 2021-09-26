@@ -48,10 +48,13 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
-# dotenv environment variables file
-.env
-**/.env
+# deployment variables & files
+.deploy.env
+**/deploy.env
 
 # old build versions
 dist/
+
+# debug files
 debug/
+
