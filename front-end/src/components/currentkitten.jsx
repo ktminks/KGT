@@ -3,13 +3,13 @@ import { Link, useHistory } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 
 const CurrentKitten = ({ currentKitten }) => {
-  const history = useHistory();
+  // const history = useHistory();
 
   const deleteKitten = () => {
     KittenDataService.delete(currentKitten.id)
       .then((response) => {
         console.log(response.data);
-        history.push("/kittens");
+        // history.push("/kittens");
       })
       .catch((e) => {
         console.log(e);

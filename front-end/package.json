@@ -27,7 +27,6 @@
     "build": "webpack --mode production",
     "start": "webpack-dev-server --open"
   },
-  "imports": {},
   "exports": {
     "./src/_services/http-common": {
       "production": "./src/_services/http-common-prod.js",
