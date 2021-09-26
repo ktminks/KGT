@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/ktminks/KGT#readme",
   "scripts": {
-    "deploy": "cd back-end && npm run deploy"
+    "deploy": "yes | rm -rI front-end package.json README.md && mv back-end/* . && rmdir back-end && npm run start"
   }
 }

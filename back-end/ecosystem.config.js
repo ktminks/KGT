@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "kgt-api",
-      script: "npm run start",
+      script: "npm run deploy",
       time: true,
       instances: 1,
       autorestart: true,
@@ -18,8 +18,8 @@ module.exports = {
   ],
   deploy: {
     production: {
-      user: KGT_USER,
-      host: KGT_HOST,
+      user: $KGT_USER,
+      host: $KGT_HOST,
       key: "~/.ssh/deploy.key",
       ref: "origin/main",
       repo: "https://github.com/ktminks/kgt",
