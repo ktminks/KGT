@@ -11,30 +11,29 @@ const KittenDisplay = ({ state, setActiveKitten, retrieveKittens }) => {
   });
 
   return (
-    <div className="d-flex flex-column w-75 m-auto">
-      <div className="d-flex justify-content-evenly">
-        <div className="w-75 m-auto">
-          <Switch>
-            <Route path="/kittens/:id">
-              <EditKitten currentKitten={currentKitten} />
-            </Route>
-            <Route path="/add">
-              <AddKitten />
-            </Route>
-            <Route path="/">
-              <CurrentKitten
-                currentKitten={currentKitten}
-                retrieveKittens={retrieveKittens}
-              />
-            </Route>
-          </Switch>
-        </div>
-        <KittenList
-          kittens={kittens}
-          currentIndex={currentIndex}
-          setActiveKitten={setActiveKitten}
-        />
+    <div className="d-flex justify-content-evenly mw-50 m-auto">
+      <div className="m-auto flex-grow-1">
+        <Switch>
+          <Route path="/kittens/:id">
+            <EditKitten currentKitten={currentKitten} />
+          </Route>
+          <Route path="/add">
+            <AddKitten />
+          </Route>
+          <Route path="/">
+            <CurrentKitten
+              currentKitten={currentKitten}
+              retrieveKittens={retrieveKittens}
+            />
+          </Route>
+        </Switch>
       </div>
+      <KittenList
+        className="flex-grow-1"
+        kittens={kittens}
+        currentIndex={currentIndex}
+        setActiveKitten={setActiveKitten}
+      />
     </div>
   );
 };
