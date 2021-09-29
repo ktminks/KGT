@@ -36,7 +36,7 @@ const EditKitten = ({ currentKitten }) => {
             placeholder="Up to 20 letters and spaces only"
             onChange={(e) => changeName(e.target.value)}
             required
-            maxlength="20"
+            maxLength="20"
             pattern="[a-zA-Z]+\s?[A-Za-z]+"
           />
         </div>
@@ -49,8 +49,8 @@ const EditKitten = ({ currentKitten }) => {
             placeholder="M, F, or N/A"
             onChange={(e) => changeSex(e.target.value)}
             required
-            maxlength="3"
-            pattern="(M|m|F|f|N\/A|n\/a)]?"
+            maxLength="3"
+            pattern="(M|m|F|f|N\/A|n\/a)?"
           />
         </div>
         <div className="d-flex justify-content-evenly">

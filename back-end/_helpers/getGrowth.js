@@ -171,11 +171,11 @@ class Kitten {
     }
   };
 
-  constructor(dob, name = "Name me!", sex = "N/A") {
+  constructor(birthdate, name = "Name me!", sex = "N/A", age = 0) {
     this.name = name;
     this.sex = sex;
-    this.birthdate = JSON.stringify(dob);
-    this.age = Math.ceil((new Date() - dob) / (1000 * 60 * 60 * 24));
+    this.birthdate = JSON.stringify(birthdate);
+    this.age = age;
     this.milestones = {
       temperature: [],
       eyes: [],
@@ -198,11 +198,7 @@ class Kitten {
   }
 }
 
-const getGrowth = (newKitten) => {
-  const kitkat = new Kitten(newKitten.birthdate);
-  const growth = ["milestones", "food", "concerns", "weight"];
-  for (let g of growth) for (let n in kitkat[g]) newKitten[g][n] = kitkat[g][n];
-  return newKitten;
-};
+const getGrowth = (name, sex, birthdate, age) =>
+  new Kitten(birthdate, name, sex, age);
 
 module.exports = getGrowth;

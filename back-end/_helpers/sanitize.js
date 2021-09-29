@@ -1,12 +1,13 @@
-const checkDate = () => {};
-const checkObj = () => {};
-const checkArr = () => {};
-const check = () => {};
+const db = require("../models");
+const Kitten = db.kittens;
 
 const sanitize = (data) => {
-  console.log(data);
-  let cleanData = data;
-  return cleanData;
+  try {
+    new Kitten(data);
+    return data;
+  } catch (err) {
+    throw err;
+  }
 };
 
 module.exports = sanitize;
