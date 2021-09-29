@@ -38,9 +38,8 @@ exports.create = (req, res) => {
 // Retrieve all Kittens from the database.
 exports.findAll = (req, res) => {
   const name = req.query.name;
-  let condition = name
-    ? { name: { $regex: new RegExp(name), $options: "i" } }
-    : {};
+  const regex = new RegExp(`${name}`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
 
   Kitten.find(condition)
     .then((data) => res.send(data))

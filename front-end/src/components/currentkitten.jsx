@@ -39,7 +39,7 @@ const CurrentKitten = ({ currentKitten }) => {
     if (arr.length) {
       for (let n of arr) {
         if (n[0] !== prevValue) {
-          let days = n[1] - age;
+          const days = n[1] - age;
           if (days < 14) {
             result += `<div class="d-flex justify-content-between">
                             <div>${n[0]}</div>
@@ -57,9 +57,9 @@ const CurrentKitten = ({ currentKitten }) => {
 
   const getDate = (date) => {
     let newDate = new Date(date);
-    let dd = String(newDate.getDate()).padStart(2, "0");
-    let mm = String(newDate.getMonth() + 1).padStart(2, "0"); //January is 0!
-    let yy = newDate.getFullYear();
+    const dd = String(newDate.getDate()).padStart(2, "0");
+    const mm = String(newDate.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const yy = newDate.getFullYear();
     newDate = mm + "/" + dd + "/" + yy;
     return newDate;
   };
