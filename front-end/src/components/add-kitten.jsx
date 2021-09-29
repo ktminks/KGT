@@ -31,8 +31,9 @@ const AddKitten = () => {
   };
 
   return (
-    <div className="m-auto w-75">
+    <div>
       <h4 className="text-center">Add a new kitten!</h4>
+
       <form onSubmit={saveKitten}>
         <div className="input-group">
           <span className="input-group-text">Name</span>
@@ -75,10 +76,10 @@ const AddKitten = () => {
         </div>
 
         <div className="d-flex justify-content-evenly mt-2">
-          <Link to="/" className="btn btn-secondary w-75 m-1">
+          <Link to="/" className="btn btn-secondary w-75">
             Back
           </Link>
-          <input type="submit" className="btn btn-success w-75 m-1" />
+          <input type="submit" className="btn btn-success w-75 ms-2" />
         </div>
       </form>
     </div>

@@ -14,18 +14,18 @@ const EditKitten = ({ currentKitten }) => {
   const updateKitten = (e) => {
     e.preventDefault();
     currentKitten = { ...currentKitten, sex: newSex, name: newName };
-    console.log(currentKitten);
     KittenDataService.update(currentKitten.id, currentKitten)
       .then((response) => {
         console.log(response.data);
-        history.push("/");
+        history.push("/kittens");
       })
       .catch((e) => console.log(e));
   };
 
   return (
-    <div className="m-auto w-75">
+    <div>
       <h4 className="text-center">Edit {currentKitten.name}</h4>
+
       <form onSubmit={updateKitten}>
         <div className="input-group">
           <span className="input-group-text">Name</span>
@@ -40,6 +40,7 @@ const EditKitten = ({ currentKitten }) => {
             pattern="[a-zA-Z]+\s?[A-Za-z]+"
           />
         </div>
+
         <div className="input-group">
           <span className="input-group-text">Sex</span>
           <input
@@ -53,14 +54,15 @@ const EditKitten = ({ currentKitten }) => {
             pattern="(M|m|F|f|N\/A|n\/a)?"
           />
         </div>
-        <div className="d-flex justify-content-evenly">
-          <Link to="/" className="btn btn-secondary w-50 m-1">
+
+        <div className="d-flex justify-content-evenly mt-2">
+          <Link to="/" className="btn btn-secondary w-50">
             Back
           </Link>
 
           <input
             type="submit"
-            className="btn btn-success w-50 m-1"
+            className="btn btn-success w-50 ms-2"
             value="Update"
           />
         </div>

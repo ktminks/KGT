@@ -11,8 +11,8 @@ const KittenDisplay = ({ state, setActiveKitten, retrieveKittens }) => {
   });
 
   return (
-    <div className="d-flex justify-content-evenly mw-50 m-auto">
-      <div className="m-auto flex-grow-1">
+    <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
+      <div className="m-auto">
         <Switch>
           <Route path="/kittens/:id">
             <EditKitten currentKitten={currentKitten} />
@@ -29,7 +29,6 @@ const KittenDisplay = ({ state, setActiveKitten, retrieveKittens }) => {
         </Switch>
       </div>
       <KittenList
-        className="flex-grow-1"
         kittens={kittens}
         currentIndex={currentIndex}
         setActiveKitten={setActiveKitten}
