@@ -1,5 +1,6 @@
 const db = require("./models");
 const getGrowth = require("./_helpers/getGrowth");
+const sanitize = require("./_helpers/sanitize");
 const Kitten = db.kittens;
 
 // Create and Save a new Kitten
@@ -83,7 +84,10 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update Kitten with id=${id}. Maybe Kitten was not found!`,
         });
-      } else res.send({ message: "Kitten was updated successfully." });
+      } else {
+        data = sanitize(data);
+        res.send({ message: "Kitten was updated successfully." });
+      }
     })
     .catch((err) => {
       res.status(500).send({

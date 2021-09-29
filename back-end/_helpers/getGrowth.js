@@ -164,7 +164,7 @@ class Kitten {
     }
   };
 
-  constructor(dob, name = "Name me!", sex = "NA") {
+  constructor(dob, name = "Name me!", sex = "N/A") {
     this.name = name;
     this.sex = sex;
     this.birthdate = JSON.stringify(dob);
