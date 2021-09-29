@@ -3,6 +3,7 @@ const getGrowth = require("./_helpers/getGrowth");
 const Kitten = db.kittens;
 
 // Create and Save a new Kitten
+<<<<<<< Updated upstream
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.name) {
@@ -19,6 +20,12 @@ exports.create = (req, res) => {
   });
 
   kitten = getGrowth(kitten);
+=======
+exports.create = async (req, res) => {
+  // Create kitten
+  const { name, sex, birthdate, age } = req.body;
+  let kitten = new Kitten(getGrowth(name, sex, birthdate, age));
+>>>>>>> Stashed changes
 
   // Save Kitten in the database
   kitten
@@ -93,8 +100,9 @@ exports.update = (req, res) => {
 };
 
 // Delete a Kitten with the specified id in the request
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
+<<<<<<< Updated upstream
 
   Kitten.findByIdAndRemove(id)
     .then((data) => {
@@ -113,6 +121,18 @@ exports.delete = (req, res) => {
         message: "Could not delete Kitten with id=" + id,
       });
     });
+=======
+  const data = await Kitten.findByIdAndRemove(id);
+  try {
+    data
+      ? res.send({ message: `${data.name} was deleted successfully!` })
+      : res.status(404).send({
+          message: `Cannot delete Kitten with id=${id}. Maybe Kitten was not found!`,
+        });
+  } catch (err) {
+    res.status(500).send({ message: "Could not delete Kitten with id=" + id });
+  }
+>>>>>>> Stashed changes
 };
 
 // ALTER THESE FUNCTIONS VVV

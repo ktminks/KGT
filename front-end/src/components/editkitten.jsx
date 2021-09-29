@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 
-const EditKitten = ({ currentKitten }) => {
+const EditKitten = ({ currentKitten, kittens }) => {
   const history = useHistory();
   const [newName, changeName] = React.useState("");
   const [newSex, changeSex] = React.useState("");
 
   useEffect(() => {
     console.log("Edit Kitten refreshed the DOM");
-  });
+  }),
+    [kittens];
 
   const updateKitten = (e) => {
     e.preventDefault();
@@ -19,6 +20,7 @@ const EditKitten = ({ currentKitten }) => {
       .then((response) => {
         console.log(response.data);
         history.push("/");
+        getKittens();
       })
       .catch((e) => console.log(e));
   };

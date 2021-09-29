@@ -38,17 +38,16 @@ export default class App extends Component {
     message: "",
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.retrieveKittens();
-  }
-
+  };
   retrieveKittens = () => {
     KittenDataService.getAll()
       .then((response) => {
         this.setState({
           kittens: response.data,
         });
-        console.log(response.data);
+        return response.data;
       })
       .catch((e) => console.log(e));
   };

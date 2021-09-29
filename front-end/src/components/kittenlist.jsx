@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const KittenList = ({ kittens, currentIndex, setActiveKitten }) => {
+const KittenList = ({ kittens, currentIndex, setActiveKitten, onRefresh }) => {
+  const [kittensList, fetchData] = React.useState(kittens);
+
+  const handleRefresh = (kittens) => fetchData(kittens);
+
   useEffect(() => {
-    console.log("Kitten list refreshed the DOM");
-  });
-  // componentDidUpdate(prevProps) {
-  //   const { kittens } = this.props;
-  //   if (prevProps.kittens.length !== kittens.length) {
-  //     //   // Ajax call, get new data from the server
-  //     console.log("refresh kitten data here");
-  //     console.log("kittenList previous props", prevProps);
-  //     console.log("kittenList current props", this.props);
-  //     //   //   this.retrieveKittens();
-  //   }
-  // }
+    fetchData(kittens);
+    console.log("Fetching more kittens for KittenList...");
+  }),
+    [kittens];
+
   return (
     <div className="sw-50 w-25">
       <h4>Kittens List</h4>
@@ -23,8 +20,8 @@ const KittenList = ({ kittens, currentIndex, setActiveKitten }) => {
         <Link to={"/add"} className="btn btn-danger">
           +
         </Link>
-        {kittens &&
-          kittens.map((kitten, index) => (
+        {kittensList &&
+          kittensList.map((kitten, index) => (
             <li
               className={
                 "list-group-item " + (index === currentIndex ? "active" : "")

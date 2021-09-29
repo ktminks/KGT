@@ -1,23 +1,31 @@
 import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
+import "regenerator-runtime/runtime";
+// import useKittenData from "../hooks/useKittenData";
 
-const CurrentKitten = ({ currentKitten }) => {
+const CurrentKitten = ({ currentKitten, kittens }) => {
   const history = useHistory();
   const { name, sex, birthdate, age, id, milestones, food, concerns, weight } =
     currentKitten;
+  // const kittensList = useKittenData(kittens);
 
   useEffect(() => {
     console.log("Current Kitten refreshed the DOM");
-  });
+    // kittensList.fetchKittens();
+  }),
+    [kittens];
 
-  const deleteKitten = () => {
-    KittenDataService.delete(currentKitten.id)
-      .then((response) => {
-        console.log(response.data);
-        history.push({ pathname: "/" });
-      })
-      .catch((e) => console.log(e));
+  const deleteKitten = async () => {
+    try {
+      const res = await KittenDataService.delete(id);
+      console.log(res.data);
+      kittens = kittens.filter((k) => k.id !== id);
+      currentKitten = null;
+      history.push("/");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const printObject = (obj) => {

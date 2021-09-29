@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 getDate = (days) => {
   // accept # days, return date that this kitten will be that age
   const dob = new Date(JSON.parse(this.birthdate));
@@ -14,3 +15,19 @@ getAge = (dob) => {
   const today = new Date();
   return (age = Math.ceil((today - dob) / (1000 * 60 * 60 * 24)));
 };
+=======
+import { useState } from "react";
+
+function useKittenData(kittens) {
+  const [kittensList, fetchData] = useState(kittens);
+
+  const fetchKittens = (kittens) => {
+    fetchData(kittens);
+    console.log("Fetching the new kitten...");
+  };
+
+  return { kittensList, fetchKittens };
+}
+
+export default useKittenData;
+>>>>>>> Stashed changes
