@@ -1,9 +1,16 @@
 class Kitten {
   initMilestones = (age) => {
-    let { temperature, eyes, ears, teeth, litterbox, mobility, socialization } =
-      this.milestones;
+    const {
+      temperature,
+      eyes,
+      ears,
+      teeth,
+      litterbox,
+      mobility,
+      socialization,
+    } = this.milestones;
 
-    if (temperature.length > 0) {
+    if (!temperature.length) {
       if (age < 7) temperature.push([85, age, 90]);
       else if (age < 14) temperature.push([80, age, 85]);
       else if (age < 21) temperature.push([75, age, 80]);
@@ -164,11 +171,11 @@ class Kitten {
     }
   };
 
-  constructor(dob, name = "Name me!", sex = "NA") {
+  constructor(birthdate, name = "Name me!", sex = "N/A", age = 0) {
     this.name = name;
     this.sex = sex;
-    this.birthdate = JSON.stringify(dob);
-    this.age = Math.ceil((new Date() - dob) / (1000 * 60 * 60 * 24));
+    this.birthdate = JSON.stringify(birthdate);
+    this.age = age;
     this.milestones = {
       temperature: [],
       eyes: [],
@@ -191,11 +198,7 @@ class Kitten {
   }
 }
 
-const getGrowth = (newKitten) => {
-  let kitkat = new Kitten(newKitten.birthdate);
-  const growth = ["milestones", "food", "concerns", "weight"];
-  for (let g of growth) for (let n in kitkat[g]) newKitten[g][n] = kitkat[g][n];
-  return newKitten;
-};
+const getGrowth = (name, sex, birthdate, age) =>
+  new Kitten(birthdate, name, sex, age);
 
 module.exports = getGrowth;

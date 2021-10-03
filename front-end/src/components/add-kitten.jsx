@@ -7,7 +7,7 @@ const AddKitten = ({ kittens }) => {
   const history = useHistory();
 <<<<<<< Updated upstream
   const [name, setName] = React.useState("Kitten name");
-  const [sex, setSex] = React.useState("NA");
+  const [sex, setSex] = React.useState("N/A");
   const [birthdate, setBirthdate] = React.useState("2021-09-01");
 =======
   const [name, setName] = useState("Kitten name");
@@ -50,7 +50,11 @@ const AddKitten = ({ kittens }) => {
             type="text"
             className="form-control"
             value={name}
+            placeholder="Up to 20 letters and spaces only"
             onChange={(e) => setName(e.target.value)}
+            required
+            maxLength="20"
+            pattern="[a-zA-Z]+\s?[A-Za-z]+"
           />
         </div>
 
@@ -61,7 +65,11 @@ const AddKitten = ({ kittens }) => {
             className="form-control"
             maxLength="2"
             value={sex}
+            placeholder="M, F, or N/A"
             onChange={(e) => setSex(e.target.value)}
+            required
+            maxLength="3"
+            pattern="(M|m|F|f|N\/A|n\/a)?"
           />
         </div>
 
@@ -70,9 +78,9 @@ const AddKitten = ({ kittens }) => {
           <input
             type="date"
             className="form-control"
-            required
             value={birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
+            required
           />
         </div>
 

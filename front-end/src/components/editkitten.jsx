@@ -4,8 +4,8 @@ import KittenDataService from "../_services/data.service";
 
 const EditKitten = ({ currentKitten, kittens }) => {
   const history = useHistory();
-  const [newName, changeName] = React.useState("");
-  const [newSex, changeSex] = React.useState("");
+  const [newName, changeName] = React.useState(currentKitten.name);
+  const [newSex, changeSex] = React.useState(currentKitten.sex);
 
   useEffect(() => {
     console.log("Edit Kitten refreshed the DOM");
@@ -35,7 +35,11 @@ const EditKitten = ({ currentKitten, kittens }) => {
             type="text"
             className="form-control"
             value={newName}
+            placeholder="Up to 20 letters and spaces only"
             onChange={(e) => changeName(e.target.value)}
+            required
+            maxLength="20"
+            pattern="[a-zA-Z]+\s?[A-Za-z]+"
           />
         </div>
         <div className="input-group">
@@ -44,7 +48,11 @@ const EditKitten = ({ currentKitten, kittens }) => {
             type="text"
             className="form-control"
             value={newSex}
+            placeholder="M, F, or N/A"
             onChange={(e) => changeSex(e.target.value)}
+            required
+            maxLength="3"
+            pattern="(M|m|F|f|N\/A|n\/a)?"
           />
         </div>
         <div className="d-flex justify-content-evenly">
