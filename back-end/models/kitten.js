@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const kittenSchema = new Schema(
   {
     name: { type: String, default: "Kitten" },
-    sex: { type: String, default: "NA" },
+    sex: { type: String, default: "N/A" },
     birthdate: { type: Date, default: Date.now },
     age: { type: Number, default: 0 },
     milestones: {
