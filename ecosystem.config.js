@@ -17,7 +17,7 @@ module.exports = {
   deploy: {
     production: {
       user: "ktkat",
-      host: "ec2-52-0-165-153.compute-1.amazonaws.com",
+      host: "ec2-54-90-231-156.compute-1.amazonaws.com",
       ssh_options: "StrictHostKeyChecking=no",
       key: "~/.ssh/deploy.key",
       ref: "origin/main",
