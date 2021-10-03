@@ -8,10 +8,6 @@ exports.create = async (req, res) => {
   const { name, sex, birthdate, age } = req.body;
   let kitten = new Kitten(getGrowth(name, sex, birthdate, age));
 
-  // Create kitten
-  const { name, sex, birthdate, age } = req.body;
-  let kitten = new Kitten(getGrowth(name, sex, birthdate, age));
-
   // Save Kitten in the database
   kitten
     .save(kitten)
@@ -68,7 +64,7 @@ exports.update = (req, res) => {
   Kitten.findByIdAndUpdate(id, body, { useFindAndModify: false })
     .then((data) => {
       data
-        ? res.send({ message: "Kitten was updated successfully." })
+        ? res.send({ message: `${data.name} was updated successfully.` })
         : res.status(404).send({
             message: `Cannot update Kitten with id=${id}. Maybe Kitten was not found!`,
           });

@@ -5,11 +5,13 @@ class KittenDataService {
 
   get = (id) => http.get(`/kittens/${id}`);
 
+  view = (id) => http.get(`/kittens?id=${id}`);
+
   create = (data) => http.post("/kittens", data);
 
-  update = (id, data) => http.put(`/kittens/${id}`, data);
+  update = (id, data) => http.put(`/kittens/edit/${id}`, data);
 
-  delete = (id) => http.delete(`/kittens/${id}`);
+  delete = (id) => http.delete(`/kittens/delete/${id}`);
 
   findByName = (name) => http.get(`/kittens?name=${name}`);
 }

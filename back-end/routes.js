@@ -12,10 +12,10 @@ module.exports = (app) => {
   router.get("/:id", kittens.findOne);
 
   // Update a Kitten with id
-  router.put("/:id", kittens.update);
+  router.put("/edit/:id", kittens.update);
 
   // Delete a Kitten with id
-  router.delete("/:id", kittens.delete);
+  router.delete("/delete/:id", kittens.delete);
 
   app.use("/api/kittens", router);
 };

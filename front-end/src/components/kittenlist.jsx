@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const KittenList = ({ kittens, currentIndex, setActiveKitten, onRefresh }) => {
+const KittenList = ({ kittens, currentIndex, setActiveKitten }) => {
   const [kittensList, fetchData] = React.useState(kittens);
 
   const handleRefresh = (kittens) => fetchData(kittens);
@@ -9,8 +9,26 @@ const KittenList = ({ kittens, currentIndex, setActiveKitten, onRefresh }) => {
   useEffect(() => {
     fetchData(kittens);
     console.log("Fetching more kittens for KittenList...");
+    listKittens();
   }),
-    [kittens];
+    [kittensList];
+
+  const listKittens = () => {
+    return (
+      kittensList &&
+      kittensList.map((kitten, index) => (
+        <li
+          className={
+            "list-group-item " + (index === currentIndex ? "active" : "")
+          }
+          onClick={() => setActiveKitten(kitten, index)}
+          key={index}
+        >
+          {kitten.name}
+        </li>
+      ))
+    );
+  };
 
   return (
     <div className="sw-50 w-25">
@@ -20,18 +38,7 @@ const KittenList = ({ kittens, currentIndex, setActiveKitten, onRefresh }) => {
         <Link to={"/add"} className="btn btn-danger">
           +
         </Link>
-        {kittensList &&
-          kittensList.map((kitten, index) => (
-            <li
-              className={
-                "list-group-item " + (index === currentIndex ? "active" : "")
-              }
-              onClick={() => setActiveKitten(kitten, index)}
-              key={index}
-            >
-              {kitten.name}
-            </li>
-          ))}
+        {listKittens()}
       </ul>
     </div>
   );

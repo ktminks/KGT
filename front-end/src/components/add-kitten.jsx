@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 import "regenerator-runtime/runtime";
 
-const AddKitten = ({ kittens }) => {
-  const history = useHistory();
-<<<<<<< Updated upstream
-  const [name, setName] = React.useState("Kitten name");
-  const [sex, setSex] = React.useState("N/A");
-  const [birthdate, setBirthdate] = React.useState("2021-09-01");
-=======
+const AddKitten = ({ kittens, onRefresh }) => {
   const [name, setName] = useState("Kitten name");
   const [sex, setSex] = useState("N/A");
   const [birthdate, setBirthdate] = useState("2021-09-01");
-  // const kittensList = useKittenData(kittens);
->>>>>>> Stashed changes
-
-  useEffect(() => {
-    console.log("Fetching more kittens...");
-  }),
-    [kittens];
 
   const getAge = () => {
     const today = new Date();
@@ -33,8 +20,9 @@ const AddKitten = ({ kittens }) => {
     const data = { name, sex, birthdate, age };
     try {
       const res = await KittenDataService.create(data);
-      kittens.push(res.data);
-      history.push("/");
+      const newKitten = res.data;
+      kittens.push(newKitten);
+      onRefresh("add");
     } catch (e) {
       console.log(e);
     }

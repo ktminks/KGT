@@ -1,28 +1,19 @@
-import React, { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 import "regenerator-runtime/runtime";
-// import useKittenData from "../hooks/useKittenData";
 
-const CurrentKitten = ({ currentKitten, kittens }) => {
-  const history = useHistory();
+const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
   const { name, sex, birthdate, age, id, milestones, food, concerns, weight } =
     currentKitten;
-  // const kittensList = useKittenData(kittens);
-
-  useEffect(() => {
-    console.log("Current Kitten refreshed the DOM");
-    // kittensList.fetchKittens();
-  }),
-    [kittens];
 
   const deleteKitten = async () => {
     try {
       const res = await KittenDataService.delete(id);
       console.log(res.data);
-      kittens = kittens.filter((k) => k.id !== id);
+      kittens.splice(currentIndex, 1);
       currentKitten = null;
-      history.push("/");
+      onRefresh("delete");
     } catch (e) {
       console.log(e);
     }
@@ -30,7 +21,7 @@ const CurrentKitten = ({ currentKitten, kittens }) => {
 
   const printObject = (obj) => {
     let result = ``;
-    console.log(obj);
+    // console.log(obj);
     for (let m in obj)
       if (obj[m].length) {
         result += `<div class="d-flex justify-content-between">
@@ -124,12 +115,15 @@ const CurrentKitten = ({ currentKitten, kittens }) => {
           </div>
 
           <div className="d-flex justify-content-around">
-            <Link to={"/kittens/" + id} className="btn btn-warning w-75 m-1">
+            <Link
+              to={"/kittens/edit/" + id}
+              className="btn btn-warning w-75 m-1"
+            >
               Edit
             </Link>
 
             <Link
-              to="/"
+              to="/kittens"
               className="btn btn-danger m-1 w-75"
               onClick={deleteKitten}
             >

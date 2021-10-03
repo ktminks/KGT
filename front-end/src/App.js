@@ -6,7 +6,7 @@ import "./public/App.css";
 import { Navbar, KittenDisplay } from "./components";
 import KittenDataService from "./_services/data.service";
 
-export default class App extends Component {
+class App extends Component {
   state = {
     kittens: [],
     currentIndex: -1,
@@ -88,3 +88,4 @@ export default class App extends Component {
     );
   }
 }
+export default App;

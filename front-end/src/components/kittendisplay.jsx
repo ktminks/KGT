@@ -1,60 +1,88 @@
-import React, { useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { Switch, Route, Link, useHistory } from "react-router-dom";
 
-import { KittenList, CurrentKitten, AddKitten, EditKitten } from "./index";
-import KittenDataService from "../_services/data.service";
+import { CurrentKitten, AddKitten, EditKitten } from "./index";
 
 const KittenDisplay = ({ state, setActiveKitten, retrieveKittens }) => {
+  const history = useHistory();
   let { kittens, currentIndex, currentKitten } = state;
-  const [kittensList, fetchData] = React.useState(kittens);
+  const [kittensList, fetchData] = useState(kittens);
 
-  const onRefresh = (kittens) => handleRefresh(kittens);
-  // retrieveKittens = () => {
-  //   KittenDataService.getAll()
-  //     .then((response) => {
-  //       kittens = response.data;
-  //       fetchData(response.data);
-  //       console.log(response.data);
-  //     })
-  //     .catch((e) => console.log(e));
-  // };
+  const handleSetActive = (kitten, index) => {
+    setActiveKitten(kitten, index);
+    history.push(`/kittens?id=${kitten.id}`);
+  };
 
-  // useEffect(() => {
-  //   console.log("Kitten Display refreshed the DOM");
-  //   fetchData(retrieveKittens());
-  // }),
-  //   [];
+  const handleRefresh = (type, index = kittens.length - 1) => {
+    switch (type) {
+      case "delete":
+      case "add":
+        const newKitten = kittens[index];
+        handleSetActive(newKitten, index);
+        break;
+      case "edit":
+        handleSetActive(kittens[index], index);
+        break;
+    }
+  };
+
+  const listKittens = () => {
+    if (kittens !== kittensList) {
+      fetchData(kittens);
+    }
+    return (
+      kittens &&
+      kittens.map((kitten, index) => (
+        <li
+          className={
+            "list-group-item " + (index === currentIndex ? "active" : "")
+          }
+          onClick={() => handleSetActive(kitten, index)}
+          key={index}
+        >
+          {kitten.name}
+        </li>
+      ))
+    );
+  };
 
   return (
     <div className="d-flex flex-column w-75 m-auto">
       <div className="d-flex justify-content-evenly">
         <div className="w-75 m-auto">
           <Switch>
-            <Route path="/kittens/:id">
+            <Route path="/add">
+              <AddKitten kittens={kittens} onRefresh={handleRefresh} />
+            </Route>
+            <Route exact path="/kittens/edit/:id">
               <EditKitten
                 currentKitten={currentKitten}
+                currentIndex={currentIndex}
                 kittens={kittens}
-                onRefresh={onRefresh}
+                onRefresh={handleRefresh}
+                retrieveKittens={retrieveKittens}
               />
             </Route>
-            <Route path="/add">
-              <AddKitten kittens={kittens} />
-            </Route>
-            <Route path="/">
+            <Route path="/:id">
               <CurrentKitten
                 currentKitten={currentKitten}
+                currentIndex={currentIndex}
                 kittens={kittens}
-                onRefresh={onRefresh}
+                onRefresh={handleRefresh}
               />
             </Route>
           </Switch>
         </div>
-        <KittenList
-          kittens={kittens}
-          currentIndex={currentIndex}
-          setActiveKitten={setActiveKitten}
-          handleRefresh={onRefresh}
-        />
+        <div className="sw-50 w-25">
+          <h4>Kittens List</h4>
+
+          <ul className="list-group">
+            <Link to={"/add"} className="btn btn-danger">
+              +
+            </Link>
+            {listKittens()}
+          </ul>
+        </div>
       </div>
     </div>
   );

@@ -1,33 +1,30 @@
-import React, { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
+import "regenerator-runtime/runtime";
 
-const EditKitten = ({ currentKitten, kittens }) => {
-  const history = useHistory();
-  const [newName, changeName] = React.useState(currentKitten.name);
-  const [newSex, changeSex] = React.useState(currentKitten.sex);
+const EditKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
+  const { name, id, sex } = currentKitten;
+  const [newName, changeName] = useState(name);
+  const [newSex, changeSex] = useState(sex);
 
-  useEffect(() => {
-    console.log("Edit Kitten refreshed the DOM");
-  }),
-    [kittens];
-
-  const updateKitten = (e) => {
+  const updateKitten = async (e) => {
     e.preventDefault();
     currentKitten = { ...currentKitten, sex: newSex, name: newName };
-    console.log(currentKitten);
-    KittenDataService.update(currentKitten.id, currentKitten)
-      .then((response) => {
-        console.log(response.data);
-        history.push("/");
-        getKittens();
-      })
-      .catch((e) => console.log(e));
+    try {
+      const res = await KittenDataService.update(id, currentKitten);
+      console.log(res.data);
+      console.log(currentIndex);
+      kittens.splice(currentIndex, 1, currentKitten);
+      onRefresh("edit", currentIndex);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
     <div className="m-auto w-75">
-      <h4 className="text-center">Edit {currentKitten.name}</h4>
+      <h4 className="text-center">Edit {name}</h4>
       <form onSubmit={updateKitten}>
         <div className="input-group">
           <span className="input-group-text">Name</span>
@@ -56,7 +53,7 @@ const EditKitten = ({ currentKitten, kittens }) => {
           />
         </div>
         <div className="d-flex justify-content-evenly">
-          <Link to="/" className="btn btn-secondary w-50 m-1">
+          <Link to={`/kittens?id=${id}`} className="btn btn-secondary w-50 m-1">
             Back
           </Link>
 
