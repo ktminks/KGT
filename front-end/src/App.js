@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import "./public/bootstrap.min.css";
 import "./public/App.css";
 
-import { Navbar, KittenDisplay } from "./components";
+import { Navbar, KittenDisplay, GrowthDisplay } from "./components";
 import KittenDataService from "./_services/data.service";
 
 class App extends Component {
@@ -66,6 +66,7 @@ class App extends Component {
         this.setState({
           kittens: response.data,
         });
+        this.setActiveKitten(response.data[0]);
         console.log(response.data);
       })
       .catch((e) => console.log(e));
@@ -76,13 +77,20 @@ class App extends Component {
       <div>
         <Navbar searchName={this.searchName} />
         <div className="container mt-3">
-          <BrowserRouter>
-            <KittenDisplay
-              state={this.state}
-              setActiveKitten={this.setActiveKitten}
-              retrieveKittens={this.retrieveKittens}
-            />
-          </BrowserRouter>
+          <Switch>
+            <Route path="/growth">
+              <GrowthDisplay
+                state={this.state}
+                setActiveKitten={this.setActiveKitten}
+              />
+            </Route>
+            <Route path="/kittens">
+              <KittenDisplay
+                state={this.state}
+                setActiveKitten={this.setActiveKitten}
+              />
+            </Route>
+          </Switch>
         </div>
       </div>
     );

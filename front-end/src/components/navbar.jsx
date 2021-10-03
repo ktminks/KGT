@@ -17,8 +17,8 @@ const Navbar = ({ searchName }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/add"} className="nav-link">
-                Add
+              <Link to={"/growth"} className="nav-link">
+                Growth
               </Link>
             </li>
           </ul>
