@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all Kittens from the database.
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
   const name = req.query.name;
   const regex = new RegExp(`${name}`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
@@ -35,7 +35,7 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single Kitten with an id
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
   const id = req.params.id;
 
   Kitten.findById(id)
@@ -52,7 +52,7 @@ exports.findOne = (req, res) => {
 };
 
 // Update a Kitten by the id in the request
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   if (!req.body)
     return res
       .status(400)
