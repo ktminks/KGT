@@ -47,42 +47,40 @@ const KittenDisplay = ({ state, setActiveKitten, retrieveKittens }) => {
   };
 
   return (
-    <div className="d-flex flex-column w-75 m-auto">
-      <div className="d-flex justify-content-evenly">
-        <div className="w-75 m-auto">
-          <Switch>
-            <Route path="/add">
-              <AddKitten kittens={kittens} onRefresh={handleRefresh} />
-            </Route>
-            <Route exact path="/kittens/edit/:id">
-              <EditKitten
-                currentKitten={currentKitten}
-                currentIndex={currentIndex}
-                kittens={kittens}
-                onRefresh={handleRefresh}
-                retrieveKittens={retrieveKittens}
-              />
-            </Route>
-            <Route path="/:id">
-              <CurrentKitten
-                currentKitten={currentKitten}
-                currentIndex={currentIndex}
-                kittens={kittens}
-                onRefresh={handleRefresh}
-              />
-            </Route>
-          </Switch>
-        </div>
-        <div className="sw-50 w-25">
-          <h4>Kittens List</h4>
+    <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
+      <div className="m-auto">
+        <Switch>
+          <Route path="/add">
+            <AddKitten kittens={kittens} onRefresh={handleRefresh} />
+          </Route>
+          <Route exact path="/kittens/edit/:id">
+            <EditKitten
+              currentKitten={currentKitten}
+              currentIndex={currentIndex}
+              kittens={kittens}
+              onRefresh={handleRefresh}
+              retrieveKittens={retrieveKittens}
+            />
+          </Route>
+          <Route path="/:id">
+            <CurrentKitten
+              currentKitten={currentKitten}
+              currentIndex={currentIndex}
+              kittens={kittens}
+              onRefresh={handleRefresh}
+            />
+          </Route>
+        </Switch>
+      </div>
+      <div className="sw-50 w-25">
+        <h4>Kittens List</h4>
 
-          <ul className="list-group">
-            <Link to={"/add"} className="btn btn-danger">
-              +
-            </Link>
-            {listKittens()}
-          </ul>
-        </div>
+        <ul className="list-group">
+          <Link to={"/add"} className="btn btn-danger">
+            +
+          </Link>
+          {listKittens()}
+        </ul>
       </div>
     </div>
   );

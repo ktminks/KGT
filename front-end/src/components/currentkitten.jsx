@@ -24,12 +24,12 @@ const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
     // console.log(obj);
     for (let m in obj)
       if (obj[m].length) {
-        result += `<div class="d-flex justify-content-between">
+        result += `<div class="d-flex justify-content-between flex-wrap">
                     <h6>${m}:</h6>
-                    <div class="w-75 d-flex flex-column flex-nowrap">
+                    <div class="ms-auto w-75">
                     ${printArray(obj[m])}</div></div>`;
       }
-    return result;
+    return result === "" ? "Nothing in the next two weeks!" : result;
   };
 
   const printArray = (arr) => {
@@ -40,7 +40,7 @@ const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
         if (n[0] !== prevValue) {
           const days = n[1] - age;
           if (days < 14) {
-            result += `<div class="d-flex justify-content-between">
+            result += `<div class="d-flex justify-content-between flex-row">
                             <div>${n[0]}</div>
                             <div>${
                               days === 0 ? "today" : `in ${days} days`
@@ -64,75 +64,85 @@ const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
   };
 
   return (
-    <div className="m-auto w-75">
+    <div>
       {id ? (
-        <div className="d-flex flex-column">
-          <h4 className="text-center">{name}</h4>
+        <div className="d-flex flex-column w-100">
+          <div className="card m-2 mt-4">
+            <div className="card-header d-flex flex-row">
+              <h4 className="card-title">{name}</h4>
+              <h6 className="card-subtitle text-muted ms-3 align-self-center">
+                {age} days old (about {Math.round(age / 7)} weeks)
+              </h6>
+            </div>
 
-          <div className="d-flex justify-content-around">
-            <h5>Sex:</h5>
-            {sex}
+            <div className="card-body d-flex justify-content-sm-between align-items-center">
+              <div className="card-text m-auto w-50">
+                <div className="d-flex justify-content-between flex-row align-items-center">
+                  <h6 className="card-subtitle">Sex:</h6>
+                  {sex}
+                </div>
+
+                <div className="d-flex justify-content-between flex-row align-items-center ">
+                  <h6 className="card-subtitle">DOB: </h6>
+                  {getDate(birthdate)}
+                </div>
+              </div>
+
+              <div className="d-flex flex-column flex-shrink-1 flex-lg-row">
+                <Link
+                  to={"/kittens/edit/" + id}
+                  className="btn btn-warning m-1"
+                >
+                  Edit
+                </Link>
+
+                <Link
+                  to="/kittens"
+                  className="btn btn-danger m-1"
+                  onClick={deleteKitten}
+                >
+                  Delete
+                </Link>
+              </div>
+            </div>
           </div>
 
-          <div className="d-flex justify-content-around">
-            <h5>Birth date:</h5>
-            {getDate(birthdate)}
-          </div>
-
-          <div className="d-flex justify-content-around">
-            <h5 className="text-center">Age:</h5>
-            {age} days (about {Math.round(age / 7)} weeks)
-          </div>
-
-          <div className="d-flex justify-content-around">
-            <div className="d-flex flex-column w-75 me-2">
-              <h5 className="text-center">Milestones:</h5>
+          <div className="d-flex flex-wrap flex-sm-row">
+            <div className="d-flex flex-column card m-2 flex-grow-1 align-self-start">
+              <h5 className="card-header">Milestones</h5>
               <div
+                className="p-4"
                 dangerouslySetInnerHTML={{ __html: printObject(milestones) }}
               ></div>
             </div>
 
-            <div className="d-flex flex-column w-75 ms-2">
-              <h5 className="text-center">Food:</h5>
+            <div className="d-flex flex-column card m-2 flex-grow-1 align-self-start">
+              <h5 className="text-center card-header">Food:</h5>
               <div
+                className="p-4"
                 dangerouslySetInnerHTML={{ __html: printObject(food) }}
               ></div>
-
-              <div className="d-flex justify-content-around flex-column">
-                <h5 className="text-center">Concerns:</h5>
-                <div
-                  dangerouslySetInnerHTML={{ __html: printArray(concerns) }}
-                ></div>
-              </div>
-
-              <div className="d-flex justify-content-around flex-column">
-                <h5 className="text-center">Weight:</h5>
-                <div
-                  dangerouslySetInnerHTML={{ __html: printArray(weight) }}
-                ></div>
-              </div>
             </div>
-          </div>
 
-          <div className="d-flex justify-content-around">
-            <Link
-              to={"/kittens/edit/" + id}
-              className="btn btn-warning w-75 m-1"
-            >
-              Edit
-            </Link>
+            <div className="d-flex justify-content-between flex-column card m-2 flex-grow-1 align-self-start">
+              <h5 className="text-center card-header">Concerns:</h5>
+              <div
+                className="p-4 m-auto w-75"
+                dangerouslySetInnerHTML={{ __html: printArray(concerns) }}
+              ></div>
+            </div>
 
-            <Link
-              to="/kittens"
-              className="btn btn-danger m-1 w-75"
-              onClick={deleteKitten}
-            >
-              Delete
-            </Link>
+            <div className="d-flex justify-content-between flex-column card m-2 flex-grow-1 align-self-start">
+              <h5 className="text-center card-header">Weight:</h5>
+              <div
+                className="p-4 m-auto w-75"
+                dangerouslySetInnerHTML={{ __html: printArray(weight) }}
+              ></div>
+            </div>
           </div>
         </div>
       ) : (
-        <p>Please click on a Kitten...</p>
+        <p className="text-center">Please click on a Kitten...</p>
       )}
     </div>
   );

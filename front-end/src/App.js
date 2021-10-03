@@ -75,7 +75,7 @@ class App extends Component {
     return (
       <div>
         <Navbar searchName={this.searchName} />
-        <div className="container-fluid mt-3">
+        <div className="container mt-3">
           <BrowserRouter>
             <KittenDisplay
               state={this.state}

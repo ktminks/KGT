@@ -31,7 +31,7 @@ const KittenList = ({ kittens, currentIndex, setActiveKitten }) => {
   };
 
   return (
-    <div className="sw-50 w-25">
+    <div className="mb-3">
       <h4>Kittens List</h4>
 
       <ul className="list-group">

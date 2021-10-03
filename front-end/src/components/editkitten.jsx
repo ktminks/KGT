@@ -23,8 +23,9 @@ const EditKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
   };
 
   return (
-    <div className="m-auto w-75">
+    <div>
       <h4 className="text-center">Edit {name}</h4>
+
       <form onSubmit={updateKitten}>
         <div className="input-group">
           <span className="input-group-text">Name</span>
@@ -39,6 +40,7 @@ const EditKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
             pattern="[a-zA-Z]+\s?[A-Za-z]+"
           />
         </div>
+
         <div className="input-group">
           <span className="input-group-text">Sex</span>
           <input
@@ -52,14 +54,15 @@ const EditKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
             pattern="(M|m|F|f|N\/A|n\/a)?"
           />
         </div>
-        <div className="d-flex justify-content-evenly">
-          <Link to={`/kittens?id=${id}`} className="btn btn-secondary w-50 m-1">
+
+        <div className="d-flex justify-content-evenly mt-2">
+          <Link to={`/kittens?id=${id}`} className="btn btn-secondary w-50">
             Back
           </Link>
 
           <input
             type="submit"
-            className="btn btn-success w-50 m-1"
+            className="btn btn-success w-50 ms-2"
             value="Update"
           />
         </div>
