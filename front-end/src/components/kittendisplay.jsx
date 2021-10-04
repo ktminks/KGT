@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 
 import { CurrentKitten, AddKitten, EditKitten } from "./index";
@@ -6,7 +6,6 @@ import { CurrentKitten, AddKitten, EditKitten } from "./index";
 const KittenDisplay = ({ state, setActiveKitten }) => {
   const history = useHistory();
   let { kittens, currentIndex, currentKitten } = state;
-  const [kittensList, fetchData] = useState(kittens);
 
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
@@ -26,31 +25,28 @@ const KittenDisplay = ({ state, setActiveKitten }) => {
     }
   };
 
-  const listKittens = () => {
-    if (kittens !== kittensList) {
-      fetchData(kittens);
-    }
+  const printKitten = (kitten, index) => {
+    const currentClass = `list-group-item list-group-item-action ${
+      index === currentIndex ? "active" : ""
+    }`;
     return (
-      kittens &&
-      kittens.map((kitten, index) => (
-        <li
-          className={
-            "list-group-item " + (index === currentIndex ? "active" : "")
-          }
-          onClick={() => handleSetActive(kitten, index)}
-          key={index}
-        >
-          {kitten.name}
-        </li>
-      ))
+      <li
+        className={currentClass}
+        onClick={() => handleSetActive(kitten, index)}
+        key={index}
+      >
+        {kitten.name}
+      </li>
     );
   };
+
+  const listKittens = () => kittens && kittens.map(printKitten);
 
   return (
     <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
       <div className="m-auto w-100">
         <Switch>
-          <Route path="/add">
+          <Route path="/kittens/add">
             <AddKitten kittens={kittens} onRefresh={handleRefresh} />
           </Route>
           <Route exact path="/kittens/edit/:id">
@@ -71,11 +67,11 @@ const KittenDisplay = ({ state, setActiveKitten }) => {
           </Route>
         </Switch>
       </div>
-      <div className="sw-50 w-25">
+      <div>
         <h4>Kittens List</h4>
 
-        <ul className="list-group sticky-top">
-          <Link to={"/add"} className="btn btn-danger">
+        <ul className="list-group sticky-top mx-2">
+          <Link to={"/kittens/add"} className="btn btn-danger">
             +
           </Link>
           {listKittens()}

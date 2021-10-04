@@ -29,7 +29,7 @@ const AddKitten = ({ kittens, onRefresh }) => {
   };
 
   return (
-    <div>
+    <div className="me-2">
       <h4 className="text-center">Add a new kitten!</h4>
 
       <form onSubmit={saveKitten}>
@@ -74,7 +74,7 @@ const AddKitten = ({ kittens, onRefresh }) => {
         </div>
 
         <div className="d-flex justify-content-evenly mt-2">
-          <Link to="/" className="btn btn-secondary w-75">
+          <Link to="/kittens" className="btn btn-secondary w-75">
             Back
           </Link>
           <input type="submit" className="btn btn-success w-75 ms-2" />

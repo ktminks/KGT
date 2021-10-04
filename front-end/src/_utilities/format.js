@@ -2,10 +2,11 @@ const React = require("react");
 const { getCurrentItems, getLastItem } = require("./get");
 
 let name, sex, birthdate, age, id, milestones, food, concerns, weight;
-
+const listItemClass = "list-group-item list-group-item-light flex-grow-1";
+// ------------ Utilities --------------
 const getDetail = (category) => {
   return (
-    <li key={category} className="list-group-item">
+    <li key={category} className={listItemClass}>
       <h6 className="card-subtitle text-muted text-center">{category}</h6>
       <ul className="list-group list-group-flush">{printItem(category)}</ul>
     </li>
@@ -14,7 +15,7 @@ const getDetail = (category) => {
 
 const printItem = (item) => {
   let result = [];
-  const noresult = <li className="list-group-item">No data!</li>;
+  const noresult = <li className={listItemClass}>No data!</li>;
   if (item === "concerns") result = getConcerns();
   else if (item === "weight") result = getWeight();
   else if (item === "milestones") result = getMilestones();
@@ -43,7 +44,7 @@ const getFoodDetails = () => {
   if (foodtype && capacity && frequency) {
     let details = `${name} should be eating at least ${capacity[0]}ml of ${foodtype[0]}, at least every ${frequency[0]} hours.`;
     result.push(
-      <li key={"food"} className="list-group-item">
+      <li key={"food"} className={listItemClass}>
         {details}
       </li>
     );
@@ -52,7 +53,7 @@ const getFoodDetails = () => {
   if (weaning) {
     let weanDetails = `${name} is weaning! Gradually introduce wet and/or dry kitten food.`;
     result.push(
-      <li key={"weaning"} className="list-group-item">
+      <li key={"weaning"} className={listItemClass}>
         {weanDetails}
       </li>
     );
@@ -65,7 +66,7 @@ const getConcerns = () => {
   if (concerns.length) {
     const c = concerns.reduce(getLastItem)[0];
     return [
-      <li key={concerns} className="list-group-item">
+      <li key={concerns} className={listItemClass}>
         {`${name}'s biggest current concern is ${c}`}
       </li>,
     ];
@@ -102,7 +103,7 @@ const getDevelopmentalNeeds = () => {
 
   for (let n of devDetails) {
     result.push(
-      <li key={n} className="list-group-item">
+      <li key={n} className={listItemClass}>
         {n}
       </li>
     );
@@ -128,7 +129,7 @@ const getWeight = () => {
     const g = weight.reduce(getLastItem)[0];
     const lb = Number.parseFloat(g / 454).toPrecision(2);
     return [
-      <li key={weight} className="list-group-item">
+      <li key={weight} className={listItemClass}>
         {`${name} should weigh around ${g}g (about ${lb}lb)`}
       </li>,
     ];
@@ -152,7 +153,7 @@ const getMilestones = () => {
 
   for (let n of devDetails) {
     result.push(
-      <li key={n} className="list-group-item">
+      <li key={n} className={listItemClass}>
         {n}
       </li>
     );

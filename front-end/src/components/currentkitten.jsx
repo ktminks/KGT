@@ -22,9 +22,11 @@ const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
     }
   };
 
-  const getNeedsBound = getNeeds.bind(currentKitten);
-
   // --------- Finally, render -------------
+
+  const cardClass = "d-flex flex-column card m-2 align-self-start flex-grow-1";
+  const headerClass = "card-header d-flex flex-row flex-grow-1";
+  const listClass = "list-group list-group-flush d-flex flex-grow-1";
 
   return (
     <div>
@@ -32,7 +34,7 @@ const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
         <div className="d-flex flex-column w-100">
           {/* ------- Header : Kitten name & basic details ------- */}
           <div className="card m-2 mt-4">
-            <div className="card-header d-flex flex-row">
+            <div className={headerClass}>
               <h4 className="card-title">{name}</h4>
               <h6 className="card-subtitle text-muted ms-3 align-self-center">
                 {age} days old (about {Math.round(age / 7)} weeks)
@@ -71,27 +73,19 @@ const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
             </div>
           </div>
 
-          <div className="d-flex flex-wrap flex-column flex-sm-row">
+          <div className="d-flex flex-wrap flex-row">
             {/* ------- Needs : Current food needs & concerns  ------- */}
-            <div className="d-flex flex-column card m-2 flex-grow-1 align-self-start">
-              <h5 className="card-header">Needs</h5>
+            <div className={cardClass}>
+              <h5 className={headerClass}>Needs</h5>
 
-              <div className="card-body">
-                <ul className="list-group list-group-flush">
-                  {getNeedsBound(currentKitten)}
-                </ul>
-              </div>
+              <ul className={listClass}>{getNeeds(currentKitten)}</ul>
             </div>
 
             {/* ------- Status: Current milestones & weight ------- */}
-            <div className="d-flex flex-column card m-2 flex-grow-1 align-self-start">
-              <h5 className="card-header">Status</h5>
+            <div className={cardClass}>
+              <h5 className={headerClass}>Status</h5>
 
-              <div className="card-body">
-                <ul className="list-group list-group-flush">
-                  {getStatus(currentKitten)}
-                </ul>
-              </div>
+              <ul className={listClass}>{getStatus(currentKitten)}</ul>
             </div>
           </div>
         </div>
