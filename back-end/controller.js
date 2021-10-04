@@ -6,7 +6,7 @@ const Kitten = db.kittens;
 exports.create = async (req, res) => {
   // Create kitten
   const { name, sex, birthdate, age } = req.body;
-  let kitten = new Kitten(getGrowth(name, sex, birthdate, age));
+  let kitten = new Kitten(getGrowth(birthdate, name, sex, age));
 
   // Save Kitten in the database
   kitten

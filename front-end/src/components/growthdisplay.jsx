@@ -10,6 +10,7 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
     history.push(`/growth?id=${kitten.id}`);
+    console.log(kitten);
   };
 
   const printKitten = (kitten, index) => {

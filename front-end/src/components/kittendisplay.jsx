@@ -10,6 +10,7 @@ const KittenDisplay = ({ state, setActiveKitten }) => {
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
     history.push(`/kittens?id=${kitten.id}`);
+    console.log(kitten);
   };
 
   const handleRefresh = (type, index = kittens.length - 1) => {
