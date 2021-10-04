@@ -6,32 +6,27 @@ import { CurrentKittenGrowth } from "./index";
 const GrowthDisplay = ({ state, setActiveKitten }) => {
   const history = useHistory();
   let { kittens, currentIndex, currentKitten } = state;
-  const [kittensList, fetchData] = useState(kittens);
 
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
     history.push(`/growth?id=${kitten.id}`);
   };
 
-  const listKittens = () => {
-    if (kittens !== kittensList) {
-      fetchData(kittens);
-    }
+  const getKitten = (kitten, index) => {
     return (
-      kittens &&
-      kittens.map((kitten, index) => (
-        <li
-          className={
-            "list-group-item " + (index === currentIndex ? "active" : "")
-          }
-          onClick={() => handleSetActive(kitten, index)}
-          key={index}
-        >
-          {kitten.name}
-        </li>
-      ))
+      <li
+        className={
+          "list-group-item " + (index === currentIndex ? "active" : "")
+        }
+        onClick={() => handleSetActive(kitten, index)}
+        key={index}
+      >
+        {kitten.name}
+      </li>
     );
   };
+
+  const listKittens = () => kittens && kittens.map(getKitten);
 
   return (
     <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
