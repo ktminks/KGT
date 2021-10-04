@@ -1,6 +1,6 @@
 import React from "react";
 import "regenerator-runtime/runtime";
-import { getCurrentItems, getLastItem, getDate } from "../utilities/get";
+import { getCurrentItems, getLastItem, getDate } from "../_utilities/get";
 
 const CurrentKittenGrowth = ({ currentKitten }) => {
   const { name, sex, birthdate, age, id, milestones, food, concerns, weight } =

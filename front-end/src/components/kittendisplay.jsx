@@ -48,7 +48,7 @@ const KittenDisplay = ({ state, setActiveKitten }) => {
 
   return (
     <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
-      <div className="m-auto">
+      <div className="m-auto w-100">
         <Switch>
           <Route path="/add">
             <AddKitten kittens={kittens} onRefresh={handleRefresh} />
@@ -74,7 +74,7 @@ const KittenDisplay = ({ state, setActiveKitten }) => {
       <div className="sw-50 w-25">
         <h4>Kittens List</h4>
 
-        <ul className="list-group">
+        <ul className="list-group sticky-top">
           <Link to={"/add"} className="btn btn-danger">
             +
           </Link>
