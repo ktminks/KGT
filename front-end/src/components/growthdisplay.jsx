@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 
-import { CurrentKitten, AddKitten, EditKitten } from "./index";
+import { CurrentKittenGrowth } from "./index";
 
 const GrowthDisplay = ({ state, setActiveKitten }) => {
   const history = useHistory();
@@ -10,7 +10,7 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
 
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
-    history.push(`/kittens?id=${kitten.id}`);
+    history.push(`/growth?id=${kitten.id}`);
   };
 
   const listKittens = () => {
@@ -38,7 +38,7 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
       <div className="m-auto">
         <Switch>
           <Route path="/:id">
-            <CurrentKitten
+            <CurrentKittenGrowth
               currentKitten={currentKitten}
               currentIndex={currentIndex}
               kittens={kittens}

@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: ["regenerator-runtime/runtime.js", "<index.jsx>"],
+  entry: ["regenerator-runtime/runtime.js", "./src/index.jsx"],
   mode: "development",
   resolve: {
     extensions: [".js", ".jsx"],
