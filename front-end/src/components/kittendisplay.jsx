@@ -68,12 +68,11 @@ const KittenDisplay = ({ state, setActiveKitten }) => {
         </Switch>
       </div>
       <div>
-        <h4>Kittens List</h4>
-
-        <ul className="list-group sticky-top mx-2">
+        <ul className="list-group sticky-top m-2">
           <Link to={"/kittens/add"} className="btn btn-danger">
             +
           </Link>
+          <li className="list-group-item text-center display-6">Kittens</li>
           {listKittens()}
         </ul>
       </div>

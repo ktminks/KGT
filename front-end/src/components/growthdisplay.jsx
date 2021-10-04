@@ -31,7 +31,7 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
 
   return (
     <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
-      <div className="m-auto w-100">
+      <div className="m-auto flex-grow-1">
         <Switch>
           <Route path="/:id">
             <CurrentKittenGrowth
@@ -43,9 +43,10 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
         </Switch>
       </div>
       <div>
-        <h4>Kittens List</h4>
-
-        <ul className="list-group sticky-top mx-2">{listKittens()}</ul>
+        <ul className="list-group sticky-top m-2">
+          <li className="list-group-item text-center display-6">Kittens</li>
+          {listKittens()}
+        </ul>
       </div>
     </div>
   );

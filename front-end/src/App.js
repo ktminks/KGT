@@ -76,7 +76,7 @@ class App extends Component {
     return (
       <div>
         <Navbar searchName={this.searchName} />
-        <div className="container mt-3">
+        <div className="container mt-3 w-100">
           <Switch>
             <Route path="/growth">
               <GrowthDisplay

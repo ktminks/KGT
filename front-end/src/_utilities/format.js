@@ -1,8 +1,9 @@
 const React = require("react");
 const { getCurrentItems, getLastItem } = require("./get");
 
-let name, sex, birthdate, age, id, milestones, food, concerns, weight;
+let name, age, milestones, food, concerns, weight;
 const listItemClass = "list-group-item list-group-item-light flex-grow-1";
+
 // ------------ Utilities --------------
 const getDetail = (category) => {
   return (
@@ -143,7 +144,7 @@ const getMilestoneDetails = () => {
   if (eyes) devDetails.push(`${name}'s eyes should be ${eyes[0]}`);
   if (ears) devDetails.push(`${name}'s ears should be ${ears[0]}`);
   if (teeth) devDetails.push(`${name} should start showing ${teeth[0]} soon`);
-  if (mobility) devDetails.push(`${name} should be ${mobility[0]} around`);
+  if (mobility) devDetails.push(`${name} should be ${mobility[0]}`);
   return devDetails;
 };
 

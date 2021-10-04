@@ -5,8 +5,7 @@ import "regenerator-runtime/runtime";
 import { getDate, getNeeds, getStatus } from "../_utilities";
 
 const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
-  const { name, sex, birthdate, age, id, milestones, food, concerns, weight } =
-    currentKitten;
+  const { name, sex, birthdate, age, id } = currentKitten;
 
   // ------- Handle updating data --------------
 
@@ -31,11 +30,11 @@ const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
   return (
     <div>
       {id ? (
-        <div className="d-flex flex-column w-100">
+        <div className="d-flex flex-column">
           {/* ------- Header : Kitten name & basic details ------- */}
-          <div className="card m-2 mt-4">
+          <div className="card m-2">
             <div className={headerClass}>
-              <h4 className="card-title">{name}</h4>
+              <div className="card-title display-5">{name}</div>
               <h6 className="card-subtitle text-muted ms-3 align-self-center">
                 {age} days old (about {Math.round(age / 7)} weeks)
               </h6>
