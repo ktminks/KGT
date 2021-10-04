@@ -5,6 +5,8 @@ import KittenDisplay from "./kittendisplay";
 import KittenList from "./kittenlist";
 import Navbar from "./navbar";
 import SearchKittens from "./search";
+import GrowthDisplay from "./growthdisplay";
+import CurrentKittenGrowth from "./currentkittengrowth";
 
 export {
   AddKitten,
@@ -14,4 +16,6 @@ export {
   KittenList,
   Navbar,
   SearchKittens,
+  GrowthDisplay,
+  CurrentKittenGrowth,
 };
