@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import "./public/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.css";
 import "./public/App.css";
 
-import { Navbar, KittenDisplay, GrowthDisplay } from "./components";
+import { Navbar, KittenDisplay, GrowthDisplay, Dashboard } from "./components";
 import KittenDataService from "./_services/data.service";
 
 class App extends Component {
@@ -76,7 +76,7 @@ class App extends Component {
     return (
       <div>
         <Navbar searchName={this.searchName} />
-        <div className="container mt-3">
+        <div className="container mt-3 w-100">
           <Switch>
             <Route path="/growth">
               <GrowthDisplay
@@ -89,6 +89,9 @@ class App extends Component {
                 state={this.state}
                 setActiveKitten={this.setActiveKitten}
               />
+            </Route>
+            <Route path="/">
+              <Dashboard />
             </Route>
           </Switch>
         </div>

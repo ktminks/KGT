@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Switch, Route, Link, useHistory } from "react-router-dom";
+import React from "react";
+import { Switch, Route, useHistory } from "react-router-dom";
 
 import { CurrentKittenGrowth } from "./index";
 
@@ -10,14 +10,16 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
     history.push(`/growth?id=${kitten.id}`);
+    console.log(kitten);
   };
 
-  const getKitten = (kitten, index) => {
+  const printKitten = (kitten, index) => {
+    const currentClass = `list-group-item list-group-item-action ${
+      index === currentIndex ? "active" : ""
+    }`;
     return (
       <li
-        className={
-          "list-group-item " + (index === currentIndex ? "active" : "")
-        }
+        className={currentClass}
         onClick={() => handleSetActive(kitten, index)}
         key={index}
       >
@@ -26,11 +28,11 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
     );
   };
 
-  const listKittens = () => kittens && kittens.map(getKitten);
+  const listKittens = () => kittens && kittens.map(printKitten);
 
   return (
     <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
-      <div className="m-auto">
+      <div className="m-auto flex-grow-1">
         <Switch>
           <Route path="/:id">
             <CurrentKittenGrowth
@@ -41,13 +43,9 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
           </Route>
         </Switch>
       </div>
-      <div className="sw-50 w-25">
-        <h4>Kittens List</h4>
-
-        <ul className="list-group">
-          <Link to={"/add"} className="btn btn-danger">
-            +
-          </Link>
+      <div>
+        <ul className="list-group sticky-top m-2">
+          <li className="list-group-item text-center display-6">Kittens</li>
           {listKittens()}
         </ul>
       </div>

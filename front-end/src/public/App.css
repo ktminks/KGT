@@ -1,15 +1,39 @@
-/* .list {
-  text-align: left;
-  max-width: 750px;
-  margin: auto;
+:root {
+  --purple: #473e3f;
+  --dark-green: #218c8d;
+  --light-green: #6ccecb;
+  --yellow: #f9e559;
+  --orange: #ef7126;
+  --sea-foam: #8edc9d;
 }
 
-.submit-form {
-  max-width: 300px;
-  margin: auto;
+.purple {
+  background-color: var(--purple);
+}
+.dark-green {
+  background-color: var(--dark-green);
+}
+.light-green {
+  background-color: var(--light-green);
+}
+.yellow {
+  background-color: var(--yellow);
+}
+.orange {
+  background-color: var(--orange);
+}
+.sea-foam {
+  background-color: var(--sea-foam);
 }
 
-.edit-form {
-  max-width: 300px;
-  margin: auto;
-} */
+body {
+  background-color: var(--dark-green);
+  background-image: var(--bs-gradient);
+  background-repeat: no-repeat;
+}
+
+@media only screen and (min-width: 992px) {
+  #kittenList {
+    width: 25vw;
+  }
+}

@@ -7,6 +7,7 @@ import Navbar from "./navbar";
 import SearchKittens from "./search";
 import GrowthDisplay from "./growthdisplay";
 import CurrentKittenGrowth from "./currentkittengrowth";
+import Dashboard from "./dashboard";
 
 export {
   AddKitten,
@@ -18,4 +19,5 @@ export {
   SearchKittens,
   GrowthDisplay,
   CurrentKittenGrowth,
+  Dashboard,
 };

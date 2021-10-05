@@ -23,7 +23,7 @@ const EditKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
   };
 
   return (
-    <div>
+    <div className="me-2">
       <h4 className="text-center">Edit {name}</h4>
 
       <form onSubmit={updateKitten}>

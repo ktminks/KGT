@@ -1,10 +1,10 @@
 const getLastItem = (a, b) => {
   let aAgeDiff = a[1] - this.age,
     bAgeDiff = b[1] - this.age;
-  if (Math.abs(bAgeDiff) < Math.abs(aAgeDiff)) return b;
+  if (bAgeDiff > 0 && aAgeDiff <= 0) return a;
   else {
-    if (bAgeDiff > 0) return a;
-    else return b;
+    if (Math.abs(bAgeDiff) < Math.abs(aAgeDiff)) return b;
+    else return a;
   }
 };
 
