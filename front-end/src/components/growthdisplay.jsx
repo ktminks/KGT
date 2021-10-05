@@ -31,8 +31,8 @@ const GrowthDisplay = ({ state, setActiveKitten }) => {
   const listKittens = () => kittens && kittens.map(printKitten);
 
   return (
-    <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
-      <div className="m-auto flex-grow-1">
+    <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
+      <div className="w-100">
         <Switch>
           <Route path="/:id">
             <CurrentKittenGrowth

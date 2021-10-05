@@ -44,8 +44,8 @@ const KittenDisplay = ({ state, setActiveKitten }) => {
   const listKittens = () => kittens && kittens.map(printKitten);
 
   return (
-    <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row m-auto">
-      <div className="m-auto w-100">
+    <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
+      <div className="w-100">
         <Switch>
           <Route path="/kittens/add">
             <AddKitten kittens={kittens} onRefresh={handleRefresh} />
