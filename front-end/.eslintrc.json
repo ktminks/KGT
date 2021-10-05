@@ -2,7 +2,8 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true
+    "node": true,
+    "commonjs": true
   },
   "extends": ["plugin:react/recommended", "airbnb"],
   "parserOptions": {
@@ -14,7 +15,11 @@
   },
   "plugins": ["react", "react-hooks"],
   "rules": {
-    // ...
+    "no-console": "off",
+    "quotes": [
+      "error",
+      "double"
+    ],
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   }
