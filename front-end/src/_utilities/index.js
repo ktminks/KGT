@@ -1,5 +1,5 @@
 const { getLastItem, getCurrentItems, getDate } = require("./get");
-const { getNeeds, getStatus } = require("./formatCurrent");
+const { getNeeds, getStatus, getDevelopment } = require("./format");
 
 module.exports = {
   getLastItem,
@@ -7,4 +7,5 @@ module.exports = {
   getDate,
   getNeeds,
   getStatus,
+  getDevelopment,
 };

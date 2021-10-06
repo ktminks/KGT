@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
 import "regenerator-runtime/runtime";
 import { getDate, getNeeds, getStatus } from "../_utilities";
+import { card, header, list } from "../_utilities/classes";
 
 const CurrentKitten = ({
   currentKitten, currentIndex, kittens, onRefresh,
@@ -27,26 +28,16 @@ const CurrentKitten = ({
 
   // --------- Finally, render -------------
 
-  const cardClass = "d-flex flex-column card m-2 align-self-start flex-grow-1";
-  const headerClass = "card-header d-flex flex-row flex-grow-1";
-  const listClass = "list-group list-group-flush d-flex flex-grow-1";
-
   return (
     <div>
       {id ? (
         <div className="d-flex flex-column">
           {/* ------- Header : Kitten name & basic details ------- */}
           <div className="card m-2">
-            <div className={headerClass}>
+            <div className={header}>
               <div className="card-title display-5">{name}</div>
               <h6 className="card-subtitle text-muted ms-3 align-self-center">
-                {age}
-                {" "}
-                days old (about
-                {" "}
-                {Math.round(age / 7)}
-                {" "}
-                weeks)
+                {`${age} days old (about ${Math.round(age / 7)} weeks)`}
               </h6>
             </div>
 
@@ -84,17 +75,17 @@ const CurrentKitten = ({
 
           <div className="d-flex flex-wrap flex-row">
             {/* ------- Needs : Current food needs & concerns  ------- */}
-            <div className={cardClass}>
-              <h5 className={headerClass}>Needs</h5>
+            <div className={card}>
+              <h5 className={header}>Needs</h5>
 
-              <ul className={listClass}>{getNeeds(currentKitten)}</ul>
+              <ul className={list}>{getNeeds(currentKitten)}</ul>
             </div>
 
             {/* ------- Status: Current milestones & weight ------- */}
-            <div className={cardClass}>
-              <h5 className={headerClass}>Status</h5>
+            <div className={card}>
+              <h5 className={header}>Status</h5>
 
-              <ul className={listClass}>{getStatus(currentKitten)}</ul>
+              <ul className={list}>{getStatus(currentKitten)}</ul>
             </div>
           </div>
         </div>

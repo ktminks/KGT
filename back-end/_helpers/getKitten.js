@@ -3,9 +3,8 @@ this module contains all possible kitten data
 and returns only the applicable data when getData is called
 */
 
-let kittenData = {
-  age: 0,
-  milestones: {
+class KittenGrowth {
+  milestones = {
     temp: [
       { age: 0, desc: [85, 90] },
       { age: 7, desc: [80, 85] },
@@ -55,14 +54,23 @@ let kittenData = {
       { age: 63, desc: "needs to see a vet for their second visit" },
       { age: 84, desc: "needs to see a vet for their third visit" }
     ],
-  },
-  food: {
+  };
+  food = {
     foodtype: [
       { age: 0, desc: "milk" },
       { age: 35, desc: "milk and/or kitten food" },
       { age: 42, desc: "kitten food" }
     ],
-    capacity: [],
+    capacity: [
+      { age: 0, desc: "2ml" },
+      { age: 4, desc: "4ml" },
+      { age: 7, desc: "6ml" },
+      { age: 14, desc: "10ml" },
+      { age: 21, desc: "14ml" },
+      { age: 28, desc: "18ml" },
+      { age: 35, desc: "23ml" },
+      { age: 42, desc: "as much as they will eat" }
+    ],
     frequency: [
       { age: 0, desc: "every 2 hours, including overnight" },
       { age: 7, desc: "every 3 hours, including overnight" },
@@ -76,73 +84,75 @@ let kittenData = {
       { age: 35, desc: true },
       { age: 42, desc: false }
     ],
-  },
-  concerns: [
+  };
+
+  concerns = [
     { age: 0, desc: ["hypothermia", "lethargy", "diarrhea", "vomiting"] },
     { age: 28, desc: ["diarrhea", "vomiting", "developmental delays"] }
-  ],
-  weight: [],
+  ];
+
+  weight = [];
+
+  constructor(birthdate, name, sex, id) {
+    this.name = name;
+    this.sex = sex;
+    this.id = id;
+    this.age = this.getAge(birthdate);
+    this.birthdate = birthdate;
+    this.generateData();
+    this.reduceObj(this.milestones);
+    this.reduceObj(this.food);
+    this.concerns = this.reduceGrowth(this.concerns);
+  };
+
+  generateData = function () {
+    let ageCounter = this.age;
+    let weight = [];
+    while (ageCounter < 86) {
+      weight.push({
+        age: ageCounter,
+        desc: Math.floor(50 + (100 / 7) * ageCounter)
+      });
+      ageCounter++;
+    }
+    this.weight = weight.length ? weight : [{
+      age: this.age,
+      desc: Math.floor(50 + (100 / 7) * this.age)
+    }];
+  };
+
+  getAge = function (birthdate) {
+    const today = new Date();
+    const dob = new Date(birthdate);
+    return Math.ceil((today - dob) / (1000 * 60 * 60 * 24));
+  };
+
+  getPrevItem = (a, b) => {
+    let aAgeDiff = a.age - this.age,
+      bAgeDiff = b.age - this.age;
+    if (bAgeDiff >= 0 && aAgeDiff < 0) return a;
+    else {
+      if (Math.abs(bAgeDiff) < Math.abs(aAgeDiff)) return b;
+      else return a;
+    }
+  };
+
+  reduceGrowth = function (prop) {
+    let filteredProp = prop.filter(entry => entry.age >= this.age);
+    // console.log(filteredProp);
+    const prevItem = prop.reduce(this.getPrevItem);
+    // console.log(prevItem);
+    filteredProp.unshift(prevItem);
+    return filteredProp.length ? filteredProp : [prop.pop()];
+  };
+
+  reduceObj = function (prop) {
+    for (let m in prop) if (prop[m].length) prop[m] = this.reduceGrowth(prop[m]);
+  };
+
 }
 
-generateData = function () {
-  let age = kittenData.age;
-  let capacity = [];
-  let weight = [];
-  while (age < 86) {
-    capacity.push({
-      age: age,
-      desc: `${2 + Math.floor((age * 4) / 7)}ml`
-    });
-    weight.push({
-      age: age,
-      desc: Math.floor(50 + (100 / 7) * age)
-    });
-    age++;
-  }
-  kittenData.food.capacity = capacity;
-  kittenData.weight = weight;
-};
-
-getKitten = function (birthdate) {
-  kittenData.age = getAge(birthdate);
-  generateData();
-  console.log(kittenData.food.capacity);
-  reduceObj(kittenData.milestones);
-  reduceObj(kittenData.food);
-  kittenData.concerns = reduceGrowth(kittenData.concerns);
-  return kittenData;
-}
-
-const getAge = (birthdate) => {
-  const today = new Date();
-  const dob = new Date(birthdate);
-  // console.log(today);
-  return Math.ceil((today - dob) / (1000 * 60 * 60 * 24));
-};
-
-notUnderAge = (entry) => entry.age >= kittenData.age;
-
-getPrevItem = function (a, b) {
-  let aAgeDiff = a.age - kittenData.age,
-    bAgeDiff = b.age - kittenData.age;
-  if (bAgeDiff >= 0 && aAgeDiff < 0) return a;
-  else {
-    if (Math.abs(bAgeDiff) < Math.abs(aAgeDiff)) return b;
-    else return a;
-  }
-};
-
-reduceGrowth = function (prop) {
-  let filteredProp = prop.filter(notUnderAge);
-  const prevItem = prop.reduce(getPrevItem);
-  // console.log(prevItem);
-  filteredProp.unshift(prevItem);
-  return filteredProp.length ? filteredProp : [prop.pop()];
-};
-
-reduceObj = function (prop) {
-  for (let m in prop) if (prop[m].length) prop[m] = reduceGrowth(prop[m]);
-};
+getKitten = (birthdate, name, sex, id) => new KittenGrowth(birthdate, name, sex, id);
 
 // console.log(reduceData("09/01/2021"));
 module.exports = getKitten;

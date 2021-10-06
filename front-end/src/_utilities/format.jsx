@@ -1,6 +1,8 @@
 /* eslint-disable linebreak-style */
 const React = require("react");
 
+// ------------ Utilities --------------
+
 let name; let age; let milestones; let food; let concerns; let
   weight;
 const listItemClass = "list-group-item list-group-item-light flex-grow-1";
@@ -12,20 +14,22 @@ const getListItems = (details) => (
     </li>
   )));
 
-// --------- Needs -----------
+const printArray = (prev, curr, i, arr) => (i === arr.length - 1 ? `${prev}, and ${curr}` : `${prev}, ${curr}`);
+
+// -------------- Needs -------------------
 const getFoodDetails = () => {
   const {
     foodtype, capacity, frequency, weaning,
   } = food;
   const result = [];
 
-  if (foodtype && capacity && frequency) {
+  if (foodtype.length && capacity.length && frequency.length) {
     const details = `${name} should be eating ${capacity[0].desc} of ${foodtype[0].desc} ${frequency[0].desc}.`;
     result.push(
       <li key="food" className={listItemClass}>
         {details}
       </li>,
-      weaning && (
+      weaning[0].desc && (
         <li key="weaning" className={listItemClass}>
           {`${name} is weaning! Have plenty of kitten food available at all times, and supplement with milk.`}
         </li>
@@ -35,7 +39,6 @@ const getFoodDetails = () => {
 
   return result;
 };
-const printArray = (prev, curr, i, arr) => (i === arr.length - 1 ? `${prev}, and ${curr}` : `${prev}, ${curr}`);
 
 const getConcerns = () => {
   if (concerns.length) {
@@ -96,7 +99,7 @@ const getMilestones = () => {
   return getListItems(devDetails);
 };
 
-// ------------ Utilities --------------
+// ------------ Print & Export --------------
 
 const printItem = (item) => {
   let result = [];
@@ -115,6 +118,18 @@ const getDetail = (category) => (
     <ul className="list-group list-group-flush">{printItem(category)}</ul>
   </li>
 );
+
+const getDevelopment = (kitten) => {
+  const result = [];
+  ({
+    name, age, milestones, food, concerns, weight,
+  } = kitten);
+
+  result.push(getDetail("milestones"));
+  result.push(getDetail("weight"));
+
+  return result;
+};
 
 const getStatus = (kitten) => {
   const result = [];
@@ -141,4 +156,4 @@ const getNeeds = (kitten) => {
   return result;
 };
 
-module.exports = { getNeeds, getStatus };
+module.exports = { getNeeds, getStatus, getDevelopment };

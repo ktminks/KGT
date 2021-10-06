@@ -2,24 +2,19 @@ const db = require("./models");
 const { getKitten, sanitize } = require("./_helpers");
 const Kitten = db.kittens;
 
-const getData = (data) => {
-  let kittenData = data.map(obj => {
-    return { id: obj._doc._id, ...obj._doc, ...getKitten(obj.birthdate) };
-  });
-  return kittenData;
-}
+const getData = (data) => data.map(k => getKitten(k.birthdate, k.name, k.sex, k.id));
 
 // Create and Save a new Kitten
 exports.create = async (req, res) => {
   // Create kitten
   const { name, sex, birthdate } = req.body;
   let kitten = new Kitten({ name, sex, birthdate });
-
+  let kittenData = getKitten(birthdate, name, sex, kitten.id);
   // Save Kitten in the database
   kitten
     .save(kitten)
     .then((data) => {
-      res.send(data);
+      res.send(kittenData);
     })
     .catch((err) =>
       res.status(500).send({

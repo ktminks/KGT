@@ -19,13 +19,13 @@ const getFoodDetails = () => {
   } = food;
   const result = [];
 
-  if (foodtype && capacity && frequency) {
+  if (foodtype.length && capacity.length && frequency.length) {
     const details = `${name} should be eating ${capacity[0].desc} of ${foodtype[0].desc} ${frequency[0].desc}.`;
     result.push(
       <li key="food" className={listItemClass}>
         {details}
       </li>,
-      weaning && (
+      weaning[0].desc && (
         <li key="weaning" className={listItemClass}>
           {`${name} is weaning! Have plenty of kitten food available at all times, and supplement with milk.`}
         </li>
