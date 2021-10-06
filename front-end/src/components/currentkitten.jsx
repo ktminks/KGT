@@ -4,8 +4,12 @@ import KittenDataService from "../_services/data.service";
 import "regenerator-runtime/runtime";
 import { getDate, getNeeds, getStatus } from "../_utilities";
 
-const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
-  const { name, sex, birthdate, age, id } = currentKitten;
+const CurrentKitten = ({
+  currentKitten, currentIndex, kittens, onRefresh,
+}) => {
+  const {
+    name, sex, birthdate, age, id,
+  } = currentKitten;
 
   // ------- Handle updating data --------------
 
@@ -36,7 +40,13 @@ const CurrentKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
             <div className={headerClass}>
               <div className="card-title display-5">{name}</div>
               <h6 className="card-subtitle text-muted ms-3 align-self-center">
-                {age} days old (about {Math.round(age / 7)} weeks)
+                {age}
+                {" "}
+                days old (about
+                {" "}
+                {Math.round(age / 7)}
+                {" "}
+                weeks)
               </h6>
             </div>
 

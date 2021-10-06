@@ -17,13 +17,13 @@ class App extends Component {
       birthdate: "",
       age: 0,
       milestones: {
-        temperature: [[0, 0, 0]],
+        temp: [[0, 0, 0]],
         eyes: [["", 0]],
         ears: [["", 0]],
         teeth: [["", 0]],
-        litterbox: [["", 0]],
+        litter: [["", 0]],
         mobility: [["", 0]],
-        socialization: [["", 0]],
+        social: [["", 0]],
         vet: [[0, 0]],
       },
       food: {
