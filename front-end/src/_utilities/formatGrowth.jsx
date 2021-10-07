@@ -141,4 +141,4 @@ const getNeeds = (kitten) => {
   return result;
 };
 
-module.exports = { getNeeds, getStatus };
+export { getNeeds, getStatus };

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
-import "regenerator-runtime/runtime";
 
 const AddKitten = ({ kittens, onRefresh }) => {
   const [name, setName] = useState("Kitten name");
@@ -17,14 +16,15 @@ const AddKitten = ({ kittens, onRefresh }) => {
   const saveKitten = async (e) => {
     e.preventDefault();
     const age = getAge();
-    const data = { name, sex, birthdate, age };
     try {
-      const res = await KittenDataService.create(data);
+      const res = await KittenDataService.create({
+        name, sex, birthdate, age,
+      });
       const newKitten = res.data;
       kittens.push(newKitten);
-      onRefresh("add");
-    } catch (e) {
-      console.log(e);
+      onRefresh();
+    } catch (err) {
+      console.log(err);
     }
   };
 

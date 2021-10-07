@@ -32,7 +32,7 @@ class KittenGrowth {
     litter: [
       { age: 2, desc: "needs to be stimulated after every meal" },
       { age: 14, desc: "should be introduced to a litter and placed in it after every meal" },
-      { age: 28, desc: "should be using a litter on their own, but only using clay litter" },
+      { age: 28, desc: "should be using a litterbox on their own, but only using clay litter" },
     ],
     mobility: [
       { age: 2, desc: "sleeping most of the time" },
@@ -138,11 +138,14 @@ class KittenGrowth {
   };
 
   reduceGrowth = function (prop) {
+    // delete all items that are below the current age
     let filteredProp = prop.filter(entry => entry.age >= this.age);
-    // console.log(filteredProp);
+    // get the most recent item below the current age
     const prevItem = prop.reduce(this.getPrevItem);
-    // console.log(prevItem);
-    filteredProp.unshift(prevItem);
+    // if the filtered array doesn't contain it already, add it
+    if (!filteredProp.includes(prevItem))
+      filteredProp.unshift(prevItem);
+    // if the filtered array is still empty, add the last item in the props list
     return filteredProp.length ? filteredProp : [prop.pop()];
   };
 

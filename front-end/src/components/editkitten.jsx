@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import KittenDataService from "../_services/data.service";
-import "regenerator-runtime/runtime";
 
-const EditKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
+const EditKitten = ({
+  currentKitten, currentIndex, kittens, onRefresh,
+}) => {
   const { name, id, sex } = currentKitten;
   const [newName, changeName] = useState(name);
   const [newSex, changeSex] = useState(sex);
@@ -14,9 +15,8 @@ const EditKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
     try {
       const res = await KittenDataService.update(id, currentKitten);
       console.log(res.data);
-      console.log(currentIndex);
       kittens.splice(currentIndex, 1, currentKitten);
-      onRefresh("edit", currentIndex);
+      onRefresh(currentIndex);
     } catch (e) {
       console.log(e);
     }
@@ -24,7 +24,11 @@ const EditKitten = ({ currentKitten, currentIndex, kittens, onRefresh }) => {
 
   return (
     <div className="me-2">
-      <h4 className="text-center">Edit {name}</h4>
+      <h4 className="text-center">
+        Edit
+        {" "}
+        {name}
+      </h4>
 
       <form onSubmit={updateKitten}>
         <div className="input-group">

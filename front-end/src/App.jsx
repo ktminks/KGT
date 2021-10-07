@@ -3,44 +3,50 @@ import { Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "./public/App.css";
 
-import { Navbar, KittenDisplay, GrowthDisplay, Dashboard } from "./components";
+import {
+  Navbar, KittenDisplay, GrowthDisplay, Dashboard,
+} from "./components";
 import KittenDataService from "./_services/data.service";
 
 class App extends Component {
-  state = {
-    kittens: [],
-    currentIndex: -1,
-    currentKitten: {
-      id: null,
-      name: "",
-      sex: "",
-      birthdate: "",
-      age: 0,
-      milestones: {
-        temp: [[0, 0, 0]],
-        eyes: [["", 0]],
-        ears: [["", 0]],
-        teeth: [["", 0]],
-        litter: [["", 0]],
-        mobility: [["", 0]],
-        social: [["", 0]],
-        vet: [[0, 0]],
+  constructor(props) {
+    super(props);
+    this.state = {
+      kittens: [],
+      currentIndex: -1,
+      currentKitten: {
+        id: null,
+        name: "",
+        sex: "",
+        birthdate: "",
+        age: 0,
+        milestones: {
+          temp: [[0, 0, 0]],
+          eyes: [["", 0]],
+          ears: [["", 0]],
+          teeth: [["", 0]],
+          litter: [["", 0]],
+          mobility: [["", 0]],
+          social: [["", 0]],
+          vet: [[0, 0]],
+        },
+        food: {
+          foodtype: [["", 0]],
+          capacity: [[0, 0]],
+          frequency: [[0, 0]],
+          weaning: [[false, 0]],
+        },
+        concerns: [["", 0]],
+        weight: [[0, 0]],
       },
-      food: {
-        foodtype: [["", 0]],
-        capacity: [[0, 0]],
-        frequency: [[0, 0]],
-        weaning: [[false, 0]],
-      },
-      concerns: [["", 0]],
-      weight: [[0, 0]],
-    },
-    message: "",
-  };
+      message: "",
+    };
+  }
 
   componentDidMount = () => {
     this.retrieveKittens();
   };
+
   retrieveKittens = () => {
     KittenDataService.getAll()
       .then((response) => {

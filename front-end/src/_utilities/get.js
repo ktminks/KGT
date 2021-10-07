@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 const getLastItem = (a, b) => {
   const aAgeDiff = a[1] - this.age;
   const bAgeDiff = b[1] - this.age;
@@ -25,4 +24,4 @@ const getDate = (date) => {
   return newDate;
 };
 
-module.exports = { getLastItem, getCurrentItems, getDate };
+export { getDate };

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import http from "front-end";
 
 class KittenDataService {
