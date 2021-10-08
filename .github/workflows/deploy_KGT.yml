@@ -20,19 +20,31 @@ jobs:
       - name: check which files were updated
         id: check_files
         run: |
-          echo "========== check paths of changed files =========="
+          echo "============= list all changed files ============="
           git diff --name-only HEAD^ HEAD > files.txt
+          cat files.txt
+
+          echo "========== check for changes to backend =========="
           while IFS= read -r file
           do
             echo $file
             if [[ $file == "back-end/"* ]]; then
               echo "::set-output name=server_updated::true"
               break
-            elif [[ $file == "front-end/"* ]]; then
+            else
+              echo "File is not in back-end"
+            fi
+          done < files.txt
+
+          echo "========== check for changes to frontend =========="
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file == "front-end/"* ]]; then
               echo "::set-output name=client_updated::true"
               break
             else
-              echo "File is not in back-end or front-end"
+              echo "File is not in front-end"
             fi
           done < files.txt
 
