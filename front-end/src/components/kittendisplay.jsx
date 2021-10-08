@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import { printKittens } from "../_utilities";
 
-const { CurrentKitten, AddKitten, EditKitten, AgeEstimator } = require(".");
+const { CurrentKitten, AddKitten, EditKitten } = require(".");
 
 const KittenDisplay = ({ setActiveKitten, state }) => {
   const history = useHistory();
