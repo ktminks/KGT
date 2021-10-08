@@ -8,14 +8,18 @@ const listItemClass = "list-group-item list-group-item-light flex-grow-1";
 const noresult = (key) => <li className={listItemClass} key={`${key}-nil`}>No data!</li>;
 
 const getListItems = (details, i) => {
-  let list = (details.length) ? (details.map((n, i) => {
+  const list = (details.length) ? (details.map((n, i) => {
     if (Array.isArray(n)) return getListItems(n, i);
-    if (n !== undefined) 
-      return (<li key={i} className={listItemClass}>
-        {n}
-      </li>)
+    if (n !== undefined) {
+      return (
+        <li key={i} className={listItemClass}>
+          {n}
+        </li>
+      );
+    }
   })) : i && noresult(i);
-return list;};
+  return list;
+};
 
 const printArray = (prev, curr, i, arr) => (i === arr.length - 1 ? `${prev}, and ${curr}` : `${prev}, ${curr}`);
 const getNumDays = (currAge) => {
@@ -38,8 +42,7 @@ const getFoodDetails = (entry) => {
         <li key="weaning" className={listItemClass}>
           {`${name} is weaning! Have plenty of kitten food available at all times, and supplement with milk.`}
         </li>
-      ),
-    );
+      ));
   }
 
   return result;
@@ -47,25 +50,26 @@ const getFoodDetails = (entry) => {
 
 const getConcerns = (entry) => {
   const days = getNumDays(entry.age);
-    return (
-      <li key={entry.age} className={listItemClass}>
-        {`Watch out for signs of ${entry.desc.reduce(printArray)} ${days[1]}`}
-      </li>
-    )
+  return (
+    <li key={entry.age} className={listItemClass}>
+      {`Watch out for signs of ${entry.desc.reduce(printArray)} ${days[1]}`}
+    </li>
+  );
 };
 
 const getDevelopmentalNeeds = () => {
-  const { temp, litter, social, vet } = milestones;
+  const {
+    temp, litter, social, vet,
+  } = milestones;
   const needs = [temp, litter, social, vet];
   const titles = ["temperature", "litter training", "socialization", "veterinary"];
 
-  let devDetails = needs.map((n, i) => {
+  const devDetails = needs.map((n, i) => {
     if (n.length) {
       const days = getNumDays(n[0].age);
       if (days[0] >= -100 && days[0] <= 30) {
-        if (n[0].desc.length == 2) 
-          return `${name}'s environment should be kept between ${n[0].desc[0]} and ${n[0].desc[1]} F ${days[1]}`;
-        else return(`${name} ${n[0].desc} ${days[1]}`);
+        if (n[0].desc.length == 2) { return `${name}'s environment should be kept between ${n[0].desc[0]} and ${n[0].desc[1]} F ${days[1]}`; }
+        return (`${name} ${n[0].desc} ${days[1]}`);
       }
     }
   });
@@ -75,18 +79,20 @@ const getDevelopmentalNeeds = () => {
 // ------------ Status -------------
 
 const getWeight = (entry) => {
-    const g = entry.desc;
-    const lb = Number.parseFloat(g / 454).toPrecision(2);
-    const days = getNumDays(entry.age);
-    return (
-      <li key={entry.age} className={listItemClass}>
-        {`${name} should weigh around ${g}g (about ${lb}lb) ${days[1]}`}
-      </li>
-    );
+  const g = entry.desc;
+  const lb = Number.parseFloat(g / 454).toPrecision(2);
+  const days = getNumDays(entry.age);
+  return (
+    <li key={entry.age} className={listItemClass}>
+      {`${name} should weigh around ${g}g (about ${lb}lb) ${days[1]}`}
+    </li>
+  );
 };
 
 const getMilestones = (entry) => {
-  const { eyes, ears, teeth, mobility} = milestones;
+  const {
+    eyes, ears, teeth, mobility,
+  } = milestones;
   const date = getNumDays();
 
   const devDetails = [];
@@ -103,41 +109,45 @@ const getUpcomingNeeds = (entry) => {
   const devDetails = [];
   const days = getNumDays(entry.age);
 
-  if (entry.desc.length == 2)
+  if (entry.desc.length == 2) {
     devDetails.push(
       `${name}'s environment should be kept between ${entry.desc[0]} and ${entry.desc[1]} F ${days[1]}`,
     );
-  else
+  } else {
     devDetails.push(
       `${name} ${entry.desc} ${days[1]}`,
     );
+  }
   return devDetails;
 };
 
 const getGrowth = (type) => {
-  let arr, func, titles, age, devDetails = [];
+  let arr; let func; let titles; let age; const
+    devDetails = [];
   if (type === "development") {
-    const { temp, litter, social, vet } = milestones;
+    const {
+      temp, litter, social, vet,
+    } = milestones;
     arr = [temp, litter, social, vet];
     titles = ["temperature", "litter training", "socialization", "veterinary"];
     func = getUpcomingNeeds;
   }
 
   arr.map((n, i) => {
-    devDetails.push([`${titles[i]}:`], n.length &&
-      (n.flatMap((e) => {
+    devDetails.push([`${titles[i]}:`], n.length
+      && (n.flatMap((e) => {
         age = getNumDays(e.age)[0];
         return (age <= 30 && age >= -30) ? func(e) : [];
-        })
-      )
-  )});
+      })
+      ));
+  });
   return getListItems(devDetails);
-}
+};
 
 // ------------ Print & Export --------------
 
 const printItem = (item) => {
-  let result = [];
+  const result = [];
   const category = item.split(" ");
   switch (category[0]) {
     case "concerns":
@@ -159,12 +169,14 @@ const printItem = (item) => {
 
       switch (category[1]) {
         case "concerns":
-          if (concerns.length)
-            result.push(concerns.map(c => getNumDays(c.age)[0] <= 14 && getConcerns(c)));
+          if (concerns.length) {
+            result.push(concerns.map((c) => getNumDays(c.age)[0] <= 14 && getConcerns(c)));
+          }
           break;
         case "weight":
-          if (weight.length) 
-            result.push(weight.map(w => getNumDays(w.age)[0] <= 14 && getWeight(w)));
+          if (weight.length) {
+            result.push(weight.map((w) => getNumDays(w.age)[0] <= 14 && getWeight(w)));
+          }
           break;
         case "milestones":
           result.push(getMilestones());
@@ -175,7 +187,12 @@ const printItem = (item) => {
         case "development":
           result.push(getGrowth("development"));
           break;
+        default:
+          break;
       }
+      break;
+    default:
+      break;
   }
   return result.length ? result : noresult;
 };
