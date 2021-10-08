@@ -4,9 +4,10 @@ import { printKittens } from "../_utilities";
 
 const { CurrentKittenDev } = require(".");
 
-const GrowthDisplay = ({ setActiveKitten, state }) => {
+const GrowthDisplay = ({
+  kittens, currentIndex, currentKitten, setActiveKitten,
+}) => {
   const history = useHistory();
-  const { kittens, currentIndex, currentKitten } = state;
 
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);

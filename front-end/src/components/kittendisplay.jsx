@@ -6,9 +6,10 @@ import { printKittens } from "../_utilities";
 
 const { CurrentKitten, AddKitten, EditKitten } = require(".");
 
-const KittenDisplay = ({ setActiveKitten, state }) => {
+const KittenDisplay = ({
+  kittens, currentIndex, currentKitten, setActiveKitten,
+}) => {
   const history = useHistory();
-  const { kittens, currentIndex, currentKitten } = state;
 
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);

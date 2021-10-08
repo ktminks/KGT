@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
@@ -40,7 +39,6 @@ class App extends Component {
         concerns: [["", 0]],
         weight: [[0, 0]],
       },
-      message: "",
     };
   }
 
@@ -80,6 +78,7 @@ class App extends Component {
   };
 
   render() {
+    const { kittens, currentIndex, currentKitten } = this.state;
     return (
       <div>
         <Navbar searchName={this.searchName} />
@@ -87,13 +86,17 @@ class App extends Component {
           <Switch>
             <Route path="/growth">
               <GrowthDisplay
-                state={this.state}
+                kittens={kittens}
+                currentIndex={currentIndex}
+                currentKitten={currentKitten}
                 setActiveKitten={this.setActiveKitten}
               />
             </Route>
             <Route path="/kittens">
               <KittenDisplay
-                state={this.state}
+                kittens={kittens}
+                currentIndex={currentIndex}
+                currentKitten={currentKitten}
                 setActiveKitten={this.setActiveKitten}
               />
             </Route>
