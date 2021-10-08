@@ -2,10 +2,13 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    "jest/globals": true,
   },
   extends: [
     "plugin:react/recommended",
-    // "plugin:jsx",
+    // "plugin:jest/recommended",
+    // "plugin:jest/style",
+    "plugin:jest/all",
     "airbnb",
   ],
   parser: "@babel/eslint-parser",
@@ -25,6 +28,7 @@ module.exports = {
     "jsx",
     "jsx-a11y",
     "import",
+    "jest",
     "@babel",
   ],
   rules: {
@@ -37,5 +41,10 @@ module.exports = {
     "linebreak-style": "off",
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
   },
 };
