@@ -60,3 +60,5 @@ dist/
 # debug files
 debug/
 
+# shortcuts to other file locations locally
+*.lnk
