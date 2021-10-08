@@ -1,19 +1,19 @@
-const getLastItem = (a, b) => {
-  const aAgeDiff = a[1] - this.age;
-  const bAgeDiff = b[1] - this.age;
-  if (bAgeDiff > 0 && aAgeDiff <= 0) return a;
+// const getLastItem = (a, b) => {
+//   const aAgeDiff = a[1] - this.age;
+//   const bAgeDiff = b[1] - this.age;
+//   if (bAgeDiff > 0 && aAgeDiff <= 0) return a;
 
-  if (Math.abs(bAgeDiff) < Math.abs(aAgeDiff)) return b;
-  return a;
-};
+//   if (Math.abs(bAgeDiff) < Math.abs(aAgeDiff)) return b;
+//   return a;
+// };
 
-const getCurrentItems = (source) => {
-  const newObj = source.reduce((n) => n[0]);
+// const getCurrentItems = (source) => {
+//   const newObj = source.reduce((n) => n[0]);
 
-  for (const n in source) { if (source[n].length) newObj[n] = source[n].reduce(getLastItem); }
+//   for (const n in source) { if (source[n].length) newObj[n] = source[n].reduce(getLastItem); }
 
-  return newObj;
-};
+//   return newObj;
+// };
 
 const getDate = (date) => {
   let newDate = new Date(date);
@@ -24,4 +24,4 @@ const getDate = (date) => {
   return newDate;
 };
 
-export { getDate };
+export default getDate;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar as nav } from "bootstrap";
+// import { Navbar as nav } from "bootstrap";
 import { Link } from "react-router-dom";
 import SearchKittens from "./search";
 

@@ -10,12 +10,12 @@ const KittenDisplay = ({ setActiveKitten, state }) => {
   const history = useHistory();
   const { kittens, currentIndex, currentKitten } = state;
 
-  const handleRefresh = (index = kittens.length - 1) => handleSetActive(kittens[index], index);
-
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
     history.push(`/kittens?id=${kitten.id}`);
   };
+
+  const handleRefresh = (index = kittens.length - 1) => handleSetActive(kittens[index], index);
 
   return (
     <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
@@ -44,7 +44,7 @@ const KittenDisplay = ({ setActiveKitten, state }) => {
       </div>
       <div>
         <ul className="list-group sticky-top m-2">
-          <Link to="/kittens/add" className="btn btn-danger">
+          <Link to="/kittens/add" className="btn btn-danger w-100">
             +
           </Link>
           <li className="list-group-item text-center display-6">Kittens</li>

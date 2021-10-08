@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
@@ -75,7 +76,7 @@ class App extends Component {
         this.setActiveKitten(response.data[0]);
         console.log(response.data);
       })
-      .catch((e) => console.log(e));
+      .catch((err) => console.log(err));
   };
 
   render() {

@@ -28,17 +28,17 @@ const AddKitten = ({ kittens, onRefresh }) => {
       setAgeCalcClass("btn btn-warning w-75 ms-2");
       setSaveButtonClass("d-none");
     }
-  }
+  };
 
   const getBirthdate = (age) => {
     const today = new Date();
-    let date = new Date();
+    const date = new Date();
     date.setDate(today.getDate() - age);
-    let dd = String(date.getDate()).padStart(2, "0");
-    let mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
-    let yyyy = date.getFullYear();
+    const dd = String(date.getDate()).padStart(2, "0");
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const yyyy = date.getFullYear();
     return `${yyyy}-${mm}-${dd}`;
-  }
+  };
 
   const estimateAge = (e) => {
     e.preventDefault();
@@ -88,7 +88,6 @@ const AddKitten = ({ kittens, onRefresh }) => {
           <input
             type="text"
             className="form-control"
-            maxLength="2"
             value={sex}
             placeholder="M, F, or N/A"
             onChange={(e) => setSex(e.target.value)}
@@ -108,10 +107,11 @@ const AddKitten = ({ kittens, onRefresh }) => {
             required
           />
 
-          <button
+          <input
             onClick={(e) => swapWeightAndBirthdate(e)}
             className="input-group-text"
-          >Not sure?</button>
+            value="Not sure?"
+          />
         </div>
 
         <div className={weightDivClass}>
@@ -136,9 +136,11 @@ const AddKitten = ({ kittens, onRefresh }) => {
 
         <div className="d-flex justify-content-evenly mt-2">
           <Link to="/kittens" className="btn btn-secondary w-75">Back</Link>
-          <button onClick={(e) => estimateAge(e)} className={ageCalcClass}>
-            Calculate my age
-          </button>
+          <input
+            value="Calculate my age"
+            onClick={(e) => estimateAge(e)}
+            className={ageCalcClass}
+          />
           <input type="submit" className={saveButtonClass} value="Save kitten" />
         </div>
       </form>

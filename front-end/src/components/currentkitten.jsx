@@ -14,7 +14,7 @@ const CurrentKitten = ({
     try {
       KittenDataService.delete(currentKitten.id);
       kittens.splice(currentIndex, 1);
-      currentKitten = null;
+      // currentKitten = null;
       onRefresh();
     } catch (e) {
       console.log(e);

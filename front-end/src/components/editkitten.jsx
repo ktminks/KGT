@@ -9,16 +9,18 @@ const EditKitten = ({
   const [newName, changeName] = useState(name);
   const [newSex, changeSex] = useState(sex);
 
-  const updateKitten = async (e) => {
+  const updateKitten = (e) => {
     e.preventDefault();
-    currentKitten = { ...currentKitten, sex: newSex, name: newName };
+    const newKitten = { ...currentKitten, sex: newSex, name: newName };
     try {
-      const res = await KittenDataService.update(id, currentKitten);
-      console.log(res.data);
-      kittens.splice(currentIndex, 1, currentKitten);
-      onRefresh(currentIndex);
-    } catch (e) {
-      console.log(e);
+      KittenDataService.update(id, newKitten)
+        .then((res) => {
+          console.log(res.data);
+          kittens.splice(currentIndex, 1, newKitten);
+          onRefresh(currentIndex);
+        });
+    } catch (err) {
+      console.log(err);
     }
   };
 
