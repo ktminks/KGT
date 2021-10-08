@@ -1,5 +1,5 @@
 const dbjs = require("./db");
-const getGrowth = require("./getGrowth");
+const getKitten = require("./getKitten");
 const sanitize = require("./sanitize");
 
-module.exports = { dbjs, getGrowth, sanitize };
+module.exports = { dbjs, getKitten, sanitize };

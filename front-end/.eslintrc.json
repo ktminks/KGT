@@ -1,25 +1,40 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
-    "node": true,
-    "commonjs": true
+    "es2021": true
   },
-  "extends": ["plugin:react/recommended", "airbnb"],
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb"
+  ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "plugins": [
+        "@babel/preset-react",
+        "@babel/preset-env"
+      ]
+    },
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "jsx"
+  ],
   "rules": {
     "no-console": "off",
     "quotes": [
       "error",
       "double"
     ],
+    "react/prop-types": 0,
+    "linebreak-style": "off",
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   }

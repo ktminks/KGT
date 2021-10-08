@@ -3,18 +3,19 @@
   "version": "0.1.0",
   "main": "./index.html",
   "dependencies": {
+    "@babel/runtime": "^7.15.4",
     "axios": "^0.21.4",
     "bootstrap": "^5.1.1",
     "css-loader": "^6.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
-    "regenerator-runtime": "^0.13.9",
     "style-loader": "^3.2.1",
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
+    "@babel/eslint-parser": "^7.15.8",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.0.0",
     "@types/regenerator-runtime": "^0.13.1",
@@ -22,8 +23,9 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx": "^0.1.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "html-webpack-plugin": "^5.3.2",
     "path": "^0.12.7",
@@ -31,6 +33,12 @@
     "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "scripts": {
     "build": "webpack --mode production",

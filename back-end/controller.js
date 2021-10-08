@@ -1,17 +1,21 @@
 const db = require("./models");
-const { getGrowth, sanitize } = require("./_helpers");
+const { getKitten, sanitize } = require("./_helpers");
 const Kitten = db.kittens;
+
+const getData = (data) => data.map(k => getKitten(k.birthdate, k.name, k.sex, k.id));
 
 // Create and Save a new Kitten
 exports.create = async (req, res) => {
   // Create kitten
-  const { name, sex, birthdate, age } = req.body;
-  let kitten = new Kitten(getGrowth(birthdate, name, sex, age));
-
+  const { name, sex, birthdate } = req.body;
+  let kitten = new Kitten({ name, sex, birthdate });
+  let kittenData = getKitten(birthdate, name, sex, kitten.id);
   // Save Kitten in the database
   kitten
     .save(kitten)
-    .then((data) => res.send(data))
+    .then((data) => {
+      res.send(kittenData);
+    })
     .catch((err) =>
       res.status(500).send({
         message: "Some error occurred while creating the Kitten.",
@@ -26,12 +30,14 @@ exports.findAll = async (req, res) => {
   const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
 
   Kitten.find(condition)
-    .then((data) => res.send(data))
-    .catch((err) =>
+    .then((data) => {
+      res.send(getData(data))
+    })
+    .catch((err) => {
       res.status(500).send({
         message: "Some error occurred while retrieving kittens.",
       })
-    );
+    });
 };
 
 // Find a single Kitten with an id
@@ -66,8 +72,8 @@ exports.update = async (req, res) => {
       data
         ? res.send({ message: `${data.name} was updated successfully.` })
         : res.status(404).send({
-            message: `Cannot update Kitten with id=${id}. Maybe Kitten was not found!`,
-          });
+          message: `Cannot update Kitten with id=${id}. Maybe Kitten was not found!`,
+        });
     })
     .catch((err) =>
       res.status(500).send({ message: "Error updating Kitten with id=" + id })
@@ -83,8 +89,8 @@ exports.delete = async (req, res) => {
     data
       ? res.send({ message: `${data.name} was deleted successfully!` })
       : res.status(404).send({
-          message: `Cannot delete Kitten with id=${id}. Maybe Kitten was not found!`,
-        });
+        message: `Cannot delete Kitten with id=${id}. Maybe Kitten was not found!`,
+      });
   } catch (err) {
     res.status(500).send({ message: "Could not delete Kitten with id=" + id });
   }

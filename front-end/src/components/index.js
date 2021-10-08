@@ -1,23 +1,25 @@
+import AgeEstimator from "./ageestimate";
 import AddKitten from "./add-kitten";
 import EditKitten from "./editkitten";
+import Header from "./header";
 import CurrentKitten from "./currentkitten";
 import KittenDisplay from "./kittendisplay";
-import KittenList from "./kittenlist";
 import Navbar from "./navbar";
 import SearchKittens from "./search";
+import CurrentKittenDev from "./currentkittendev";
 import GrowthDisplay from "./growthdisplay";
-import CurrentKittenGrowth from "./currentkittengrowth";
 import Dashboard from "./dashboard";
 
 export {
+  AgeEstimator,
   AddKitten,
   EditKitten,
+  Header,
   CurrentKitten,
   KittenDisplay,
-  KittenList,
   Navbar,
   SearchKittens,
+  CurrentKittenDev,
   GrowthDisplay,
-  CurrentKittenGrowth,
   Dashboard,
 };

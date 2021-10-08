@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/ktminks/KGT#readme",
   "scripts": {
-    "deploy": "pm2 deploy ecosystem.config.js production --force"
+    "deploy": "pm2 deploy ecosystem.config.js production --force",
+    "server": "cd back-end && npm run start:dev",
+    "client": "cd front-end && npm run start"
   }
 }

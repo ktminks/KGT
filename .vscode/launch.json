@@ -5,11 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach to Firefox",
+      "type": "firefox",
+      "request": "attach",
+      "url": "http://localhost:4001/*",
+      "webRoot": "${workspaceFolder}",
+    }
+    {
       "type": "pwa-chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",
-      "url": "http://localhost:4001",
-      "webRoot": "${workspaceFolder}/front-end/src"
+      "url": "http://localhost:4001/*",
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }

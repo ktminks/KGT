@@ -1,10 +1,13 @@
-const { getLastItem, getCurrentItems, getDate } = require("./get");
-const { getNeeds, getStatus } = require("./format");
+import { getDate } from "./get";
+import {
+  getNeeds, getFutureNeeds, getStatus, getDevelopment, printKittens,
+} from "./format";
 
-module.exports = {
-  getLastItem,
-  getCurrentItems,
+export {
   getDate,
   getNeeds,
+  getFutureNeeds,
   getStatus,
+  getDevelopment,
+  printKittens,
 };

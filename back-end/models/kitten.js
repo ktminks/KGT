@@ -5,26 +5,7 @@ const kittenSchema = new Schema(
   {
     name: { type: String, default: "Kitten" },
     sex: { type: String, default: "N/A" },
-    birthdate: { type: Date, default: Date.now },
-    age: { type: Number, default: 0 },
-    milestones: {
-      temperature: [],
-      eyes: [],
-      ears: [],
-      teeth: [],
-      litterbox: [],
-      mobility: [],
-      socialization: [],
-      vet: [],
-    },
-    food: {
-      foodtype: [],
-      capacity: [],
-      frequency: [],
-      weaning: [],
-    },
-    concerns: [],
-    weight: [],
+    birthdate: { type: Date, default: Date.now }
   },
   { timestamps: true }
 );
