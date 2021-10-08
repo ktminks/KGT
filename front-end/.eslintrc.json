@@ -5,16 +5,13 @@
   },
   "extends": [
     "plugin:react/recommended",
+    // "plugin:jsx",
     "airbnb"
   ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "requireConfigFile": false,
     "babelOptions": {
-      "plugins": [
-        "@babel/preset-react",
-        "@babel/preset-env"
-      ]
+      "configFile": "./front-end/babel.config.json"
     },
     "ecmaFeatures": {
       "jsx": true
@@ -25,7 +22,10 @@
   "plugins": [
     "react",
     "react-hooks",
-    "jsx"
+    "jsx",
+    "jsx-a11y",
+    "import",
+    "@babel"
   ],
   "rules": {
     "no-console": "off",
