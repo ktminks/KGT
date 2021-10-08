@@ -21,6 +21,11 @@
   "homepage": "https://github.com/ktminks/KGT#readme",
   "scripts": {
     "deploy": "pm2 deploy ecosystem.config.js production --force",
+    "install": "cd back-end && npm install && cd ../front-end && npm install && cd ..",
+    "production": "cd back-end && npm run start && cd ../front-end && npm run build && npx http-server ./dist",
+    "restart-server": "cd back-end && npm run restart && cd ..",
+    "server-status": "cd back-end && npm run status && cd ..",
+    "rebuild-client": "cd front-end && npm run build && cd ..",
     "server": "cd back-end && npm run start:dev",
     "client": "cd front-end && npm run start"
   }
