@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 const React = require("react");
 
 // ------------ Utilities --------------

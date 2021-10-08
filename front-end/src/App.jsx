@@ -96,7 +96,7 @@ class App extends Component {
                 setActiveKitten={this.setActiveKitten}
               />
             </Route>
-            <Route path="/">
+            <Route path="/*">
               <Dashboard />
             </Route>
           </Switch>

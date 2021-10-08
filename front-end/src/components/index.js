@@ -1,3 +1,4 @@
+import AgeEstimator from "./ageestimate";
 import AddKitten from "./add-kitten";
 import EditKitten from "./editkitten";
 import Header from "./header";
@@ -10,6 +11,7 @@ import GrowthDisplay from "./growthdisplay";
 import Dashboard from "./dashboard";
 
 export {
+  AgeEstimator,
   AddKitten,
   EditKitten,
   Header,
