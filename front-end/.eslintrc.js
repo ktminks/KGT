@@ -25,10 +25,12 @@ module.exports = {
   plugins: [
     "react",
     "react-hooks",
+    "testing-library",
     "jsx",
     "jsx-a11y",
     "import",
     "jest",
+    "jest-dom",
     "@babel",
   ],
   rules: {

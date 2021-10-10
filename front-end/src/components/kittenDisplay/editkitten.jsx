@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import KittenDataService from "../../_services/data.service";
 
 const EditKitten = ({
@@ -8,6 +8,7 @@ const EditKitten = ({
   const { name, id, sex } = currentKitten;
   const [newName, changeName] = useState(name);
   const [newSex, changeSex] = useState(sex);
+  const history = useHistory();
 
   const updateKitten = (e) => {
     e.preventDefault();
@@ -18,6 +19,7 @@ const EditKitten = ({
           console.log(res.data);
           kittens.splice(currentIndex, 1, newKitten);
           onRefresh(currentIndex);
+          history.push(`/kittens/id=${id}`);
         });
     } catch (err) {
       console.log(err);

@@ -59,6 +59,7 @@ const AddKitten = ({ kittens, onRefresh }) => {
         const newKitten = res.data;
         kittens.push(newKitten);
         onRefresh();
+        history.push(`/kittens/id=${newKitten.id}`);
       });
     } catch (err) {
       console.log(err);

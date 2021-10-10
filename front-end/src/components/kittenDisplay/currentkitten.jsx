@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import KittenDataService from "../../_services/data.service";
 import { get } from "../../_utilities";
 import { card, header, list } from "../../_utilities/classes";
@@ -9,13 +10,14 @@ const CurrentKitten = ({
   currentKitten, currentIndex, kittens, onRefresh,
 }) => {
   // ------- Handle updating data --------------
-
+  const history = useHistory();
   const deleteKitten = () => {
     try {
       KittenDataService.delete(currentKitten.id);
       kittens.splice(currentIndex, 1);
       // currentKitten = null;
       onRefresh();
+      history.push("/kittens");
     } catch (e) {
       console.log(e);
     }

@@ -50,11 +50,12 @@ class App extends Component {
 
   retrieveKittens = () => {
     KittenDataService.getAll()
-      .then((response) => {
+      .then((res) => {
         this.setState({
-          kittens: response.data,
+          kittens: res.data,
+          currentKitten: res.data[0],
         });
-        return response.data;
+        return res.data;
       })
       .catch((e) => console.log(e));
   };
@@ -81,6 +82,7 @@ class App extends Component {
 
   render() {
     const { kittens, currentIndex, currentKitten } = this.state;
+
     return (
       <Router>
         <Navbar searchName={this.searchName} />
