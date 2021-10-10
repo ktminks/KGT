@@ -50,20 +50,20 @@ const getConcerns = () => {
 const getDevelopmentalNeeds = () => {
   const devDetails = [];
   const {
-    temp, litter, social, vet,
+    temperature, litterTraining, socialization, veterinary,
   } = milestones;
 
-  if (temp) {
+  if (temperature) {
     devDetails.push(
-      `${name}'s environment should be kept between ${temp[0].desc[0]} and ${temp[0].desc[1]} F`,
+      `${name}'s environment should be kept between ${temperature[0].desc[0]} and ${temperature[0].desc[1]} F`,
     );
   }
-  if (litter) devDetails.push(`${name} ${litter[0].desc}`);
-  if (social) devDetails.push(`${name} ${social[0].desc}`);
-  if (vet) {
-    const days = vet[0].age - age;
+  if (litterTraining) devDetails.push(`${name} ${litterTraining[0].desc}`);
+  if (socialization) devDetails.push(`${name} ${socialization[0].desc}`);
+  if (veterinary) {
+    const days = veterinary[0].age - age;
     devDetails.push(
-      `${name} ${vet[0].desc} in ${days} days`,
+      `${name} ${veterinary[0].desc} in ${days} days`,
     );
   }
   return getListItems(devDetails);

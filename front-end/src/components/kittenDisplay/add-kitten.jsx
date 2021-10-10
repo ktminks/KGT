@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import KittenDataService from "../_services/data.service";
-import { card, list, listItem } from "../_utilities/classes";
+import KittenDataService from "../../_services/data.service";
+import { card, list, listItem } from "../../_utilities/classes";
 
 const AddKitten = ({ kittens, onRefresh }) => {
   const [name, setName] = useState("Kitten name");

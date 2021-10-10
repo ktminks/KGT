@@ -2,9 +2,9 @@ import React from "react";
 import {
   Switch, Route, Link, useHistory,
 } from "react-router-dom";
-import { printKittens } from "../_utilities";
+import { printKittens } from "../../_utilities";
 
-const { CurrentKitten, AddKitten, EditKitten } = require(".");
+const { CurrentKitten, AddKitten, EditKitten } = require("..");
 
 const KittenDisplay = ({
   kittens, currentIndex, currentKitten, setActiveKitten,

@@ -5,7 +5,7 @@ and returns only the applicable data when getData is called
 
 class KittenGrowth {
   milestones = {
-    temp: [
+    temperature: [
       { age: 0, desc: [85, 90] },
       { age: 7, desc: [80, 85] },
       { age: 14, desc: [75, 80] },
@@ -29,9 +29,9 @@ class KittenGrowth {
       { age: 35, desc: "start seeing premolars" },
       { age: 42, desc: "have all their milk teeth" },
     ],
-    litter: [
+    litterTraining: [
       { age: 2, desc: "needs to be stimulated after every meal" },
-      { age: 14, desc: "should be introduced to a litter and placed in it after every meal" },
+      { age: 14, desc: "should be introduced to a litterbox and placed in it after every meal" },
       { age: 28, desc: "should be using a litterbox on their own, but only using clay litter" },
     ],
     mobility: [
@@ -43,16 +43,16 @@ class KittenGrowth {
       { age: 42, desc: "running but clumsy" },
       { age: 49, desc: "well-coordinated and very playful" },
     ],
-    social: [
+    socialization: [
       { age: 2, desc: "should only be handled minimally" },
       { age: 14, desc: "should be handled frequently" },
       { age: 21, desc: "is at the best age for acclimation -- use this time to introduce new pets, people, foods, car rides, etc." },
       { age: 56, desc: "is old enough to be adopted!" },
     ],
-    vet: [
-      { age: 42, desc: "needs to see a vet for their first visit" },
-      { age: 63, desc: "needs to see a vet for their second visit" },
-      { age: 84, desc: "needs to see a vet for their third visit" },
+    veterinary: [
+      { age: 42, desc: "needs to see a veterinary for their first visit" },
+      { age: 63, desc: "needs to see a veterinary for their second visit" },
+      { age: 84, desc: "needs to see a veterinary for their third visit" },
     ],
   };
 

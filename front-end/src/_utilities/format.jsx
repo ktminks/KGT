@@ -1,273 +1,154 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import * as format from "./formatText";
+import { isSoon } from "./dates";
+
 const React = require("react");
 
-// ------------ Utilities --------------
-
-let name; let age; let milestones; let food; let concerns; let
-  weight;
+let name; let age;
+let milestones; let food; let concerns; let weight;
 const listItemClass = "list-group-item list-group-item-light flex-grow-1";
-const noresult = (key) => <li className={listItemClass} key={`${key}-nil`}>No data!</li>;
 
-const getListItems = (details, idx) => {
-  const list = (details.length) ? (details.flatMap((n, i) => {
-    if (Array.isArray(n)) return getListItems(n, i);
-    if (n !== undefined) {
-      return (
-        <li key={i} className={listItemClass}>
-          {n}
-        </li>
-      );
-    } return [];
-  })) : idx && noresult(idx);
-  return list;
-};
-
-const printArray = (prev, curr, i, arr) => (i === arr.length - 1 ? `${prev}, and ${curr}` : `${prev}, ${curr}`);
-const getNumDays = (currAge) => {
-  const days = currAge - age;
-  let date;
-  if (days > 0) date = `in ${days} days`;
-  else if (days < 0) date = `as of ${days * -1} days ago`;
-  else date = "today";
-  return [days, date];
-};
-
-// -------------- Needs -------------------
-const getFoodDetails = () => {
-  const {
-    foodtype, capacity, frequency, weaning,
-  } = food;
-  const result = [];
-
-  if (foodtype.length && capacity.length && frequency.length) {
-    const details = `${name} should be eating ${capacity[0].desc} of ${foodtype[0].desc} ${frequency[0].desc}.`;
-    result.push(getListItems([details]),
-      weaning[0].desc && (
-        <li key="weaning" className={listItemClass}>
-          {`${name} is weaning! Have plenty of kitten food available at all times, and supplement with milk.`}
-        </li>
-      ));
-  }
-
-  return result;
-};
-
-const getConcerns = (entry) => {
-  const days = getNumDays(entry.age);
-  return (
-    <li key={entry.age} className={listItemClass}>
-      {`Watch out for signs of ${entry.desc.reduce(printArray)} ${days[1]}`}
-    </li>
-  );
-};
-
-const getDevelopmentalNeeds = () => {
-  const {
-    temp, litter, social, vet,
-  } = milestones;
-  const needs = [temp, litter, social, vet];
-  // const titles = ["temperature", "litter training", "socialization", "veterinary"];
-
-  const devDetails = needs.flatMap((n) => {
-    if (n.length) {
-      const days = getNumDays(n[0].age);
-      if (days[0] >= -100 && days[0] <= 30) {
-        if (n[0].desc.length === 2) { return `${name}'s environment should be kept between ${n[0].desc[0]} and ${n[0].desc[1]} F ${days[1]}`; }
-        return (`${name} ${n[0].desc} ${days[1]}`);
-      }
-    } return [];
-  });
-  return getListItems(devDetails);
-};
-
-// ------------ Status -------------
-
-const getWeight = (entry) => {
-  const g = entry.desc;
-  const lb = Number.parseFloat(g / 454).toPrecision(2);
-  const days = getNumDays(entry.age);
-  return (
-    <li key={entry.age} className={listItemClass}>
-      {`${name} should weigh around ${g}g (about ${lb}lb) ${days[1]}`}
-    </li>
-  );
-};
-
-const getMilestones = () => {
-  const {
-    eyes, ears, teeth, mobility,
-  } = milestones;
-  const date = getNumDays();
-
-  const devDetails = [];
-  if (eyes) devDetails.push(`${name}'s eyes should be ${eyes[0].desc} ${date[1]}`);
-  if (ears) devDetails.push(`${name}'s ears should be ${ears[0].desc} ${date[1]}`);
-  if (teeth) devDetails.push(`${name} should ${teeth[0].desc} ${date[1]}`);
-  if (mobility) devDetails.push(`${name} should be ${mobility[0].desc} ${date[1]}`);
-  return getListItems(devDetails);
-};
-
-// ------------ Growth ---------------
-
-const getUpcomingNeeds = (entry) => {
-  const devDetails = [];
-  const days = getNumDays(entry.age);
-
-  if (entry.desc.length === 2) {
-    devDetails.push(
-      `${name}'s environment should be kept between ${entry.desc[0]} and ${entry.desc[1]} F ${days[1]}`,
-    );
-  } else {
-    devDetails.push(
-      `${name} ${entry.desc} ${days[1]}`,
-    );
-  }
-  return devDetails;
-};
-
-const getGrowth = (type) => {
-  let arr; let func; let titles; let currAge; const
-    devDetails = [];
-  if (type === "development") {
-    const {
-      temp, litter, social, vet,
-    } = milestones;
-    arr = [temp, litter, social, vet];
-    titles = ["temperature", "litter training", "socialization", "veterinary"];
-    func = getUpcomingNeeds;
-  }
-
-  arr.flatMap((n, i) => {
-    devDetails.push([`${titles[i]}:`], n.length
-      && (n.flatMap((e) => {
-        [currAge] = getNumDays(e.age);
-        return (currAge <= 30 && currAge >= -30) ? func(e) : [];
-      })
-      )); return [];
-  });
-  return getListItems(devDetails);
-};
-
-// ------------ Print & Export --------------
-
-const printItem = (item) => {
-  const result = [];
-  const category = item.split(" ");
-  switch (category[0]) {
-    case "concerns":
-      if (concerns.length) result.push(getConcerns(concerns[0]));
-      break;
-    case "weight":
-      if (weight.length) result.push(getWeight(weight[0]));
-      break;
-    case "milestones":
-      result.push(getMilestones());
-      break;
-    case "food":
-      result.push(getFoodDetails());
-      break;
-    case "development":
-      result.push(getDevelopmentalNeeds());
-      break;
-    case "upcoming":
-
-      switch (category[1]) {
-        case "concerns":
-          if (concerns.length) {
-            result.push(concerns.map((c) => getNumDays(c.age)[0] <= 14 && getConcerns(c)));
-          }
-          break;
-        case "weight":
-          if (weight.length) {
-            result.push(weight.map((w) => getNumDays(w.age)[0] <= 14 && getWeight(w)));
-          }
-          break;
-        case "milestones":
-          result.push(getMilestones());
-          break;
-        case "food":
-          result.push(getFoodDetails());
-          break;
-        case "development":
-          result.push(getGrowth("development"));
-          break;
-        default:
-          break;
-      }
-      break;
-    default:
-      break;
-  }
-  return result.length ? result : noresult;
-};
-
-const getDetail = (category) => (
-  <li key={category} className={listItemClass}>
-    <h6 className="card-subtitle text-muted text-center">{category}</h6>
-    <ul className="list-group list-group-flush">{printItem(category)}</ul>
-  </li>
-);
-
-export const getDevelopment = (kitten) => {
-  const result = [];
+// ------------ Utilities --------------
+const initKitten = (kitten) => {
   ({
     name, age, milestones, food, concerns, weight,
   } = kitten);
+};
 
-  result.push(getDetail("upcoming milestones"));
-  result.push(getDetail("upcoming weight"));
+const noresult = (title, key = 0) => <li className={listItemClass} key={`${title}${key}-nil`}>No data!</li>;
 
-  return result;
+const getListItem = (text, key) => text && <li key={key} className={listItemClass}>{text}</li>;
+
+const getList = (list, title) => (list ? (
+  <li key={title}>
+    <ul className="list-group">
+      <li key={title} className={listItemClass}>{title}</li>
+      {list}
+    </ul>
+  </li>
+) : null
+);
+
+// -------------------- Fetch single format -------------------- //
+const getFoodDetails = (i) => {
+  const {
+    foodtype: type, capacity: cap, frequency: freq, weaning,
+  } = food;
+
+  if (type && cap && freq) {
+    const mostRecent = [type, cap, freq].reduce((a, b) => (b[i].age > a[i].age ? b : a));
+    let date = isSoon(mostRecent[i].age, age);
+    const foodList = date ? getListItem(format.food(type[i], cap[i], freq[i], date, name), `foodlist${i}`) : null;
+    date = isSoon(weaning[i].age, age);
+    const weanList = foodList ? getListItem(format.wean(weaning[i], date, name), `weanList${i}`) : null;
+    return weanList ? [foodList, weanList] : [foodList] || null;
+  }
+  return null;
+};
+
+const getConcerns = (entry, i) => {
+  const date = concerns.length ? isSoon(entry.age, age) : null;
+  return date ? getListItem(format.concerns(entry, date, name), `concerns${i}`) : null;
+};
+
+const getWeight = (entry, i) => {
+  const date = isSoon(entry.age, age);
+  return date ? getListItem(format.weight(entry, date, name), `weight${i}`) : null;
+};
+
+const getMilestones = (i, title) => {
+  const entry = milestones[title][i];
+  const date = isSoon(entry.age, age);
+  return date ? getListItem(format[title](entry, date, name), `${title}${i}`) : null;
+};
+
+// ------------------ Get all data formatted  ------------------- //
+
+const getGrowth = (category, title) => (
+  getList(milestones[category].map((e, i) => getMilestones(i, title)), title) || null
+);
+
+// ------ Route export functions to format functions ---- //
+
+const printItem = (category, index) => {
+  const development = ["ears", "eyes", "teeth", "mobility"];
+  const needs = ["temperature", "litterTraining", "socialization", "veterinary"];
+  const router = {
+    concerns: () => getConcerns(concerns[index]),
+    weight: () => getWeight(weight[index]),
+    food: () => getFoodDetails(index),
+    milestones: () => development.map((title) => getMilestones(index, title)),
+    needs: () => needs.map((title) => getMilestones(index, title)),
+    "upcoming concerns": () => (concerns.length ? concerns.map((e, i) => getConcerns(e, i)) : null),
+    "upcoming weight": () => {
+      let prevIndex = 0;
+      return weight.length ? weight.flatMap((e, i) => {
+        if (i === 0 || i - prevIndex >= 7) {
+          prevIndex = i;
+          return getWeight(e, i);
+        } return [];
+      }, []) : null;
+    },
+    "upcoming food": () => (food.foodtype.length ? food.foodtype.map((e, i) => getFoodDetails(i)) : null),
+    "upcoming milestones": () => development.map((e, i) => getGrowth(e, development[i])),
+    "upcoming needs": () => needs.map((e, i) => getGrowth(e, needs[i])),
+  };
+  return router[category]();
+};
+
+// -------------- final return before export --------------- //
+
+const getDetail = (category, index) => {
+  const result = printItem(category, index) || noresult(category, index);
+  return (
+    <li key={category} className={listItemClass}>
+      <h6 className="card-subtitle text-muted text-center">{category}</h6>
+      <ul className="list-group list-group-flush">{result}</ul>
+    </li>
+  );
+};
+
+// ------------------ exports ----------------------- //
+
+export const getDevelopment = (kitten) => {
+  initKitten(kitten);
+  return [
+    getDetail("upcoming milestones"),
+    getDetail("upcoming weight"),
+  ];
 };
 
 export const getFutureNeeds = (kitten) => {
-  const result = [];
-  ({
-    name, age, milestones, food, concerns, weight,
-  } = kitten);
-
-  result.push(getDetail("upcoming food"));
-  result.push(getDetail("upcoming concerns"));
-  result.push(getDetail("upcoming development"));
-
-  return result;
+  initKitten(kitten);
+  return [
+    getDetail("upcoming food"),
+    getDetail("upcoming concerns"),
+    getDetail("upcoming needs"),
+  ];
 };
 
 export const getStatus = (kitten) => {
-  const result = [];
-  ({
-    name, age, milestones, food, concerns, weight,
-  } = kitten);
-
-  result.push(getDetail("milestones"));
-  result.push(getDetail("weight"));
-
-  return result;
+  initKitten(kitten);
+  return [
+    getDetail("milestones", 0),
+    getDetail("weight", 0),
+  ];
 };
 
 export const getNeeds = (kitten) => {
-  const result = [];
-  ({
-    name, age, milestones, food, concerns, weight,
-  } = kitten);
-
-  result.push(getDetail("food"));
-  result.push(getDetail("concerns"));
-  result.push(getDetail("development"));
-
-  return result;
+  initKitten(kitten);
+  return [
+    getDetail("food", 0),
+    getDetail("concerns", 0),
+    getDetail("needs", 0),
+  ];
 };
 
-// ------------ List Kittens -------------
 export const printKittens = (kittens, handleSetActive, currentIndex) => {
   const printKitten = (kitten, index) => {
-    const currentClass = `list-group-item list-group-item-action ${
-      index === currentIndex ? "active" : ""
-    }`;
+    const currentClass = `list-group-item list-group-item-action ${index === currentIndex ? "active" : ""}`;
 
-    const keySelect = (e) => {
-      handleSetActive(kittens[e.key], e.key);
-    };
+    const keySelect = (e) => handleSetActive(kittens[e.key], e.key);
 
     return (
       <li

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import KittenDataService from "../_services/data.service";
+import KittenDataService from "../../_services/data.service";
 
 const EditKitten = ({
   currentKitten, currentIndex, kittens, onRefresh,

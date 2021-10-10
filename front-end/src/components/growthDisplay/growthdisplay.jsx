@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
-import { printKittens } from "../_utilities";
+import { printKittens } from "../../_utilities";
 
-const { CurrentKittenDev } = require(".");
+const { CurrentKittenDev } = require("..");
 
 const GrowthDisplay = ({
   kittens, currentIndex, currentKitten, setActiveKitten,

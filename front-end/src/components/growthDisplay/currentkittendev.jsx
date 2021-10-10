@@ -1,8 +1,8 @@
 import React from "react";
-import { getFutureNeeds, getDevelopment } from "../_utilities";
-import { card, header, list } from "../_utilities/classes";
+import { getFutureNeeds, getDevelopment } from "../../_utilities";
+import { card, header, list } from "../../_utilities/classes";
 
-const { Header } = require(".");
+const { Header } = require("..");
 
 const CurrentKittenDev = ({ currentKitten }) => {
   const buttons = false;

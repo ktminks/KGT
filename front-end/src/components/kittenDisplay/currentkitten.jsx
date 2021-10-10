@@ -1,9 +1,9 @@
 import React from "react";
-import KittenDataService from "../_services/data.service";
-import { getNeeds, getStatus } from "../_utilities";
-import { card, header, list } from "../_utilities/classes";
+import KittenDataService from "../../_services/data.service";
+import { getNeeds, getStatus } from "../../_utilities";
+import { card, header, list } from "../../_utilities/classes";
 
-const { Header } = require(".");
+const { Header } = require("..");
 
 const CurrentKitten = ({
   currentKitten, currentIndex, kittens, onRefresh,
