@@ -1,6 +1,6 @@
 import React from "react";
 import KittenDataService from "../../_services/data.service";
-import { getNeeds, getStatus } from "../../_utilities";
+import { get } from "../../_utilities";
 import { card, header, list } from "../../_utilities/classes";
 
 const { Header } = require("..");
@@ -39,14 +39,14 @@ const CurrentKitten = ({
             <div className={card}>
               <h5 className={header}>Needs</h5>
 
-              <ul className={list}>{getNeeds(currentKitten)}</ul>
+              <ul className={list}>{get.formattedNeeds(currentKitten)}</ul>
             </div>
 
             {/* ------- Status: Current milestones & weight ------- */}
             <div className={card}>
               <h5 className={header}>Status</h5>
 
-              <ul className={list}>{getStatus(currentKitten)}</ul>
+              <ul className={list}>{get.formattedStatus(currentKitten)}</ul>
             </div>
           </div>
         </div>

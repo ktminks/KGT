@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
-import { printKittens } from "../../_utilities";
+import { get } from "../../_utilities";
 
 const { CurrentKittenDev } = require("..");
 
@@ -27,7 +27,7 @@ const GrowthDisplay = ({
       <div>
         <ul className="list-group sticky-top m-2">
           <li className="list-group-item text-center display-6">Kittens</li>
-          {printKittens(kittens, handleSetActive, currentIndex, "growth")}
+          {get.formattedKittens(kittens, handleSetActive, currentIndex, "growth")}
         </ul>
       </div>
     </div>

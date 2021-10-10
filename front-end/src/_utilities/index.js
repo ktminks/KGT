@@ -1,13 +1,7 @@
-import getDate from "./get";
-import {
-  getNeeds, getFutureNeeds, getStatus, getDevelopment, printKittens,
-} from "./format";
+import { getDate } from "./dates";
+import * as get from "./format";
 
 export {
   getDate,
-  getNeeds,
-  getFutureNeeds,
-  getStatus,
-  getDevelopment,
-  printKittens,
+  get,
 };

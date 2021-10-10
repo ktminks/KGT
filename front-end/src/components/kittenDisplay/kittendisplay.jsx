@@ -2,7 +2,7 @@ import React from "react";
 import {
   Switch, Route, Link, useHistory,
 } from "react-router-dom";
-import { printKittens } from "../../_utilities";
+import { get } from "../../_utilities";
 
 const { CurrentKitten, AddKitten, EditKitten } = require("..");
 
@@ -49,7 +49,7 @@ const KittenDisplay = ({
             +
           </Link>
           <li className="list-group-item text-center display-6">Kittens</li>
-          {printKittens(kittens, handleSetActive, currentIndex, "kittens")}
+          {get.formattedKittens(kittens, handleSetActive, currentIndex, "kittens")}
         </ul>
       </div>
     </div>

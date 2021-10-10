@@ -1,5 +1,5 @@
 import React from "react";
-import { getFutureNeeds, getDevelopment } from "../../_utilities";
+import { get } from "../../_utilities";
 import { card, header, list } from "../../_utilities/classes";
 
 const { Header } = require("..");
@@ -21,14 +21,14 @@ const CurrentKittenDev = ({ currentKitten }) => {
             <div className={card}>
               <h5 className={header}>Upcoming Needs</h5>
 
-              <ul className={list}>{getFutureNeeds(currentKitten)}</ul>
+              <ul className={list}>{get.formattedFutureNeeds(currentKitten)}</ul>
             </div>
 
             {/* ------- Status: Current milestones & weight ------- */}
             <div className={card}>
               <h5 className={header}>Development</h5>
 
-              <ul className={list}>{getDevelopment(currentKitten)}</ul>
+              <ul className={list}>{get.formattedDevelopment(currentKitten)}</ul>
             </div>
           </div>
         </div>
