@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  Switch, Route,
+  Switch, Route, BrowserRouter as Router,
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "./public/App.css";
@@ -82,7 +82,7 @@ class App extends Component {
   render() {
     const { kittens, currentIndex, currentKitten } = this.state;
     return (
-      <div>
+      <Router>
         <Navbar searchName={this.searchName} />
         <div className="container mt-3 w-100">
           <Switch>
@@ -107,7 +107,7 @@ class App extends Component {
             </Route>
           </Switch>
         </div>
-      </div>
+      </Router>
     );
   }
 }

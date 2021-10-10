@@ -33,7 +33,7 @@ const Header = ({ currentKitten, deleteKitten, buttons }) => {
         && (
         <div className="d-flex flex-row flex-sm-column flex-shrink-1 flex-lg-row">
           <Link
-            to={`/kittens/edit/${id}`}
+            to={`/kittens/edit/id=${id}`}
             className="btn btn-warning m-1"
           >
             Edit

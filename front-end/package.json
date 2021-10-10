@@ -61,7 +61,7 @@
     }
   },
   "jest": {
-    "verbose": true,
+    "verbose": false,
     "moduleFileExtensions": [
       "js",
       "jsx"

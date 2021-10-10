@@ -107,7 +107,6 @@ const getDetail = (category, index = 0) => {
       <ul key="list" className="list-group list-group-flush">{result}</ul>
     </li>
   );
-  console.log(result);
   return result;
 };
 

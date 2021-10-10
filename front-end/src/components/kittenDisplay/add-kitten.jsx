@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import KittenDataService from "../../_services/data.service";
 import { card, list, listItem } from "../../_utilities/classes";
 
 const AddKitten = ({ kittens, onRefresh }) => {
+  const history = useHistory();
   const [name, setName] = useState("Kitten name");
   const [sex, setSex] = useState("N/A");
   const [birthdate, setBirthdate] = useState("2021-09-01");
@@ -108,9 +109,11 @@ const AddKitten = ({ kittens, onRefresh }) => {
           />
 
           <input
-            onClick={(e) => swapWeightAndBirthdate(e)}
+            type="button"
+            aria-label="Not sure?"
             className="input-group-text"
             value="Not sure?"
+            onClick={(e) => swapWeightAndBirthdate(e)}
           />
         </div>
 
@@ -124,6 +127,13 @@ const AddKitten = ({ kittens, onRefresh }) => {
             required
           />
           <span className="input-group-text">Grams</span>
+          <input
+            type="button"
+            aria-label="Swap back"
+            className="input-group-text"
+            value="Swap back"
+            onClick={(e) => swapWeightAndBirthdate(e)}
+          />
         </div>
 
         <div id="calculation" className={ageDivClass}>
@@ -135,8 +145,16 @@ const AddKitten = ({ kittens, onRefresh }) => {
         </div>
 
         <div className="d-flex justify-content-evenly mt-2">
-          <Link to="/kittens" className="btn btn-secondary w-75">Back</Link>
           <input
+            type="button"
+            aria-label="Go back"
+            value="Back"
+            onClick={() => { history.goBack(); }}
+            className="btn btn-secondary w-75"
+          />
+          <input
+            type="button"
+            aria-label="Calculate age"
             value="Calculate my age"
             onClick={(e) => estimateAge(e)}
             className={ageCalcClass}

@@ -8,7 +8,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:jest/recommended",
     "plugin:jest/style",
-    "plugin:jest/all",
+    // "plugin:jest/all",
     "airbnb",
   ],
   parser: "@babel/eslint-parser",
