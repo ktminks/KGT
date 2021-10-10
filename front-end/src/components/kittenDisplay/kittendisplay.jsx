@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Switch, Route, Link, useHistory,
+  Switch, Route, Link, useHistory, Router,
 } from "react-router-dom";
 import { get } from "../../_utilities";
 
@@ -21,27 +21,29 @@ const KittenDisplay = ({
   return (
     <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
       <div className="w-100">
-        <Switch>
-          <Route path="/kittens/add">
-            <AddKitten kittens={kittens} onRefresh={handleRefresh} />
-          </Route>
-          <Route exact path="/kittens/edit/:id">
-            <EditKitten
-              currentKitten={currentKitten}
-              currentIndex={currentIndex}
-              kittens={kittens}
-              onRefresh={handleRefresh}
-            />
-          </Route>
-          <Route path="/:id">
-            <CurrentKitten
-              currentKitten={currentKitten}
-              currentIndex={currentIndex}
-              kittens={kittens}
-              onRefresh={handleRefresh}
-            />
-          </Route>
-        </Switch>
+        <Router history={history}>
+          <Switch>
+            <Route path="/kittens/add">
+              <AddKitten kittens={kittens} onRefresh={handleRefresh} />
+            </Route>
+            <Route exact path="/kittens/edit/:id">
+              <EditKitten
+                currentKitten={currentKitten}
+                currentIndex={currentIndex}
+                kittens={kittens}
+                onRefresh={handleRefresh}
+              />
+            </Route>
+            <Route path="/:id">
+              <CurrentKitten
+                currentKitten={currentKitten}
+                currentIndex={currentIndex}
+                kittens={kittens}
+                onRefresh={handleRefresh}
+              />
+            </Route>
+          </Switch>
+        </Router>
       </div>
       <div>
         <ul className="list-group sticky-top m-2">

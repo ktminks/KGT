@@ -1,10 +1,14 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 module.exports = {
   entry: ["./src/index.jsx"],
   mode: "development",
   resolve: {
     extensions: [".js", ".jsx", ".json"],
+    // alias: {
+    //   "front-end$": __dirname,
+    // },
   },
   module: {
     rules: [

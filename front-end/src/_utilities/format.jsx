@@ -18,17 +18,13 @@ const initKitten = (kitten) => {
 
 const noresult = (title, key = 0) => <li className={listItemClass} key={`${title}${key}-nil`}>No data!</li>;
 
-const getListItem = (text, key) => text && <li key={key} className={listItemClass}>{text}</li>;
+const getListItem = (text, key, idx = 0) => text && <li key={`${key}${idx}`} className={listItemClass}>{text}</li>;
 
 const getList = (list, title) => {
   let listItems = list.flat();
-  if (!listItems || !listItems.length) listItems = noresult(title);
-  return (
-    <>
-      <li key={title} className={listHeaderClass}>{title}</li>
-      { listItems }
-    </>
-  );
+  if (!listItems || !listItems.length) listItems = [noresult(title)];
+  const header = [<li key={`${title}List`} className={listHeaderClass}>{title}</li>];
+  return [...header, ...listItems];
 };
 
 // -------------------- Fetch single format -------------------- //
@@ -40,10 +36,10 @@ const getFoodDetails = (i) => {
   if (type && cap && freq) {
     const mostRecent = [type, cap, freq].reduce((a, b) => (b[i].age > a[i].age ? b : a));
     let date = isSoon(mostRecent[i].age, age);
-    const foodList = date ? getListItem(format.food(type[i], cap[i], freq[i], date, name), `foodlist${i}`) : null;
+    const foodList = date ? getListItem(format.food(type[i], cap[i], freq[i], date, name), "foodlist", i) : null;
     if (!foodList) return [];
     date = isSoon(weaning[i].age, age);
-    const weanList = foodList ? getListItem(format.wean(weaning[i], date, name), `weanList${i}`) : [];
+    const weanList = foodList ? getListItem(format.wean(weaning[i], date, name), "weanList", i) : [];
     return weanList ? [foodList, weanList] : [foodList] || [];
   }
   return [];
@@ -51,18 +47,18 @@ const getFoodDetails = (i) => {
 
 const getConcerns = (entry, i) => {
   const date = concerns.length ? isSoon(entry.age, age) : [];
-  return date ? getListItem(format.concerns(entry, date, name), `concerns${i}`) : [];
+  return date ? getListItem(format.concerns(entry, date, name), "concerns", i) : [];
 };
 
 const getWeight = (entry, i) => {
   const date = isSoon(entry.age, age);
-  return date ? getListItem(format.weight(entry, date, name), `weight${i}`) : [];
+  return date ? getListItem(format.weight(entry, date, name), "weight", i) : [];
 };
 
 const getMilestones = (i, title) => {
   const entry = milestones[title][i];
   const date = isSoon(entry.age, age);
-  return date ? getListItem(format[title](entry, date, name), `${title}${i}`) : [];
+  return date ? getListItem(format[title](entry, date, name), title, `0${i}`) : [];
 };
 
 // ------------------ Get all data formatted  ------------------- //
@@ -102,14 +98,17 @@ const printItem = (category, index) => {
 
 // -------------- final return before export --------------- //
 
-const getDetail = (category, index) => {
-  const result = printItem(category, index) || noresult(category, index);
-  return (
-    <li key={category} className={listItemClass}>
-      <h5 className="card-subtitle text-center">{category}</h5>
-      <ul className="list-group list-group-flush">{result}</ul>
+const getDetail = (category, index = 0) => {
+  let result = printItem(category, index) || noresult(category, index);
+  const key = `${category}${index}`;
+  result = (
+    <li key={key} data-testid={category} className={listItemClass}>
+      <h5 key="title" className="card-subtitle text-center">{category}</h5>
+      <ul key="list" className="list-group list-group-flush">{result}</ul>
     </li>
   );
+  console.log(result);
+  return result;
 };
 
 // ------------------ exports ----------------------- //
@@ -158,6 +157,7 @@ export const formattedKittens = (kittens, handleSetActive, currentIndex) => {
       <li
         className={currentClass}
         key={index}
+        data-testid={`${kitten.name}${index}`}
         onKeyPress={(e) => keySelect(e)}
         onClick={() => handleSetActive(kitten, index)}
       >

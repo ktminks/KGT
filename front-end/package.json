@@ -7,8 +7,8 @@
     "axios": "^0.21.4",
     "bootstrap": "^5.1.1",
     "css-loader": "^6.2.0",
-    "jest": "^27.2.4",
     "http-server": "^13.0.2",
+    "jest": "^27.2.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
@@ -35,6 +35,7 @@
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "html-webpack-plugin": "^5.3.2",
+    "jest-environment-jsdom": "^27.2.5",
     "path": "^0.12.7",
     "postcss": "^8.3.6",
     "webpack": "^5.53.0",
@@ -49,12 +50,30 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "test": "jest"
   },
   "exports": {
     ".": {
       "production": "./src/_services/http-common-prod.js",
-      "development": "./src/_services/http-common-dev.js"
+      "development": "./src/_services/http-common-dev.js",
+      "test": "./src/_services/http-common-dev.js"
+    }
+  },
+  "jest": {
+    "verbose": true,
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "front-end"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
+      "front-end$": "<rootDir>/src/_services/http-common-dev.js"
     }
   }
 }
