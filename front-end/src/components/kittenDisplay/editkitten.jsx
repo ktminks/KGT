@@ -16,7 +16,7 @@ const EditKitten = ({
     try {
       KittenDataService.update(id, newKitten)
         .then((res) => {
-          console.log(res.data);
+          console.log(res.data.message);
           kittens.splice(currentIndex, 1, newKitten);
           onRefresh(currentIndex);
           history.push(`/kittens/id=${id}`);

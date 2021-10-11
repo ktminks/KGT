@@ -1,14 +1,11 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
+// const path = require("path");
 
 module.exports = {
   entry: ["./src/index.jsx"],
   mode: "development",
   resolve: {
     extensions: [".js", ".jsx", ".json"],
-    // alias: {
-    //   "front-end$": __dirname,
-    // },
   },
   module: {
     rules: [
@@ -31,6 +28,7 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     port: process.env.PORT ? Number(process.env.PORT) + 1 || 80 : 4001,
+    // contentBase: path.resolve(__dirname, "/dist"),
   },
   externals: {
     // global app config object

@@ -53,7 +53,7 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --hot",
     "test": "jest"
   },
   "exports": {
