@@ -1,7 +1,8 @@
-module.exports = (app) => {
-  const kittens = require("./controller");
-  const router = require("express").Router();
+import * as express from "express";
+import * as kittens from "./controller.js";
 
+export default function routes(app) {
+  const router = express.Router();
   // Retrieve all Kittens
   router.get("/growth/", kittens.findAll);
 
@@ -24,4 +25,4 @@ module.exports = (app) => {
   router.delete("/kittens/delete/:id", kittens.delete);
 
   app.use("/api", router);
-};
+}

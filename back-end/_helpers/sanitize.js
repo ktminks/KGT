@@ -1,13 +1,15 @@
-const db = require("../models");
-const Kitten = db.kittens;
+import { kittens } from "../models/index.js";
+
+const Kitten = kittens;
 
 const sanitize = (data) => {
   try {
-    new Kitten(data);
-    return data;
+    const kitten = new Kitten(data);
+    return kitten ? { ...kitten } : null;
   } catch (err) {
-    throw err;
+    console.error(err);
+    return err;
   }
 };
 
-module.exports = sanitize;
+export default sanitize;

@@ -13,11 +13,13 @@ const CurrentKitten = ({
   const history = useHistory();
   const deleteKitten = () => {
     try {
-      KittenDataService.delete(currentKitten.id);
-      kittens.splice(currentIndex, 1);
-      // currentKitten = null;
-      onRefresh();
-      history.push("/kittens");
+      KittenDataService.delete(currentKitten.id)
+        .then((res) => {
+          console.log(res.data.message);
+          kittens.splice(currentIndex, 1);
+          onRefresh();
+          history.push("/kittens");
+        });
     } catch (e) {
       console.log(e);
     }

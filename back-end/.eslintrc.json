@@ -15,7 +15,16 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
+    "plugins": [
+        "import"
+    ],
     "rules": {
+        "import/no-unresolved": 2,
+        "import/no-commonjs": 2,
+        "import/extensions": [
+            2,
+            "ignorePackages"
+        ],
         "no-console": "off",
         "quotes": [
             "error",

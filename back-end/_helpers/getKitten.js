@@ -106,7 +106,7 @@ class KittenGrowth {
     this.concerns = this.reduceGrowth(this.concerns);
   }
 
-  generateData = function () {
+  generateData = () => {
     let ageCounter = this.age;
     const weight = [];
     while (ageCounter < 86) {
@@ -114,7 +114,7 @@ class KittenGrowth {
         age: ageCounter,
         desc: Math.floor(50 + (100 / 7) * ageCounter),
       });
-      ageCounter++;
+      ageCounter += 1;
     }
     this.weight = weight.length ? weight : [{
       age: this.age,
@@ -122,7 +122,7 @@ class KittenGrowth {
     }];
   };
 
-  getAge = function (birthdate) {
+  getAge = (birthdate) => {
     const today = new Date();
     const dob = new Date(birthdate);
     return Math.ceil((today - dob) / (1000 * 60 * 60 * 24));
@@ -137,7 +137,7 @@ class KittenGrowth {
     return a;
   };
 
-  reduceGrowth = function (prop) {
+  reduceGrowth = (prop) => {
     // delete all items that are below the current age
     const filteredProp = prop.filter((entry) => entry.age >= this.age);
     // get the most recent item below the current age
@@ -148,12 +148,12 @@ class KittenGrowth {
     return filteredProp.length ? filteredProp : [prop.pop()];
   };
 
-  reduceObj = function (prop) {
+  reduceObj = (prop) => {
     for (const m in prop) if (prop[m].length) prop[m] = this.reduceGrowth(prop[m]);
   };
 }
 
-getKitten = (birthdate, name, sex, id) => new KittenGrowth(birthdate, name, sex, id);
+const getKitten = (name, sex, birthdate, id) => new KittenGrowth(birthdate, name, sex, id);
 
 // console.log(reduceData("09/01/2021"));
-module.exports = getKitten;
+export default getKitten;
