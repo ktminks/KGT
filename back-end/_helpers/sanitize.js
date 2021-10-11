@@ -6,7 +6,7 @@ const sanitize = (data) => {
   try {
     if (new Kitten(data)) return data;
     console.error("Data doesn't match schema");
-    return "";
+    return null;
   } catch (err) {
     console.error(err);
     return err;
