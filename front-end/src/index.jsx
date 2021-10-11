@@ -14,5 +14,3 @@ render(
 if (module.hot) {
   module.hot.accept();
 }
-
-// reportWebVitals(console.log);

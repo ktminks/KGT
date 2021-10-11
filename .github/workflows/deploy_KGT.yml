@@ -104,7 +104,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.KGT_KEY }}
           ARGS: "-rltgoDzvO --delete"
-          SOURCE: "front-end/*"
+          SOURCE: "front-end/dist/*"
           REMOTE_HOST: ${{ secrets.KGT_HOST }}
           REMOTE_USER: ${{ secrets.KGT_USER }}
-          TARGET: "/home/ktkat/KGT/front-end/dist"
+          TARGET: "/home/ktkat/KGT/front-end"
