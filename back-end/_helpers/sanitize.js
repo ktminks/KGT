@@ -1,12 +1,15 @@
 const db = require("../models");
+
 const Kitten = db.kittens;
 
 const sanitize = (data) => {
   try {
-    new Kitten(data);
-    return data;
+    if (new Kitten(data)) return data;
+    console.error("Data doesn't match schema");
+    return "";
   } catch (err) {
-    throw err;
+    console.error(err);
+    return err;
   }
 };
 

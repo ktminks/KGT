@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const kittenSchema = new Schema(
+const kittenSchema = new mongoose.Schema(
   {
     name: { type: String, default: "Kitten" },
     sex: { type: String, default: "N/A" },
-    birthdate: { type: Date, default: Date.now }
+    birthdate: { type: Date, default: Date.now },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-kittenSchema.method("toJSON", function () {
+kittenSchema.method("toJSON", () => {
   const { __v, _id, ...object } = this.toObject();
   object.id = _id;
   return object;

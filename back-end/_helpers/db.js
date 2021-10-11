@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const connectionOptions = {
   useCreateIndex: true,
   useNewUrlParser: true,
@@ -19,5 +20,6 @@ mongoose
 mongoose.Promise = global.Promise;
 
 module.exports = {
+  // eslint-disable-next-line global-require
   Kitten: require("../models/kitten"),
 };
