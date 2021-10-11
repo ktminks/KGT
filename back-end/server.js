@@ -1,37 +1,40 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const config = require("./config.json");
-const mode = process.env.MODE ? process.env.MODE : config.MODE || "DEVELOPMENT";
+import express, { static as stat } from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import https from "https";
+import fs from "fs";
+import { MODE, PORT } from "./config.js";
+import routes from "./routes.js";
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+const { urlencoded, json } = bodyParser;
+const mode = process.env.MODE ? process.env.MODE : MODE || "DEVELOPMENT";
+const app = express();
+
+app.use(urlencoded({ extended: true }));
+app.use(json());
 app.use(cors());
-require("./routes")(app);
+routes(app);
 
 if (mode === "PRODUCTION") {
-  const https = require("https");
-  const fs = require("fs");
   const privateKey = fs.readFileSync(
     "/etc/letsencrypt/live/kgt.ktminks.com/privkey.pem",
-    "utf8"
+    "utf8",
   );
   const certificate = fs.readFileSync(
     "/etc/letsencrypt/live/kgt.ktminks.com/cert.pem",
-    "utf8"
+    "utf8",
   );
   const ca = fs.readFileSync(
     "/etc/letsencrypt/live/kgt.ktminks.com/chain.pem",
-    "utf8"
+    "utf8",
   );
   const credentials = {
     key: privateKey,
     cert: certificate,
-    ca: ca,
+    ca,
   };
   // not sure if I need this next line
-  app.use(express.static("public"));
+  app.use(stat("public"));
   const httpsServer = https.createServer(credentials, app);
   httpsServer.listen("8443", () => {
     console.log("listening on https://kgt.ktminks.com:8443");
@@ -39,7 +42,7 @@ if (mode === "PRODUCTION") {
 }
 
 // start server
-const port = process.env.PORT ? process.env.PORT || 80 : config.PORT;
-app.listen(port, function () {
-  console.log("HTTP server listening on port " + port);
+const port = process.env.PORT ? process.env.PORT || 80 : PORT;
+app.listen(port, () => {
+  console.log(`HTTP server listening on port ${port}`);
 });

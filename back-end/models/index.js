@@ -1,11 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import Kitten from "../_helpers/db.js";
 
 mongoose.Promise = global.Promise;
-const dbjs = require("../_helpers/db");
 
 const db = {};
 db.mongoose = mongoose;
 db.url = process.env.MONGODB_URI;
-db.kittens = dbjs.Kitten;
+db.kittens = Kitten;
 
-module.exports = db;
+const { kittens } = db;
+
+export { db, kittens };

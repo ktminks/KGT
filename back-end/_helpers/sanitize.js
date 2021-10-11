@@ -1,6 +1,6 @@
-const db = require("../models");
+import { kittens } from "../models/index.js";
 
-const Kitten = db.kittens;
+const Kitten = kittens;
 
 const sanitize = (data) => {
   try {
@@ -13,4 +13,4 @@ const sanitize = (data) => {
   }
 };
 
-module.exports = sanitize;
+export default sanitize;

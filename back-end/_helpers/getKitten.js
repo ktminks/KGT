@@ -156,4 +156,4 @@ class KittenGrowth {
 const getKitten = (birthdate, name, sex, id) => new KittenGrowth(birthdate, name, sex, id);
 
 // console.log(reduceData("09/01/2021"));
-module.exports = getKitten;
+export default getKitten;

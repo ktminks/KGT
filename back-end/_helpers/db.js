@@ -1,4 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import Kitten from "../models/kitten.js";
+
+const { connect } = mongoose;
 
 const connectionOptions = {
   useCreateIndex: true,
@@ -6,9 +9,7 @@ const connectionOptions = {
   useUnifiedTopology: true,
   useFindAndModify: false,
 };
-
-mongoose
-  .connect(process.env.MONGODB_URI, connectionOptions)
+connect(process.env.MONGODB_URI, connectionOptions)
   .then(() => {
     console.log("Connected to the database!");
   })
@@ -19,7 +20,4 @@ mongoose
 
 mongoose.Promise = global.Promise;
 
-module.exports = {
-  // eslint-disable-next-line global-require
-  Kitten: require("../models/kitten"),
-};
+export default Kitten;

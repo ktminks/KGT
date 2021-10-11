@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const kittenSchema = new mongoose.Schema(
+const { Schema } = mongoose;
+
+const kittenSchema = new Schema(
   {
     name: { type: String, default: "Kitten" },
     sex: { type: String, default: "N/A" },
@@ -15,4 +17,4 @@ kittenSchema.method("toJSON", () => {
   return object;
 });
 
-module.exports = mongoose.model("Kitten", kittenSchema);
+export default mongoose.model("Kitten", kittenSchema);

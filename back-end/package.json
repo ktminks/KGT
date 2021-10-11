@@ -6,6 +6,7 @@
     "type": "git",
     "url": "git@github.com:ktminks/KGT.git"
   },
+  "type": "module",
   "scripts": {
     "status": "pm2 list",
     "restart": "pm2 restart server.js",

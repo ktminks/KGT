@@ -1,5 +1,5 @@
-const dbjs = require("./db");
-const getKitten = require("./getKitten");
-const sanitize = require("./sanitize");
+import dbjs from "./db.js";
+import getKitten from "./getKitten.js";
+import sanitize from "./sanitize.js";
 
-module.exports = { dbjs, getKitten, sanitize };
+export { dbjs, getKitten, sanitize };
