@@ -7,7 +7,6 @@ module.exports = {
   output: {
     filename: "kgt.bundle.js",
     path: `${__dirname}/dist`,
-    clean: true,
   },
   resolve: {
     extensions: [".js", ".jsx", ".json"],
@@ -33,8 +32,6 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     port: process.env.PORT ? Number(process.env.PORT) + 1 || 80 : 4001,
-    static: "./dist",
-    hot: true,
   },
   externals: {
     // global app config object

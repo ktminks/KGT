@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Switch, Route, Link, BrowserRouter as Router,
+  Switch, Route, Link, useHistory, BrowserRouter,
 } from "react-router-dom";
 import { get } from "../../_utilities";
 
@@ -9,13 +9,18 @@ const { CurrentKitten, AddKitten, EditKitten } = require("..");
 const KittenDisplay = ({
   kittens, currentIndex, currentKitten, setActiveKitten,
 }) => {
-  const handleSetActive = (kitten, index) => setActiveKitten(kitten, index);
+  const history = useHistory();
+  const handleSetActive = (kitten, index) => {
+    setActiveKitten(kitten, index);
+    // console.log(kitten);
+    history.push(`/kittens?id=${kitten.id}`);
+  };
 
   const handleRefresh = (index = kittens.length - 1) => handleSetActive(kittens[index], index);
 
   return (
-    <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
-      <Router>
+    <BrowserRouter>
+      <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
         <div className="w-100">
           <Switch>
             <Route path="/kittens/add">
@@ -53,8 +58,8 @@ const KittenDisplay = ({
             {get.formattedKittens(kittens, handleSetActive, currentIndex, "kittens")}
           </ul>
         </div>
-      </Router>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 };
 

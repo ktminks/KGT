@@ -1,12 +1,12 @@
 // eslint-disable-next-line import/no-unresolved
-import http from "front-end";
+import http from "./http-common-dev";
 
 class KittenDataService {
   getAll = () => http.get("/kittens");
 
   get = (id) => http.get(`/kittens/${id}`);
 
-  view = (id) => http.get(`/kittens?id=${id}`);
+  view = (id) => http.get(`/kittens?${id}`);
 
   create = (data) => http.post("/kittens", data);
 

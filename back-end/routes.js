@@ -15,8 +15,8 @@ export default function routes(app) {
   // Retrieve a single Kitten with id
   router.get("/kittens/:id", kittens.findOne);
 
-  router.get("/add", (req, res) => {
-    res.redirect("/kittens/add");
+  router.get("/kittens/add", (req, res) => {
+    res.send("this works!");
   });
 
   // Create a new Kitten

@@ -75,7 +75,6 @@ class App extends Component {
           kittens: response.data,
         });
         this.setActiveKitten(response.data[0]);
-        console.log(response.data);
       })
       .catch((err) => console.log(err));
   };
