@@ -153,7 +153,7 @@ class KittenGrowth {
   };
 }
 
-const getKitten = (birthdate, name, sex, id) => new KittenGrowth(birthdate, name, sex, id);
+const getKitten = (name, sex, birthdate, id) => new KittenGrowth(birthdate, name, sex, id);
 
 // console.log(reduceData("09/01/2021"));
 export default getKitten;

@@ -1,7 +1,7 @@
 import { kittens as Kitten } from "./models/index.js";
 import { getKitten, sanitize } from "./_helpers/index.js";
 
-const getData = (data) => data.map((k) => getKitten(k.birthdate, k.name, k.sex, k.id));
+const getData = (data) => data.map((k) => getKitten(k.name, k.sex, k.birthdate, k.id));
 
 const errorHandler = (err, req, res, next) => {
   if (res.headersSent) {
@@ -21,11 +21,11 @@ export const create = async (req, res) => {
   const { name, sex, birthdate } = req.body;
   const kitten = new Kitten({ name, sex, birthdate });
   // Save Kitten in the database
-  const result = await kitten.save(kitten);
   try {
-    console.log(result);
-    const kittenData = getKitten(birthdate, name, sex, kitten.id);
-    res.send({ ...kittenData, message: `${name} was created successfully!` });
+    await kitten.save(kitten).then(() => {
+      const kittenData = getKitten(name, sex, birthdate, kitten.id);
+      res.send({ ...kittenData, message: `${name} was created successfully!` });
+    });
   } catch (err) {
     errorHandler(err, req, res);
   }

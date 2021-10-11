@@ -4,9 +4,8 @@ const Kitten = kittens;
 
 const sanitize = (data) => {
   try {
-    if (new Kitten(data)) return data;
-    console.error("Data doesn't match schema");
-    return null;
+    const kitten = new Kitten(data);
+    return kitten ? { ...kitten } : null;
   } catch (err) {
     console.error(err);
     return err;
