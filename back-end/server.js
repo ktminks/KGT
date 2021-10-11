@@ -12,6 +12,7 @@ app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(cors());
 routes(app);
+// app.use(stat("dist"));
 
 if (mode === "PRODUCTION") {
   const privkey = "/etc/letsencrypt/live/kgt.ktminks.com/privkey.pem";
@@ -26,7 +27,7 @@ if (mode === "PRODUCTION") {
   const msg = "HTTPS listening on https://kgt.ktminks.com:8443";
 
   // not sure if I need this next line
-  app.use(stat("public"));
+  app.use(stat("front-end"));
   const httpsServer = https.createServer(credentials, app);
   httpsServer.listen("8443", () => console.log(msg));
 }
