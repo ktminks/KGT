@@ -79,15 +79,18 @@ export const findByName = async (name, res) => {
 // Update a Kitten by the id in the request
 export const update = async (req, res) => {
   if (!req.body) return res.status(400).send({ message: "Data to update can not be empty!" });
-
-  const body = await sanitize(req.body);
-  const { id } = body;
+  const {
+    name, sex, birthdate, id,
+  } = req.body;
+  const body = await sanitize({
+    name, sex, birthdate, id,
+  });
 
   try {
-    await Kitten.findByIdAndUpdate(id, body, { useFindAndModify: false })
+    await Kitten.findByIdAndUpdate(body.id, body, { useFindAndModify: false })
       .then((data) => res.send({ message: `${data.name} was updated successfully!` }));
   } catch (err) {
-    res.status(404).send({ message: `Cannot update Kitten with id=${id}. Maybe Kitten was not found!` });
+    res.status(404).send({ message: `Cannot update Kitten with id=${body.id}. Maybe Kitten was not found!` });
   }
   return "Something went terribly wrong while updating";
 };

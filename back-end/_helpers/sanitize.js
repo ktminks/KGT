@@ -14,7 +14,7 @@ const sanitize = async (data) => {
       birthdate,
     };
     const kitten = new Kitten(details);
-    return kitten ? { ...details, id } : null;
+    return kitten && id.length <= 24 ? { ...details, id } : null;
   } catch (err) {
     console.error(err);
     return err;
