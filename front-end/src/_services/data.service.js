@@ -2,19 +2,21 @@
 import http from "front-end";
 
 class KittenDataService {
-  getAll = () => http.get("/kittens");
+  getAll = () => http.get("/");
 
-  get = (id) => http.get(`/kittens/${id}`);
+  getAdd = () => http.get("/kittens/add");
 
-  view = (id) => http.get(`/kittens?id=${id}`);
+  // get = (id) => http.get(`/*/id=${id}`);
 
-  create = (data) => http.post("/kittens", data);
+  view = (id) => http.get(`/id=${id}`);
+
+  create = (data) => http.post("/kittens/add", data);
 
   update = (id, data) => http.put(`/kittens/edit/${id}`, data);
 
   delete = (id) => http.delete(`/kittens/delete/${id}`);
 
-  findByName = (name) => http.get(`/kittens?name=${name}`);
+  findByName = (name) => http.get(`/search/name=${name}`);
 }
 
 export default new KittenDataService();

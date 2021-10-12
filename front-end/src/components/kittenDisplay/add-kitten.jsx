@@ -60,7 +60,8 @@ const AddKitten = ({ kittens, onRefresh }) => {
         console.log(res.data.message);
         kittens.push(newKitten);
         onRefresh();
-        history.push(`/kittens/id=${newKitten.id}`);
+        // history.push(`/kittens/id=${newKitten.id}`);
+        history.goBack();
       });
     } catch (err) {
       console.log(err);

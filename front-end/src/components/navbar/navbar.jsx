@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SearchKittens from "./search";
 
-const Navbar = ({ searchName }) => (
+const Navbar = ({ searchName, reset }) => (
   <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
     <div className="container-fluid">
       <Link to="/" className="navbar-brand ms-2">
@@ -33,7 +33,7 @@ const Navbar = ({ searchName }) => (
             </Link>
           </li>
         </ul>
-        <SearchKittens searchName={searchName} />
+        <SearchKittens searchName={searchName} reset={reset} />
       </div>
     </div>
   </nav>

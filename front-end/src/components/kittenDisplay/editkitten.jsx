@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import KittenDataService from "../../_services/data.service";
 
 const EditKitten = ({
@@ -19,7 +19,8 @@ const EditKitten = ({
           console.log(res.data.message);
           kittens.splice(currentIndex, 1, newKitten);
           onRefresh(currentIndex);
-          history.push(`/kittens/id=${id}`);
+          // history.push(`/kittens/id=${id}`);
+          history.goBack();
         });
     } catch (err) {
       console.log(err);
@@ -64,9 +65,12 @@ const EditKitten = ({
         </div>
 
         <div className="d-flex justify-content-evenly mt-2">
-          <Link to={`/kittens?id=${id}`} className="btn btn-secondary w-50">
-            Back
-          </Link>
+          <input
+            type="button"
+            className="btn btn-secondary w-50"
+            onClick={() => history.goBack()}
+            value="Back"
+          />
 
           <input
             type="submit"

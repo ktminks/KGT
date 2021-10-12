@@ -48,36 +48,71 @@ class App extends Component {
     this.retrieveKittens();
   };
 
-  retrieveKittens = () => {
+  retrieveKittens = () => (
     KittenDataService.getAll()
       .then((res) => {
         this.setState({
           kittens: res.data,
-          currentKitten: res.data[0],
         });
+        // if (currentKitten.id) {
+        //   this.setState({
+        //     kittens: res.data,
+        //   });
+        // } else {
+        //   this.setState({
+        //     kittens: res.data,
+        //     currentKitten: res.data[0],
+        //     currentIndex: 0,
+        //   });
+        // }
         return res.data;
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e)));
+
+  getIndex = (kitten) => {
+    const { kittens } = this.state;
+    return kittens.findIndex((k) => k.id === kitten.id);
   };
 
-  setActiveKitten = (kitten, index) => {
+  setActiveKitten = (kitten) => {
+    const index = this.getIndex(kitten);
     this.setState({
       currentKitten: kitten,
       currentIndex: index,
     });
   };
 
-  searchName = (e, searchTerm) => {
-    e.preventDefault();
-    KittenDataService.findByName(searchTerm)
-      .then((response) => {
-        this.setState({
-          kittens: response.data,
+  searchName = (searchTerm) => {
+    let kittens;
+    try {
+      KittenDataService.findByName(searchTerm)
+        .then((res) => {
+          if (!res.data.message) {
+            KittenDataService.getAll()
+              .then((all) => {
+                kittens = all.data.filter((e) => e.id === res.data);
+                this.setState({
+                  kittens,
+                  currentKitten: kittens[0],
+                  currentIndex: 0,
+                });
+              });
+          } else {
+            console.log(res.data.message);
+          }
         });
-        this.setActiveKitten(response.data[0]);
-        console.log(response.data);
-      })
-      .catch((err) => console.log(err));
+    } catch (e) {
+      console.err(e);
+    }
+  };
+
+  reset = (e) => {
+    e.preventDefault();
+    const { currentKitten } = this.state;
+    this.retrieveKittens()
+      .then(() => {
+        this.setActiveKitten(currentKitten);
+      });
   };
 
   render() {
@@ -85,7 +120,10 @@ class App extends Component {
 
     return (
       <Router>
-        <Navbar searchName={this.searchName} />
+        <Navbar
+          searchName={this.searchName}
+          reset={this.reset}
+        />
         <div className="container mt-3 w-100">
           <Switch>
             <Route path="/growth">

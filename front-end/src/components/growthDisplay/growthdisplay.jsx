@@ -1,20 +1,19 @@
 import React from "react";
 import {
-  Switch, Route, useHistory, BrowserRouter,
+  Switch, Route, BrowserRouter,
 } from "react-router-dom";
 import { get } from "../../_utilities";
+import KittenDataService from "../../_services/data.service";
 
 const { CurrentKittenDev } = require("..");
 
 const GrowthDisplay = ({
   kittens, currentIndex, currentKitten, setActiveKitten,
 }) => {
-  const history = useHistory();
-
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
     // console.log(kitten);
-    history.push(`/growth?id=${kitten.id}`);
+    KittenDataService.view(kitten.id);
   };
 
   return (
