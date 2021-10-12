@@ -1,12 +1,13 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const path = require("path");
+const path = require("path");
 
 module.exports = {
   entry: ["./src/index.jsx"],
   mode: "development",
   output: {
     filename: "kgt.bundle.js",
-    path: `${__dirname}/dist`,
+    path: path.resolve("dist"),
+    publicPath: "http://localhost:4001/",
   },
   resolve: {
     extensions: [".js", ".jsx", ".json"],
@@ -32,6 +33,8 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     port: process.env.PORT ? Number(process.env.PORT) + 1 || 80 : 4001,
+    hot: true,
+    // static: "./dist",
   },
   externals: {
     // global app config object

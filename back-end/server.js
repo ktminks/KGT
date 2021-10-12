@@ -12,7 +12,6 @@ app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(cors());
 routes(app);
-// app.use(stat("dist"));
 
 if (mode === "PRODUCTION") {
   const privkey = "/etc/letsencrypt/live/kgt.ktminks.com/privkey.pem";

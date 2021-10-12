@@ -1,20 +1,25 @@
 import React from "react";
 import {
-  Switch, Route, Link, useHistory, BrowserRouter,
+  Switch, Route, Link, BrowserRouter,
+  // useHistory,
 } from "react-router-dom";
 import { get } from "../../_utilities";
+import KittenDataService from "../../_services/data.service";
 
 const { CurrentKitten, AddKitten, EditKitten } = require("..");
 
 const KittenDisplay = ({
   kittens, currentIndex, currentKitten, setActiveKitten,
 }) => {
-  const history = useHistory();
+  // const history = useHistory();
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
     // console.log(kitten);
-    history.push(`/kittens?id=${kitten.id}`);
+    // history.push(`/kittens/id=${kitten.id}`);
+    KittenDataService.view(kitten.id);
   };
+
+  // console.log(currentKitten);
 
   const handleRefresh = (index = kittens.length - 1) => handleSetActive(kittens[index], index);
 

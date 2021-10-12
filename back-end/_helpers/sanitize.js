@@ -1,11 +1,20 @@
+/* eslint-disable dot-notation */
 import { kittens } from "../models/index.js";
 
 const Kitten = kittens;
 
-const sanitize = (data) => {
+const sanitize = async (data) => {
   try {
-    const kitten = new Kitten(data);
-    return kitten ? { ...kitten.delete("_id") } : null;
+    const {
+      name, sex, birthdate, id,
+    } = data;
+    const details = {
+      name: name.toLowerCase(),
+      sex: sex.toLowerCase(),
+      birthdate,
+    };
+    const kitten = new Kitten(details);
+    return kitten ? { ...details, id } : null;
   } catch (err) {
     console.error(err);
     return err;

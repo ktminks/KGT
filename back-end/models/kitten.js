@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 
 const kittenSchema = new Schema(
   {
-    name: { type: String, default: "Kitten" },
-    sex: { type: String, default: "N/A" },
+    name: { type: String, default: "kitten" },
+    sex: { type: String, default: "n/a" },
     birthdate: { type: Date, default: Date.now },
   },
   { timestamps: true },
