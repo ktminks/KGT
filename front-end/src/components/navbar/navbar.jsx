@@ -1,5 +1,6 @@
 import React from "react";
-// import { Navbar as nav } from "bootstrap";
+// eslint-disable-next-line no-unused-vars
+import { Navbar as nav } from "bootstrap";
 import { Link } from "react-router-dom";
 import SearchKittens from "./search";
 

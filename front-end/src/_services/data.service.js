@@ -6,8 +6,6 @@ class KittenDataService {
 
   getAdd = () => http.get("/kittens/add");
 
-  // get = (id) => http.get(`/*/id=${id}`);
-
   view = (id) => http.get(`/id=${id}`);
 
   create = (data) => http.post("/kittens/add", data);
