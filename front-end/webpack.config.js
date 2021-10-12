@@ -1,13 +1,15 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
+const PUBLIC_PATH = process.env.NODE_ENV === "development" ? "http://localhost:4001" : "https://kgt.ktminks.com";
+
 module.exports = {
   entry: ["./src/index.jsx"],
   mode: "development",
   output: {
     filename: "kgt.bundle.js",
     path: path.resolve("dist"),
-    publicPath: "https://kgt.ktminks.com",
+    publicPath: PUBLIC_PATH,
   },
   resolve: {
     extensions: [".js", ".jsx", ".json"],
@@ -34,7 +36,6 @@ module.exports = {
     historyApiFallback: true,
     port: process.env.PORT ? Number(process.env.PORT) + 1 || 80 : 4001,
     hot: true,
-    // static: "./dist",
   },
   externals: {
     // global app config object
