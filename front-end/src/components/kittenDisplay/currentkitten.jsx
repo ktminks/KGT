@@ -28,8 +28,8 @@ const CurrentKitten = ({
   // --------- Finally, render -------------
   const buttons = true;
   return (
-    <div>
-      {currentKitten.id ? (
+    <div data-testid="current-kitten">
+      {currentKitten && currentKitten.id ? (
         <div className="d-flex flex-column">
           {/* ------- Header : Kitten name & basic details ------- */}
           <Header

@@ -25,11 +25,14 @@ const KittenDisplay = ({
 
   return (
     <BrowserRouter>
-      <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
+      <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row" data-testid="kitten-display">
         <div className="w-100">
           <Switch>
             <Route path="/kittens/add">
-              <AddKitten kittens={kittens} onRefresh={handleRefresh} />
+              <AddKitten
+                kittens={kittens}
+                onRefresh={handleRefresh}
+              />
             </Route>
             <Route exact path="/kittens/edit/:id">
               <EditKitten
@@ -39,7 +42,8 @@ const KittenDisplay = ({
                 onRefresh={handleRefresh}
               />
             </Route>
-            <Route path="/:id">
+            {/* <Route path="/:id"> */}
+            <Route>
               <CurrentKitten
                 currentKitten={currentKitten}
                 currentIndex={currentIndex}
@@ -51,11 +55,11 @@ const KittenDisplay = ({
         </div>
 
         <div>
-          <ul className="list-group sticky-top m-2">
+          <ul className="list-group sticky-top m-2" data-testid="kittens-list">
             <Link
               to="/kittens/add"
               className="btn btn-danger w-100"
-              data-testid="add-button"
+              data-testid="open-add-screen"
             >
               +
             </Link>

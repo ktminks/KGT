@@ -23,12 +23,14 @@ const SearchKittens = ({ searchName, reset }) => {
           className="btn btn-outline-secondary"
           type="submit"
           value="Search"
+          data-testid="search-button"
         />
         <input
           className="btn btn-outline-secondary"
           type="button"
           value="Reset"
           onClick={(e) => reset(e)}
+          data-testid="reset-button"
         />
       </div>
     </form>

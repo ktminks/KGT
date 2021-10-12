@@ -69,7 +69,10 @@ const AddKitten = ({ kittens, onRefresh }) => {
   };
 
   return (
-    <div className="me-2">
+    <div
+      className="me-2"
+      data-testid="add-kitten-page"
+    >
       <h4 className="text-center">Add a new kitten!</h4>
 
       <form onSubmit={saveKitten}>
@@ -162,7 +165,12 @@ const AddKitten = ({ kittens, onRefresh }) => {
             onClick={(e) => estimateAge(e)}
             className={ageCalcClass}
           />
-          <input type="submit" className={saveButtonClass} value="Save kitten" />
+          <input
+            type="submit"
+            className={saveButtonClass}
+            value="Save kitten"
+            data-testid="save-kitten-button"
+          />
         </div>
       </form>
     </div>
