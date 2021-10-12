@@ -7,7 +7,7 @@ module.exports = {
   output: {
     filename: "kgt.bundle.js",
     path: path.resolve("dist"),
-    publicPath: "https://kgt.ktminks.com",
+    publicPath: "http://localhost:4001/",
   },
   resolve: {
     extensions: [".js", ".jsx", ".json"],

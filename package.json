@@ -28,5 +28,8 @@
     "rebuild-client": "cd front-end && npm run build && cd ..",
     "server": "cd back-end && npm run start:dev",
     "client": "cd front-end && npm run start"
+  },
+  "dependencies": {
+    "pm2": "^5.1.2"
   }
 }
