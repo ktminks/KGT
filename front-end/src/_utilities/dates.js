@@ -22,5 +22,12 @@ export const getDate = (date) => {
   const mm = String(newDate.getMonth() + 1).padStart(2, "0"); // January is 0!
   const yy = newDate.getFullYear();
   newDate = `${mm}/${dd}/${yy}`;
+  console.log(newDate);
   return newDate;
+};
+
+export const getAge = (birthdate) => {
+  const today = new Date();
+  const dob = new Date(birthdate);
+  return Math.ceil((today - dob) / (1000 * 60 * 60 * 24));
 };

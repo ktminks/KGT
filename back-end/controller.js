@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { kittens as Kitten } from "./models/index.js";
-import { getKitten, sanitize } from "./_helpers/index.js";
-
-const getData = (data) => data.map((k) => getKitten(k.name, k.sex, k.birthdate, k.id));
+import { sanitize } from "./_helpers/index.js";
 
 const errorHandler = (err, req, res, next) => {
   if (res.headersSent) {
@@ -19,17 +17,18 @@ const errorHandler = (err, req, res, next) => {
 // Create and Save a new Kitten
 export const create = async (req, res) => {
   // Create kitten
-  let { name, sex, birthdate } = req.body;
+  let { name, sex } = req.body;
+  const { birthdate } = req.body;
   name = name.toLowerCase();
   sex = sex.toLowerCase();
 
   const kitten = new Kitten({ name, sex, birthdate });
+  console.log(kitten);
   // Save Kitten in the database
   try {
     kitten.save(kitten)
       .then(() => {
-        const kittenData = getKitten(name, sex, birthdate, kitten.id);
-        res.send({ ...kittenData, message: `${name} was created successfully!` });
+        res.send({ message: `${name} was created successfully!` });
       });
   } catch (err) {
     errorHandler(err, req, res);
@@ -37,13 +36,22 @@ export const create = async (req, res) => {
 };
 
 // Retrieve all Kittens from the database.
-export const findAll = async (req, res) => {
-  const { name } = req.query;
-  const regex = new RegExp(`${name}`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
+export const findAll = async (req, res, next) => {
+  // const { name } = req.query;
+  // const regex = new RegExp(`${name}`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  // const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
 
-  Kitten.find(condition)
-    .then((data) => res.send(getData(data)))
+  Kitten.find({})
+    .then((data) => {
+      const dataAdjusted = data.map((k) => {
+        const { name, sex, birthdate } = k;
+        return {
+          id: k._id, name, sex, birthdate,
+        };
+      });
+      req.kittens = dataAdjusted;
+      next();
+    })
     .catch(() => res.status(500).send({
       message: "Some error occurred while retrieving kittens.",
     }));
@@ -68,8 +76,14 @@ export const findByName = async (name, res) => {
   try {
     Kitten.find({ name })
       .then((data) => {
-        if (data[0]) res.send(data[0]._id);
-        else res.send({ message: `No kitten found with name ${name}` });
+        if (data[0]) {
+          const {
+            sex, birthdate, _id: id,
+          } = data[0];
+          res.send({
+            name, sex, birthdate, id,
+          });
+        } else res.send({ message: `No kitten found with name ${name}` });
       });
   } catch (err) {
     res.status(404).send({ message: `No kitten found with name ${name}` });
@@ -108,35 +122,5 @@ const destroy = async (req, res) => {
     res.status(500).send({ message: `Could not delete Kitten with id=${id}` });
   }
 };
+
 export { destroy as delete };
-
-// ALTER THESE FUNCTIONS VVV
-
-// Delete all Kittens from the database.
-// exports.deleteAll = (req, res) => {
-//   Kitten.deleteMany({})
-//     .then((data) => {
-//       res.send({
-//         message: `${data.deletedCount} Kittens were deleted successfully!`,
-//       });
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while removing all kittens.",
-//       });
-//     });
-// };
-
-// Find all published Kittens
-// exports.findAllPublished = (req, res) => {
-//   Kitten.find({ published: true })
-//     .then((data) => {
-//       res.send(data);
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: err.message || "Some error occurred while retrieving kittens.",
-//       });
-//     });
-// };

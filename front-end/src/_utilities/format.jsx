@@ -4,16 +4,13 @@ import { isSoon } from "./dates";
 
 const React = require("react");
 
-let name; let age;
-let milestones; let food; let concerns; let weight;
+let currentKitten;
 const listItemClass = "list-group-item list-group-item-light";
 const listHeaderClass = `h6 text-muted text-center ${listItemClass}`;
 
 // ------------ Utilities --------------
 const initKitten = (kitten) => {
-  ({
-    name, age, milestones, food, concerns, weight,
-  } = kitten);
+  currentKitten = kitten;
 };
 
 const noresult = (title, key = 0) => <li className={listItemClass} key={`${title}${key}-nil`}>No data!</li>;
@@ -29,6 +26,7 @@ const getList = (list, title) => {
 
 // -------------------- Fetch single format -------------------- //
 const getFoodDetails = (i) => {
+  const { age, name, food } = currentKitten;
   const {
     foodtype: type, capacity: cap, frequency: freq, weaning,
   } = food;
@@ -46,16 +44,19 @@ const getFoodDetails = (i) => {
 };
 
 const getConcerns = (entry, i) => {
+  const { age, name, concerns } = currentKitten;
   const date = concerns.length ? isSoon(entry.age, age) : [];
   return date ? getListItem(format.concerns(entry, date, name), "concerns", i) : [];
 };
 
 const getWeight = (entry, i) => {
+  const { age, name } = currentKitten;
   const date = isSoon(entry.age, age);
   return date ? getListItem(format.weight(entry, date, name), "weight", i) : [];
 };
 
 const getMilestones = (i, title) => {
+  const { age, name, milestones } = currentKitten;
   const entry = milestones[title][i];
   const date = isSoon(entry.age, age);
   return date ? getListItem(format[title](entry, date, name), title, `0${i}`) : [];
@@ -64,12 +65,14 @@ const getMilestones = (i, title) => {
 // ------------------ Get all data formatted  ------------------- //
 
 const getGrowth = (category, title) => (
-  getList(milestones[category].flatMap((e, i) => getMilestones(i, title)), title) || null
+  getList(currentKitten.milestones[category].flatMap((e, i) => (
+    getMilestones(i, title)), title) || null)
 );
 
 // ------ Route export functions to format functions ---- //
 
 const printItem = (category, index) => {
+  const { concerns, weight, food } = currentKitten;
   const development = ["ears", "eyes", "teeth", "mobility"];
   const needs = ["temperature", "litterTraining", "socialization", "veterinary"];
   const router = {
@@ -99,7 +102,7 @@ const printItem = (category, index) => {
 // -------------- final return before export --------------- //
 
 const getDetail = (category, index = 0) => {
-  let result = printItem(category, index) || noresult(category, index);
+  let result = currentKitten[category] ? printItem(category, index) : noresult(category, index);
   const key = `${category}${index}`;
   result = (
     <li key={key} data-testid={category} className={listItemClass}>

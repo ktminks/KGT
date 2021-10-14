@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getDate } from "../_utilities";
+import { getDate, getAge } from "../_utilities";
 import { header } from "../_utilities/classes";
 
 const Header = ({ currentKitten, deleteKitten, buttons }) => {
   const {
-    name, sex, birthdate, age, id,
+    name, sex, birthdate, id,
   } = currentKitten;
+  const age = getAge(birthdate);
+  console.log(currentKitten);
 
   return (
     <div className="card m-2">

@@ -51,20 +51,11 @@ class App extends Component {
   retrieveKittens = () => (
     KittenDataService.getAll()
       .then((res) => {
+        if (res.data.message) return res.data.message;
+
         this.setState({
           kittens: res.data,
         });
-        // if (currentKitten.id) {
-        //   this.setState({
-        //     kittens: res.data,
-        //   });
-        // } else {
-        //   this.setState({
-        //     kittens: res.data,
-        //     currentKitten: res.data[0],
-        //     currentIndex: 0,
-        //   });
-        // }
         return res.data;
       })
       .catch((e) => console.log(e)));
@@ -90,7 +81,7 @@ class App extends Component {
           if (!res.data.message) {
             KittenDataService.getAll()
               .then((all) => {
-                kittens = all.data.filter((e) => e.id === res.data);
+                kittens = all.data.filter((e) => e.id === res.data.id);
                 this.setState({
                   kittens,
                   currentKitten: kittens[0],

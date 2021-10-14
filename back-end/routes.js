@@ -1,12 +1,13 @@
 import * as express from "express";
 import * as kittens from "./controller.js";
+import { getKittenData } from "../domain/interfaces/index.js";
 
 export default function routes(app) {
   const router = express.Router();
 
   // ------------------ All pages ------------------------
   // Retrieve all Kittens
-  router.get("/", kittens.findAll);
+  router.get("/", kittens.findAll, getKittenData);
 
   const getByParams = (req, res) => {
     const { ...p } = req.params;
