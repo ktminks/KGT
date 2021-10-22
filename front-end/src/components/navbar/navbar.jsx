@@ -33,6 +33,24 @@ const Navbar = ({ searchName, reset }) => (
               Growth
             </Link>
           </li>
+
+          <li className="nav-item">
+            <div
+              id="g_id_onload"
+              data-client_id="843196960554-8lss663jtiigovh3tkqse44eqohvvf5g.apps.googleusercontent.com"
+              data-login_uri="http://localhost:4000/auth/googleLogin"
+              data-auto_prompt="false"
+            />
+            <div
+              className="g_id_signin"
+              data-type="standard"
+              data-size="large"
+              data-theme="outline"
+              data-text="sign_in_with"
+              data-shape="rectangular"
+              data-logo_alignment="left"
+            />
+          </li>
         </ul>
         <SearchKittens searchName={searchName} reset={reset} />
       </div>

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Kitten from "../_helpers/db.js";
+import { Kitten, User } from "../_helpers/db.js";
 
 mongoose.Promise = global.Promise;
 
@@ -7,7 +7,8 @@ const db = {};
 db.mongoose = mongoose;
 db.url = process.env.MONGODB_URI;
 db.kittens = Kitten;
+db.users = User;
 
-const { kittens } = db;
+const { kittens, users } = db;
 
-export { db, kittens };
+export { db, kittens, users };
