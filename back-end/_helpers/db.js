@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Kitten from "../models/kitten.js";
+import User from "../models/user.js";
 
 const { connect } = mongoose;
 
@@ -18,4 +19,4 @@ connect(process.env.MONGODB_URI, connectionOptions)
 
 mongoose.Promise = global.Promise;
 
-export default Kitten;
+export { Kitten, User };
