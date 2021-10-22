@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { kittens as Kitten } from "./models/index.js";
-import { getKitten, sanitize } from "./_helpers/index.js";
+import { kittens as Kitten } from "../models/index.js";
+import { getKitten, sanitize } from "../_helpers/index.js";
 
 const getData = (data) => data.map((k) => getKitten(k.name, k.sex, k.birthdate, k.id));
 
