@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./public/App.css";
 
 import {
-  Navbar, KittenDisplay, GrowthDisplay, Dashboard,
+  Navbar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage,
 } from "./components";
 import KittenDataService from "./_services/data.service";
 
@@ -141,6 +141,9 @@ class App extends Component {
                 currentKitten={currentKitten}
                 setActiveKitten={this.setActiveKitten}
               />
+            </Route>
+            <Route path="/login">
+              <LoginPage />
             </Route>
             <Route path="/*">
               <Dashboard />

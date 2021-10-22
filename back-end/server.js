@@ -1,11 +1,10 @@
 import express, { urlencoded, json, static as stat } from "express";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import https from "https";
 import fs from "fs";
-import passport from "passport";
 import { MODE, PORT } from "./config.js";
 import routes from "./routes.js";
-import * as authenticate from "./_helpers/auth.js";
 
 const mode = process.env.MODE ? process.env.MODE : MODE || "DEVELOPMENT";
 const app = express();
@@ -13,8 +12,7 @@ const app = express();
 app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(cors());
-app.use(passport.initialize());
-authenticate.Google();
+app.use(cookieParser());
 routes(app);
 
 if (mode === "PRODUCTION") {

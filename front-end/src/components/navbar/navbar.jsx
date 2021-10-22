@@ -4,58 +4,48 @@ import { Navbar as nav } from "bootstrap";
 import { Link } from "react-router-dom";
 import SearchKittens from "./search";
 
-const Navbar = ({ searchName, reset }) => (
-  <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-    <div className="container-fluid">
-      <Link to="/" className="navbar-brand ms-2">
-        myClowder
-      </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-          <li className="nav-item">
-            <Link to="/kittens" className="nav-link">
-              Kittens
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/growth" className="nav-link">
-              Growth
-            </Link>
-          </li>
-
-          <li className="nav-item">
-            <div
-              id="g_id_onload"
-              data-client_id="843196960554-8lss663jtiigovh3tkqse44eqohvvf5g.apps.googleusercontent.com"
-              data-login_uri="http://localhost:4000/auth/googleLogin"
-              data-auto_prompt="false"
-            />
-            <div
-              className="g_id_signin"
-              data-type="standard"
-              data-size="large"
-              data-theme="outline"
-              data-text="sign_in_with"
-              data-shape="rectangular"
-              data-logo_alignment="left"
-            />
-          </li>
-        </ul>
-        <SearchKittens searchName={searchName} reset={reset} />
+const Navbar = ({ searchName, reset }) => {
+  const loggedIn = false;
+  return (
+    <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div className="container-fluid">
+        <Link to="/" className="navbar-brand ms-2">
+          myClowder
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link to="/kittens" className="nav-link">
+                Kittens
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/growth" className="nav-link">
+                Growth
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/login" className="nav-link">
+                {loggedIn ? "Logout" : "Login"}
+              </Link>
+            </li>
+          </ul>
+          <SearchKittens searchName={searchName} reset={reset} />
+        </div>
       </div>
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
 
 export default Navbar;
