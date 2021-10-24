@@ -9,6 +9,7 @@ import CurrentKittenDev from "./growthDisplay/currentkittendev";
 import GrowthDisplay from "./growthDisplay/growthdisplay";
 import Dashboard from "./dashboard";
 import LoginPage from "./login";
+import RegisterPage from "./register";
 
 export {
   AddKitten,
@@ -22,4 +23,5 @@ export {
   GrowthDisplay,
   Dashboard,
   LoginPage,
+  RegisterPage,
 };

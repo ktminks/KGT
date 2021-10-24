@@ -9,6 +9,7 @@ import {
   Navbar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage,
 } from "./components";
 import KittenDataService from "./_services/data.service";
+import RegisterPage from "./components/register";
 
 class App extends Component {
   constructor(props) {
@@ -144,6 +145,9 @@ class App extends Component {
             </Route>
             <Route path="/login">
               <LoginPage />
+            </Route>
+            <Route path="/register">
+              <RegisterPage />
             </Route>
             <Route path="/*">
               <Dashboard />

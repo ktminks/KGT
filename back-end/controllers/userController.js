@@ -23,42 +23,35 @@ const verifyTokens = async (req) => {
   return !!req.user;
 };
 
-const getUserIfItExists = async (req, res, next) => {
-  const { id } = req.user;
-  console.log(req.user);
-  try {
-    User.find({ id })
-      .then((data) => {
-        if (data.length) return data[0];
-        return false;
-      });
-  } catch (err) {
-    errorHandler(err, req, res, next);
-  }
-  return false;
+const getUserIfItExists = async (gid) => {
+  const user = await User.findOne({ gid }).exec();
+  console.log(user);
+  return user || false;
 };
 
-// const createUser = async (user) => {
-//   try {
-//     await User.save({ ...user });
-//   } catch (err) {
-//     throw err;
-//   }
-// };
+const createUser = async (data) => {
+  const user = new User(data);
+  return user.save(user);
+};
 
 const googleLogin = async (req, res, next) => {
-  await verifyTokens(req);
-  if (req.user) {
-    let { user } = req;
-    const exists = await getUserIfItExists(req, res, next);
-    if (!exists) {
-      try {
-        user = new User(user);
-        await user.save(user);
-      } catch (err) {
-        errorHandler(err, req, res, next);
+  try {
+    await verifyTokens(req);
+
+    if (req.user) {
+      const { gid } = req.user;
+      const exists = await getUserIfItExists(gid);
+      // console.log(exists);
+
+      if (exists) res.locals.message = "You are already signed up.";
+      else {
+        const saved = await createUser(req.user);
+        if (saved) res.locals.message = "You are now signed up.";
+        else res.locals.message = "Something went wrong.";
       }
     }
+  } catch (err) {
+    errorHandler(err, req, res, next);
   }
   next();
 };

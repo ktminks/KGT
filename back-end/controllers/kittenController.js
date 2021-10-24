@@ -19,18 +19,19 @@ const errorHandler = (err, req, res, next) => {
 // Create and Save a new Kitten
 export const create = async (req, res) => {
   // Create kitten
-  let { name, sex, birthdate } = req.body;
+  const { birthdate } = req.body;
+  let { name, sex } = req.body;
   name = name.toLowerCase();
   sex = sex.toLowerCase();
 
   const kitten = new Kitten({ name, sex, birthdate });
   // Save Kitten in the database
   try {
-    kitten.save(kitten)
-      .then(() => {
-        const kittenData = getKitten(name, sex, birthdate, kitten.id);
-        res.send({ ...kittenData, message: `${name} was created successfully!` });
-      });
+    const saved = kitten.save(kitten);
+    if (saved) {
+      const kittenData = getKitten(name, sex, birthdate, kitten.id);
+      res.send({ ...kittenData, message: `${name} was created successfully!` });
+    }
   } catch (err) {
     errorHandler(err, req, res);
   }
@@ -52,11 +53,11 @@ export const findAll = async (req, res) => {
 // Find a single Kitten with an id
 export const findOne = async (id, res) => {
   try {
-    Kitten.findById(id)
-      .then((data) => {
-        if (data[0]) res.send(data[0]._id);
-        else res.send({ message: `No kitten found with id ${id}` });
-      });
+    const found = Kitten.findById(id);
+    if (found) {
+      if (found[0]) res.send(found[0]._id);
+      else res.send({ message: `No kitten found with id ${id}` });
+    }
   } catch (err) {
     res.status(500).send({
       message: `Error retrieving Kitten with id=${id}`,

@@ -11,8 +11,8 @@ export default async function verify(token) {
     // [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
   });
   const payload = ticket.getPayload();
-  const { sub: id, email, given_name: name } = payload;
-  return { id, email, name };
+  const { sub: gid, email, given_name: name } = payload;
+  return { gid, email, name };
   // If request specified a G Suite domain:
   // const domain = payload['hd'];
 }

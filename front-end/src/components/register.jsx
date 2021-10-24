@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordType, setPasswordType] = useState("password");
@@ -74,13 +74,13 @@ const LoginPage = () => {
 
         <div className="w-100 d-flex flex-column justify-content-center text-center">
           <h4>or</h4>
-          <div data-testid="google-signin-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
+          <div data-testid="google-signup-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
             <div
               id="g_id_onload"
               data-client_id="843196960554-8lss663jtiigovh3tkqse44eqohvvf5g.apps.googleusercontent.com"
-              data-context="signin"
+              data-context="signup"
               data-ux_mode="popup"
-              data-login_uri="http://localhost:4000/auth/googleLogin"
+              data-login_uri="http://localhost:4000/auth/googleSignup"
               data-auto_prompt="false"
             />
 
@@ -89,7 +89,7 @@ const LoginPage = () => {
               data-type="standard"
               data-shape="pill"
               data-theme="filled_blue"
-              data-text="signin_with"
+              data-text="signup_with"
               data-size="large"
               data-logo_alignment="left"
             />
@@ -97,12 +97,17 @@ const LoginPage = () => {
         </div>
       </div>
       <div className="text-center">
-        <h6>No account yet?</h6>
-        <Link to="/register" className="btn btn-warning ms-2 w-50">Register</Link>
+        <h6>Already have an account?</h6>
+        <Link
+          to="/login"
+          className="btn btn-warning ms-2 w-50"
+        >
+          Login
+        </Link>
       </div>
 
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
