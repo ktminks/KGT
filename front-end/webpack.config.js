@@ -36,6 +36,26 @@ module.exports = {
     historyApiFallback: true,
     port: process.env.PORT ? Number(process.env.PORT) + 1 || 80 : 4001,
     hot: true,
+    open: true,
+    devMiddleware: { index: false },
+    // proxy: [
+    //   {
+    //     context: ["/forward", "/success", "#"],
+    //     cookieDomainRewrite: {
+    //       "http://localhost:4000": "http://localhost:4001",
+    //     },
+    //     forward: "http://localhost:4001/kittens",
+    //     // ws: true,
+    //     changeOrigin: true,
+    //     pathRewrite: { "^/api/forward": "" },
+    //   },
+    // ],
+    proxy: {
+      "/api": {
+        target: "http://localhost:4000",
+        changeOrigin: true,
+      },
+    },
   },
   externals: {
     // global app config object

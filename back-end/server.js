@@ -1,8 +1,9 @@
 import express, { urlencoded, json, static as stat } from "express";
-import cookieParser from "cookie-parser";
+import session from "express-session";
 import cors from "cors";
 import https from "https";
 import fs from "fs";
+import initPassport from "./auth/passport.js";
 import { MODE, PORT } from "./config.js";
 import routes from "./routes.js";
 
@@ -11,8 +12,17 @@ const app = express();
 
 app.use(urlencoded({ extended: true }));
 app.use(json());
+app.use(session({
+  secret: "secret",
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    httpOnly: false,
+  },
+  resave: true,
+  saveUninitialized: false,
+}));
+initPassport(app);
 app.use(cors());
-app.use(cookieParser());
 routes(app);
 
 if (mode === "PRODUCTION") {

@@ -1,18 +1,25 @@
 /* eslint-disable no-underscore-dangle */
 import { kittens as Kitten } from "../models/index.js";
 import { getKitten, sanitize } from "../_helpers/index.js";
+import { findUserById } from "./userController.js";
 
 const getData = (data) => data.map((k) => getKitten(k.name, k.sex, k.birthdate, k.id));
 
-const errorHandler = (err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
+const getUser = async (req) => {
+  if (req.session.passport) {
+    const { user } = req.session.passport;
+    const { id: gid } = user;
+    return findUserById(gid);
   }
+  return null;
+};
+
+const errorHandler = (err, req, res, next) => {
+  if (res.headersSent) return next(err);
+
   res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: err,
-  });
+  res.json({ message: err.message, ...err });
+
   return "Something went wrong with the error handler.";
 };
 
@@ -27,7 +34,7 @@ export const create = async (req, res) => {
   const kitten = new Kitten({ name, sex, birthdate });
   // Save Kitten in the database
   try {
-    const saved = kitten.save(kitten);
+    const saved = await kitten.save(kitten);
     if (saved) {
       const kittenData = getKitten(name, sex, birthdate, kitten.id);
       res.send({ ...kittenData, message: `${name} was created successfully!` });
@@ -39,47 +46,41 @@ export const create = async (req, res) => {
 
 // Retrieve all Kittens from the database.
 export const findAll = async (req, res) => {
+  // console.dir(req.session);
   const { name } = req.query;
+  // escape characters for security purposes
   const regex = new RegExp(`${name}`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
+  const user = await getUser(req);
+  if (user) console.log(user);
 
-  Kitten.find(condition)
-    .then((data) => res.send(getData(data)))
-    .catch(() => res.status(500).send({
-      message: "Some error occurred while retrieving kittens.",
-    }));
+  try {
+    const found = await Kitten.find(condition);
+    if (found) res.send(getData(found));
+  } catch (err) { errorHandler(err, req, res); }
 };
 
 // Find a single Kitten with an id
 export const findOne = async (id, res) => {
   try {
-    const found = Kitten.findById(id);
-    if (found) {
-      if (found[0]) res.send(found[0]._id);
-      else res.send({ message: `No kitten found with id ${id}` });
-    }
-  } catch (err) {
-    res.status(500).send({
-      message: `Error retrieving Kitten with id=${id}`,
-    });
-  }
+    const found = await Kitten.findById(id);
+    if (found && found[0]) res.send(found[0]._id);
+    else res.send({ message: `No kitten found with id ${id}` });
+  } catch (err) { errorHandler(err, id, res); }
 };
 
 export const findByName = async (name, res) => {
   try {
-    Kitten.find({ name })
-      .then((data) => {
-        if (data[0]) res.send(data[0]._id);
-        else res.send({ message: `No kitten found with name ${name}` });
-      });
-  } catch (err) {
-    res.status(404).send({ message: `No kitten found with name ${name}` });
-  }
+    const found = await Kitten.find({ name });
+    if (found) res.send(found[0]._id);
+    else res.send({ message: `No kitten found with name ${name}` });
+  } catch (err) { errorHandler(err, name, res); }
 };
 
 // Update a Kitten by the id in the request
 export const update = async (req, res) => {
-  if (!req.body) return res.status(400).send({ message: "Data to update can not be empty!" });
+  if (!req.body) return res.status(400).send({ message: "No data to update!" });
+
   const {
     name, sex, birthdate, id,
   } = req.body;
@@ -88,56 +89,22 @@ export const update = async (req, res) => {
   });
 
   try {
-    await Kitten.findByIdAndUpdate(body.id, body, { useFindAndModify: false })
-      .then((data) => res.send({ message: `${data.name} was updated successfully!` }));
-  } catch (err) {
-    res.status(404).send({ message: `Cannot update Kitten with id=${body.id}. Maybe Kitten was not found!` });
-  }
+    const found = await Kitten.findByIdAndUpdate(body.id, body, { useFindAndModify: false });
+    if (found) res.send({ message: `${found.name} was updated successfully!` });
+    else res.send({ message: `No kitten found with id ${body.id}` });
+  } catch (err) { errorHandler(err, req, res); }
+
   return "Something went terribly wrong while updating";
 };
 
 // Delete a Kitten with the specified id in the request
-// const _delete = async (req, res) => {
-const destroy = async (req, res) => {
+const remove = async (req, res) => {
   const { id } = req.params;
 
-  const data = await Kitten.findByIdAndRemove(id);
   try {
-    if (!data) res.status(404).send({ message: `Cannot delete Kitten with id=${id}. Maybe Kitten was not found!` });
-    res.send({ message: `${data.name} was deleted successfully!` });
-  } catch (err) {
-    res.status(500).send({ message: `Could not delete Kitten with id=${id}` });
-  }
+    const data = await Kitten.findByIdAndRemove(id);
+    if (data) res.send({ message: `${data.name} was deleted successfully!` });
+    else res.status(404).send({ message: `Could not find Kitten with id=${id} to delete.` });
+  } catch (err) { errorHandler(err, req, res); }
 };
-export { destroy as delete };
-
-// ALTER THESE FUNCTIONS VVV
-
-// Delete all Kittens from the database.
-// exports.deleteAll = (req, res) => {
-//   Kitten.deleteMany({})
-//     .then((data) => {
-//       res.send({
-//         message: `${data.deletedCount} Kittens were deleted successfully!`,
-//       });
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while removing all kittens.",
-//       });
-//     });
-// };
-
-// Find all published Kittens
-// exports.findAllPublished = (req, res) => {
-//   Kitten.find({ published: true })
-//     .then((data) => {
-//       res.send(data);
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message: err.message || "Some error occurred while retrieving kittens.",
-//       });
-//     });
-// };
+export { remove as delete };

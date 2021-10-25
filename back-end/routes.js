@@ -1,11 +1,30 @@
+import passport from "passport";
+// import { createProxyMiddleware } from "http-proxy-middleware";
 import * as express from "express";
 import * as kittens from "./controllers/kittenController.js";
-import googleLogin from "./controllers/userController.js";
+import { googleLogin } from "./controllers/userController.js";
 
 export default function routes(app) {
   const router = express.Router();
-  const auth = express.Router();
-
+  // const options = {
+  //   // context: ["/api/forward#", "/api/forward"],
+  //   cookieDomainRewrite: {
+  //     "http://localhost:4000": "http://localhost:4001",
+  //   },
+  //   target: "https://kgt.ktminks.com",
+  //   ws: true,
+  //   changeOrigin: true,
+  //   pathRewrite: {
+  //     "^/forward": "/",
+  //     "^/forward#": "/",
+  //   },
+  //   router: {
+  //     "localhost:4000": "http://localhost:4001",
+  //     "localhost:4000/forward": "http://localhost:4001",
+  //     "localhost:4000/forward#": "http://localhost:4001",
+  //   },
+  // };
+  // const proxy = createProxyMiddleware(options);
   // ------------------ Utilities ------------------------
   const getByParams = (req, res) => {
     const { ...p } = req.params;
@@ -13,8 +32,6 @@ export default function routes(app) {
     if (p.id) kittens.findOne(p.id, res);
     if (p.name) kittens.findByName(p.name, res);
   };
-
-  const redirectHome = (req, res) => res.redirect("http://localhost:4001/");
 
   // ------------------ API -----------------------------
   // Retrieve all Kittens
@@ -38,14 +55,24 @@ export default function routes(app) {
 
   // ------------------ Authentication router ------------
   // Login
-  auth.post("/googleLogin", googleLogin, redirectHome);
+  router.get("/auth/google/login",
+    passport.authenticate("google", { session: true, scope: ["profile", "email"] }));
+
+  router.get("/auth/google/logout",
+    (req) => req.logout(),
+    (req, res) => res.redirect("/"));
+
+  router.get("/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/login" }),
+    googleLogin,
+    (req, res) => res.redirect("/success"));
 
   // ------------------ Router definition  ---------------
+  // app.use("/forward", proxy);
   app.use("/api", router);
-  app.use("/auth", auth);
   // ------------------ Fallthrough ----------------------
 
   app.all("*", (req, res) => {
-    res.redirect(404, "/api");
+    res.redirect("/forward");
   });
 }

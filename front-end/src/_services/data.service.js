@@ -15,6 +15,8 @@ class KittenDataService {
   delete = (id) => http.delete(`/kittens/delete/${id}`);
 
   findByName = (name) => http.get(`/search/name=${name}`);
+
+  googleLogin = () => http.get("/auth/google");
 }
 
 export default new KittenDataService();

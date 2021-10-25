@@ -11,8 +11,8 @@ const userSchema = new Schema(
 );
 
 userSchema.method("toJSON", () => {
-  const { __v, _id, ...object } = this.toObject();
-  object.gid = _id;
+  const { _id, ...object } = this.toObject();
+  object.id = _id;
   return object;
 });
 

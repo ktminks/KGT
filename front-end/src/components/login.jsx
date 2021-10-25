@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+// import KittenDataService from "../_services/data.service";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -75,9 +76,10 @@ const LoginPage = () => {
         <div className="w-100 d-flex flex-column justify-content-center text-center">
           <h4>or</h4>
           <div data-testid="google-signin-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
-            <div
+            {/* <div
               id="g_id_onload"
-              data-client_id="843196960554-8lss663jtiigovh3tkqse44eqohvvf5g.apps.googleusercontent.com"
+              data-client_id=
+              "843196960554-8lss663jtiigovh3tkqse44eqohvvf5g.apps.googleusercontent.com"
               data-context="signin"
               data-ux_mode="popup"
               data-login_uri="http://localhost:4000/auth/googleLogin"
@@ -92,7 +94,15 @@ const LoginPage = () => {
               data-text="signin_with"
               data-size="large"
               data-logo_alignment="left"
-            />
+            /> */}
+            {/* <input
+              type="button"
+              className="btn btn-danger"
+              value="Login with Google"
+              onClick={() => { KittenDataService.googleLogin(); }}
+            /> */}
+            <a href="http://localhost:4000/api/auth/google/login" className="btn btn-primary">Login with Google</a>
+            <a href="http://localhost:4000/api/auth/google/logout" className="btn btn-danger">Logout with Google</a>
           </div>
         </div>
       </div>
