@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Kitten from "../models/kitten.js";
+import { Kitten } from "../models/kitten.js";
 import User from "../models/user.js";
 
 const { connect } = mongoose;

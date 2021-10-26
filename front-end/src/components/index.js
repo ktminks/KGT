@@ -8,8 +8,8 @@ import SearchKittens from "./navbar/search";
 import CurrentKittenDev from "./growthDisplay/currentkittendev";
 import GrowthDisplay from "./growthDisplay/growthdisplay";
 import Dashboard from "./dashboard";
-import LoginPage from "./login";
-import RegisterPage from "./register";
+import LoginPage from "./auth/login";
+import RegisterPage from "./auth/register";
 
 export {
   AddKitten,

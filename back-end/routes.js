@@ -68,11 +68,14 @@ export default function routes(app) {
     (req, res) => res.redirect("/success"));
 
   // ------------------ Router definition  ---------------
-  // app.use("/forward", proxy);
   app.use("/api", router);
   // ------------------ Fallthrough ----------------------
 
-  app.all("*", (req, res) => {
-    res.redirect("/forward");
-  });
+  // app.get("/", (req, res) => {
+  //   res.sendFile("./static/index.html");
+  // });
+
+  // app.all("*", (req, res) => {
+  //   res.redirect("/");
+  // });
 }

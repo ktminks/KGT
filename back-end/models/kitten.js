@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const kittenSchema = new Schema(
+export const kittenSchema = new Schema(
   {
     name: { type: String, default: "kitten" },
     sex: { type: String, default: "n/a" },
@@ -16,5 +16,4 @@ kittenSchema.method("toJSON", () => {
   object.id = _id;
   return object;
 });
-
-export default mongoose.model("Kitten", kittenSchema);
+export const Kitten = mongoose.model("Kitten", kittenSchema);

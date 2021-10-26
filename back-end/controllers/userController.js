@@ -25,14 +25,17 @@ const createUser = async (data) => {
 export const googleLogin = async (req, res, next) => {
   try {
     const { user: profile } = req.session.passport;
+    console.log(profile);
     if (profile) {
-      const { id: gid, emails: { 0: email }, name: { given_name: name } } = profile;
+      const { id: gid, emails: { 0: { value: email } }, name: { givenName: name } } = profile;
       const exists = await findUserById(gid);
 
       if (exists) {
         console.log("You are already signed up.");
       } else {
-        const user = { gid, name, email };
+        const user = {
+          gid, name, email, kittens: [],
+        };
         const saved = await createUser(user);
         if (saved) {
           console.log("You are now signed up.");

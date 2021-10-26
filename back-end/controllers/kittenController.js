@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { kittens as Kitten } from "../models/index.js";
+import { kittens as Kitten, users as User } from "../models/index.js";
 import { getKitten, sanitize } from "../_helpers/index.js";
 import { findUserById } from "./userController.js";
 
@@ -11,7 +11,7 @@ const getUser = async (req) => {
     const { id: gid } = user;
     return findUserById(gid);
   }
-  return null;
+  return findUserById(0);
 };
 
 const errorHandler = (err, req, res, next) => {
@@ -24,40 +24,48 @@ const errorHandler = (err, req, res, next) => {
 };
 
 // Create and Save a new Kitten
-export const create = async (req, res) => {
+export const create = async (req, res, next) => {
   // Create kitten
   const { birthdate } = req.body;
   let { name, sex } = req.body;
   name = name.toLowerCase();
   sex = sex.toLowerCase();
 
-  const kitten = new Kitten({ name, sex, birthdate });
   // Save Kitten in the database
   try {
-    const saved = await kitten.save(kitten);
-    if (saved) {
-      const kittenData = getKitten(name, sex, birthdate, kitten.id);
-      res.send({ ...kittenData, message: `${name} was created successfully!` });
+    const user = await getUser(req);
+
+    if (user) {
+      const indexOfNewKitten = (user.kittens.push({ name, sex, birthdate })) - 1;
+      const saved = await user.save(user);
+      if (saved) {
+        const { id } = user.kittens[indexOfNewKitten];
+        const kittenData = getKitten(name, sex, birthdate, id);
+        res.send({ ...kittenData, message: `${name} was created successfully!` });
+      } else {
+        res.send({ message: "Please login to create your own kittens!" });
+      }
     }
   } catch (err) {
-    errorHandler(err, req, res);
+    errorHandler(err, req, res, next);
   }
 };
 
 // Retrieve all Kittens from the database.
-export const findAll = async (req, res) => {
+export const findAll = async (req, res, next) => {
   // console.dir(req.session);
-  const { name } = req.query;
+  // const { name } = req.query;
   // escape characters for security purposes
-  const regex = new RegExp(`${name}`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
-  const user = await getUser(req);
-  if (user) console.log(user);
+  // const regex = new RegExp(`${name}`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  // const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
 
   try {
-    const found = await Kitten.find(condition);
-    if (found) res.send(getData(found));
-  } catch (err) { errorHandler(err, req, res); }
+    const user = await getUser(req);
+
+    console.log("user:");
+    console.log(user);
+    res.send(getData(user.kittens));
+  } catch (err) { errorHandler(err, req, res, next); }
 };
 
 // Find a single Kitten with an id

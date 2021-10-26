@@ -37,7 +37,7 @@ module.exports = {
     port: process.env.PORT ? Number(process.env.PORT) + 1 || 80 : 4001,
     hot: true,
     open: true,
-    devMiddleware: { index: false },
+    // devMiddleware: { index: false },
     // proxy: [
     //   {
     //     context: ["/forward", "/success", "#"],
@@ -50,12 +50,12 @@ module.exports = {
     //     pathRewrite: { "^/api/forward": "" },
     //   },
     // ],
-    proxy: {
-      "/api": {
-        target: "http://localhost:4000",
-        changeOrigin: true,
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: "http://localhost:4000",
+    //     changeOrigin: true,
+    //   },
+    // },
   },
   externals: {
     // global app config object

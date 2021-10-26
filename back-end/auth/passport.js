@@ -31,8 +31,7 @@ export default function initPassport(app) {
 
   app.get("/success", (req, res) => {
     // console.dir(req.session);
-    // res.send(userProfile);
-    res.redirect("/forward");
+    res.redirect("/");
   });
   app.get("/failure", (req, res) => res.send("error logging in"));
 

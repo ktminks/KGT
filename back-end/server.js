@@ -1,5 +1,7 @@
 import express, { urlencoded, json, static as stat } from "express";
 import session from "express-session";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import cors from "cors";
 import https from "https";
 import fs from "fs";
@@ -7,6 +9,8 @@ import initPassport from "./auth/passport.js";
 import { MODE, PORT } from "./config.js";
 import routes from "./routes.js";
 
+// eslint-disable-next-line no-underscore-dangle
+const pathHere = dirname(fileURLToPath(import.meta.url));
 const mode = process.env.MODE ? process.env.MODE : MODE || "DEVELOPMENT";
 const app = express();
 
@@ -37,11 +41,13 @@ if (mode === "PRODUCTION") {
   const credentials = { key, cert, ca };
   const msg = "HTTPS listening on https://kgt.ktminks.com:8443";
 
-  // not sure if I need this next line
-  app.use(stat("front-end"));
+  app.use("/", stat(join(pathHere, "public")));
+
   const httpsServer = https.createServer(credentials, app);
   httpsServer.listen("8443", () => console.log(msg));
 }
+
+app.use("/", stat(join(pathHere, "public")));
 
 // start server
 const port = process.env.PORT ? process.env.PORT || 80 : PORT;

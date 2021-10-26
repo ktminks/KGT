@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { kittenSchema } from "./kitten.js";
 
 const { Schema } = mongoose;
 
@@ -7,6 +8,7 @@ const userSchema = new Schema(
     gid: { type: Number, required: true, index: { unique: true } },
     email: { type: String, required: true, index: { unique: true } },
     name: { type: String, required: true },
+    kittens: [kittenSchema],
   },
 );
 

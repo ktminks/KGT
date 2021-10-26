@@ -6,10 +6,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./public/App.css";
 
 import {
-  Navbar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage,
+  Navbar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
 } from "./components";
 import KittenDataService from "./_services/data.service";
-import RegisterPage from "./components/register";
 
 class App extends Component {
   constructor(props) {
