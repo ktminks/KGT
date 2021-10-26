@@ -1,14 +1,11 @@
 import { users as User } from "../models/index.js";
 
 const errorHandler = (err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
-  }
+  if (res.headersSent) return next(err);
+
   res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: err,
-  });
+  res.json({ message: err.message, ...err });
+
   return "Something went wrong with the error handler.";
 };
 
@@ -25,7 +22,7 @@ const createUser = async (data) => {
 export const googleLogin = async (req, res, next) => {
   try {
     const { user: profile } = req.session.passport;
-    console.log(profile);
+    // console.log(profile);
     if (profile) {
       const { id: gid, emails: { 0: { value: email } }, name: { givenName: name } } = profile;
       const exists = await findUserById(gid);

@@ -102,7 +102,6 @@ const LoginPage = () => {
               onClick={() => { KittenDataService.googleLogin(); }}
             /> */}
             <a href="http://localhost:4000/api/auth/google/login" className="btn btn-primary">Login with Google</a>
-            <a href="http://localhost:4000/api/auth/google/logout" className="btn btn-danger">Logout with Google</a>
           </div>
         </div>
       </div>

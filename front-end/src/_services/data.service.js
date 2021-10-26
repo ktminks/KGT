@@ -16,7 +16,7 @@ class KittenDataService {
 
   findByName = (name) => http.get(`/search/name=${name}`);
 
-  googleLogin = () => http.get("/auth/google");
+  isLoggedIn = () => http.get("/loggedInStatus");
 }
 
 export default new KittenDataService();

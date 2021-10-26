@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { Navbar as nav } from "bootstrap";
 import { Link } from "react-router-dom";
 import SearchKittens from "./search";
+import KittenDataService from "../../_services/data.service";
 
 const Navbar = ({ searchName, reset }) => {
-  const loggedIn = false;
+  const [isLoggedIn, setLoggedIn] = useState({ data: false });
+  const loggedIn = async () => {
+    try {
+      const result = await KittenDataService.isLoggedIn();
+      if (result) {
+        // console.log(result.data);
+        return result;
+      }
+    } catch (err) { console.log(err); }
+    return false;
+  };
+
+  useEffect(() => {
+    loggedIn().then((res) => {
+      setLoggedIn(res);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  console.log(isLoggedIn);
+
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
       <div className="container-fluid">
@@ -37,7 +59,16 @@ const Navbar = ({ searchName, reset }) => {
             </li>
             <li className="nav-item">
               <Link to="/login" className="nav-link">
-                {loggedIn ? "Logout" : "Login"}
+                {isLoggedIn
+                  ? (
+                  // <Link to="/auth/logout" className="nav-link">
+                  //   Logout
+                  // </Link>
+                    `Hi, ${isLoggedIn.data}!`
+                  )
+                  : (
+                    "Login"
+                  )}
               </Link>
             </li>
           </ul>

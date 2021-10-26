@@ -3,17 +3,6 @@ import { kittens as Kitten, users as User } from "../models/index.js";
 import { getKitten, sanitize } from "../_helpers/index.js";
 import { findUserById } from "./userController.js";
 
-const getData = (data) => data.map((k) => getKitten(k.name, k.sex, k.birthdate, k.id));
-
-const getUser = async (req) => {
-  if (req.session.passport) {
-    const { user } = req.session.passport;
-    const { id: gid } = user;
-    return findUserById(gid);
-  }
-  return findUserById(0);
-};
-
 const errorHandler = (err, req, res, next) => {
   if (res.headersSent) return next(err);
 
@@ -21,6 +10,16 @@ const errorHandler = (err, req, res, next) => {
   res.json({ message: err.message, ...err });
 
   return "Something went wrong with the error handler.";
+};
+
+const getData = (data) => data.map((k) => getKitten(k.name, k.sex, k.birthdate, k.id));
+
+const getUser = async (req, res, next) => {
+  if (req.session.passport) {
+    const { user } = req.session.passport;
+    if (user) return findUserById(user.id);
+  }
+  return findUserById(0);
 };
 
 // Create and Save a new Kitten
@@ -33,7 +32,7 @@ export const create = async (req, res, next) => {
 
   // Save Kitten in the database
   try {
-    const user = await getUser(req);
+    const user = await getUser(req, res, next);
 
     if (user) {
       const indexOfNewKitten = (user.kittens.push({ name, sex, birthdate })) - 1;
@@ -60,10 +59,10 @@ export const findAll = async (req, res, next) => {
   // const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
 
   try {
-    const user = await getUser(req);
+    const user = await getUser(req, res, next);
 
-    console.log("user:");
-    console.log(user);
+    // console.log("user:");
+    // console.log(user);
     res.send(getData(user.kittens));
   } catch (err) { errorHandler(err, req, res, next); }
 };

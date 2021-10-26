@@ -1,30 +1,11 @@
 import passport from "passport";
-// import { createProxyMiddleware } from "http-proxy-middleware";
 import * as express from "express";
 import * as kittens from "./controllers/kittenController.js";
 import { googleLogin } from "./controllers/userController.js";
 
 export default function routes(app) {
   const router = express.Router();
-  // const options = {
-  //   // context: ["/api/forward#", "/api/forward"],
-  //   cookieDomainRewrite: {
-  //     "http://localhost:4000": "http://localhost:4001",
-  //   },
-  //   target: "https://kgt.ktminks.com",
-  //   ws: true,
-  //   changeOrigin: true,
-  //   pathRewrite: {
-  //     "^/forward": "/",
-  //     "^/forward#": "/",
-  //   },
-  //   router: {
-  //     "localhost:4000": "http://localhost:4001",
-  //     "localhost:4000/forward": "http://localhost:4001",
-  //     "localhost:4000/forward#": "http://localhost:4001",
-  //   },
-  // };
-  // const proxy = createProxyMiddleware(options);
+
   // ------------------ Utilities ------------------------
   const getByParams = (req, res) => {
     const { ...p } = req.params;
@@ -58,14 +39,22 @@ export default function routes(app) {
   router.get("/auth/google/login",
     passport.authenticate("google", { session: true, scope: ["profile", "email"] }));
 
-  router.get("/auth/google/logout",
-    (req) => req.logout(),
-    (req, res) => res.redirect("/"));
+  router.get("/auth/logout", (req, res) => {
+    req.logout();
+    res.redirect("/");
+  });
 
   router.get("/auth/google/callback",
     passport.authenticate("google", { failureRedirect: "/login" }),
     googleLogin,
     (req, res) => res.redirect("/success"));
+
+  router.get("/loggedInStatus", (req, res) => {
+    let name;
+    const loggedIn = req.isAuthenticated();
+    if (loggedIn) ({ name: { givenName: name } } = req.user);
+    res.send(loggedIn ? name : false);
+  });
 
   // ------------------ Router definition  ---------------
   app.use("/api", router);
