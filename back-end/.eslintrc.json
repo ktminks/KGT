@@ -30,6 +30,10 @@
             "error",
             "double"
         ],
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "no-return-assign": [
+            "error",
+            "except-parens"
+        ]
     }
 }

@@ -147,6 +147,7 @@ export const formattedNeeds = (kitten) => {
 };
 
 export const formattedKittens = (kittens, handleSetActive, currentIndex) => {
+  if (!kittens.length) return null;
   const printKitten = (kitten, index) => {
     const currentClass = `list-group-item list-group-item-action ${index === currentIndex ? "active" : ""}`;
 

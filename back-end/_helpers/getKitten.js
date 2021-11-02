@@ -101,8 +101,8 @@ class KittenGrowth {
     this.age = this.getAge(birthdate);
     this.birthdate = birthdate;
     this.generateData();
-    this.reduceObj(this.milestones);
-    this.reduceObj(this.food);
+    this.milestones = this.reduceObj(this.milestones);
+    this.food = this.reduceObj(this.food);
     this.concerns = this.reduceGrowth(this.concerns);
   }
 
@@ -148,12 +148,23 @@ class KittenGrowth {
     return filteredProp.length ? filteredProp : [prop.pop()];
   };
 
-  reduceObj = (prop) => {
-    for (const m in prop) if (prop[m].length) prop[m] = this.reduceGrowth(prop[m]);
+  reduceObj = (obj) => {
+    const objKeys = Object.keys(obj);
+    const newObj = {};
+    objKeys.map((key) => {
+      newObj[key] = this.reduceGrowth(obj[key]);
+      return newObj[key];
+    });
+    return newObj;
   };
 }
 
-const getKitten = (name, sex, birthdate, id) => new KittenGrowth(birthdate, name, sex, id);
+const getKitten = (kitten) => {
+  const {
+    birthdate, name, sex, id,
+  } = kitten;
+  return new KittenGrowth(birthdate, name, sex, id);
+};
 
 // console.log(reduceData("09/01/2021"));
 export default getKitten;
