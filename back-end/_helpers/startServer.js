@@ -22,7 +22,7 @@ export default function startServer(app) {
     const credentials = { key, cert, ca };
     const msg = "HTTPS listening on https://kgt.ktminks.com:8443";
 
-    app.use(/^(?!\/api).*$/, exStatic(join(pathHere, "../public/prod")));
+    // app.use(/^(?!\/api).*$/, exStatic(join(pathHere, "../public/prod")));
 
     const httpsServer = https.createServer(credentials, app);
     httpsServer.listen("8443", () => console.log(msg));
