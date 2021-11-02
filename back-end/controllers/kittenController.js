@@ -1,123 +1,127 @@
 /* eslint-disable no-underscore-dangle */
-import { kittens as Kitten, users as User } from "../models/index.js";
-import { getKitten, sanitize } from "../_helpers/index.js";
-import { findUserById } from "./userController.js";
+import { kittens as Kitten } from "../models/index.js";
+import sanitize from "../_helpers/sanitize.js";
+import getKitten from "../_helpers/getKitten.js";
+import errorHandler from "../_helpers/errorHandler.js";
 
 // array of guest users
+// const guests = [];
 
-const errorHandler = (err, req, res, next) => {
-  if (res.headersSent) return next(err);
+const getData = (data) => data.map((k) => getKitten(k));
 
-  res.status(err.status || 500);
-  res.json({ message: err.message, ...err });
-
-  return "Something went wrong with the error handler.";
-};
-
-const getData = (data) => data.map((k) => getKitten(k.name, k.sex, k.birthdate, k.id));
-
-const getUser = async (req, res, next) => {
-  if (req.session.passport) {
-    // return user if it exists
-    const { user } = req.session.passport;
-    if (user) return findUserById(user.id);
-    // if not, then set flag
+const getKittens = (req) => {
+  const { user } = req;
+  if (user) {
+    const { kittens, alteredKittenIndex } = user;
+    return { kittens, alteredKittenIndex };
   }
-  // otherwise, create & return guest user
-  // add to array of guest users, use session ID as id
-  return findUserById(0);
+  return null;
 };
 
-// Create and Save a new Kitten
+// Create a new kitten
 export const create = async (req, res, next) => {
-  // Create kitten
-  const { birthdate } = req.body;
-  let { name, sex } = req.body;
-  name = name.toLowerCase();
-  sex = sex.toLowerCase();
-
-  // Save Kitten in the database
   try {
-    const user = await getUser(req, res, next);
+    // Create kitten
+    const { birthdate } = req.body;
+    let { name, sex } = req.body;
+    name = name.toLowerCase();
+    sex = sex.toLowerCase();
 
-    if (user) {
-      const indexOfNewKitten = (user.kittens.push({ name, sex, birthdate })) - 1;
-      const saved = await user.save(user);
-      if (saved) {
-        const { id } = user.kittens[indexOfNewKitten];
-        const kittenData = getKitten(name, sex, birthdate, id);
-        res.send({ ...kittenData, message: `${name} was created successfully!` });
-      } else {
-        res.send({ message: "Please login to create your own kittens!" });
-      }
+    // Add new kitten to user cookie
+    const { kittens } = getKittens(req);
+    if (kittens) {
+      kittens.push({ name, sex, birthdate });
+      next();
     }
-  } catch (err) {
-    errorHandler(err, req, res, next);
-  }
+  } catch (err) { errorHandler(err, req, res, next); }
 };
 
-// Retrieve all Kittens from the database.
+// Retrieve all kittens from the user
 export const findAll = async (req, res, next) => {
-  // console.dir(req.session);
-  // const { name } = req.query;
-  // escape characters for security purposes
-  // const regex = new RegExp(`${name}`.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  // const condition = name ? { name: { $regex: regex, $options: "i" } } : {};
-
   try {
-    const user = await getUser(req, res, next);
+    const { kittens } = getKittens(req);
+    res.send(getData(kittens));
+  } catch (err) { errorHandler(err, req, res, next); }
+};
 
-    console.log("user:");
-    console.log(user);
-    res.send(getData(user.kittens));
+export const findByIndex = async (req, res, next) => {
+  try {
+    const { kittens, alteredKittenIndex } = getKittens(req);
+    if (kittens && alteredKittenIndex) {
+      const kitten = getKitten(kittens[alteredKittenIndex]);
+      res.send({ ...kitten, message: `${kitten.name} was created/modified successfully!` });
+    } else res.send({ message: "No kitten found" });
   } catch (err) { errorHandler(err, req, res, next); }
 };
 
 // Find a single Kitten with an id
-export const findOne = async (id, res) => {
+export const findById = async (req, res, next) => {
   try {
-    const found = await Kitten.findById(id);
-    if (found && found[0]) res.send(found[0]._id);
-    else res.send({ message: `No kitten found with id ${id}` });
-  } catch (err) { errorHandler(err, id, res); }
+    const { id } = req.params;
+    if (id) {
+      const { kittens } = getKittens(req);
+      const found = kittens.find((k) => k.id === id);
+      if (found) res.send(found._id);
+      else res.send({ message: `No kitten found with id ${id}` });
+    } else res.send({ message: "No id found in parameters" });
+  } catch (err) { errorHandler(err, req, res, next); }
 };
 
-export const findByName = async (name, res) => {
+export const findByName = async (req, res, next) => {
   try {
-    const found = await Kitten.find({ name });
-    if (found) res.send(found[0]._id);
-    else res.send({ message: `No kitten found with name ${name}` });
-  } catch (err) { errorHandler(err, name, res); }
+    const { name } = req.params;
+    if (name) {
+      const { kittens } = getKittens(req);
+      const found = kittens.find((k) => k.name === name);
+      if (found) res.send(found._id);
+      else res.send({ message: `No kitten found with name ${name}` });
+    } else res.send({ message: "No name found in parameters" });
+  } catch (err) { errorHandler(err, req, res, next); }
 };
 
 // Update a Kitten by the id in the request
-export const update = async (req, res) => {
-  if (!req.body) return res.status(400).send({ message: "No data to update!" });
-
-  const {
-    name, sex, birthdate, id,
-  } = req.body;
-  const body = await sanitize({
-    name, sex, birthdate, id,
-  });
-
+export const update = async (req, res, next) => {
   try {
-    const found = await Kitten.findByIdAndUpdate(body.id, body, { useFindAndModify: false });
-    if (found) res.send({ message: `${found.name} was updated successfully!` });
-    else res.send({ message: `No kitten found with id ${body.id}` });
-  } catch (err) { errorHandler(err, req, res); }
+    if (!req.body) res.status(400).send({ message: "No data to update!" });
 
-  return "Something went terribly wrong while updating";
+    // sanitize data from update form
+    const {
+      name, sex, birthdate, id,
+    } = req.body;
+    const data = await sanitize({
+      name, sex, birthdate, id,
+    });
+
+    const { kittens } = getKittens(req);
+
+    // find kitten to be updated
+    const index = kittens ? kittens.findIndex((k) => k.id === id) : null;
+    if (index) {
+      const kitten = kittens[index];
+
+      // update kitten
+      Object.keys(data).map((key) => (kitten[key] = data[key]));
+
+      // pass index to database update
+      req.user.alteredKittenIndex = index;
+      next();
+    } else res.send({ message: `No kitten found with id ${data.id}` });
+  } catch (err) { errorHandler(err, req, res, next); }
 };
 
 // Delete a Kitten with the specified id in the request
-const remove = async (req, res) => {
-  const { id } = req.params;
-
+const remove = async (req, res, next) => {
   try {
-    const data = await Kitten.findByIdAndRemove(id);
-    if (data) res.send({ message: `${data.name} was deleted successfully!` });
-    else res.status(404).send({ message: `Could not find Kitten with id=${id} to delete.` });
-  } catch (err) { errorHandler(err, req, res); }
+    const { id } = req.params;
+
+    if (id) {
+      const { kittens } = getKittens(req);
+      const index = kittens.findIndex((k) => k.id === id);
+      if (index) {
+        kittens.splice(index, 1);
+        next();
+      } else res.send({ message: `No kitten found with id ${id} in user cookie.` });
+    } else res.status(404).send({ message: `Could not find Kitten with id=${id} to delete.` });
+  } catch (err) { errorHandler(err, req, res, next); }
 };
 export { remove as delete };
