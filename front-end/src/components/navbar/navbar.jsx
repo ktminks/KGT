@@ -15,7 +15,7 @@ const Navbar = ({ searchName, reset }) => {
         return result;
       }
     } catch (err) { console.log(err); }
-    return false;
+    return { data: false };
   };
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Navbar = ({ searchName, reset }) => {
     });
   }, []);
 
-  console.log(isLoggedIn);
+  // console.log(isLoggedIn);
 
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -59,7 +59,7 @@ const Navbar = ({ searchName, reset }) => {
             </li>
             <li className="nav-item">
               <Link to="/login" className="nav-link">
-                {isLoggedIn
+                {isLoggedIn.data
                   ? (
                   // <Link to="/auth/logout" className="nav-link">
                   //   Logout

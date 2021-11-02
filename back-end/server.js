@@ -1,4 +1,4 @@
-import express, { urlencoded, json, static as stat } from "express";
+import express, { urlencoded, json } from "express";
 import session from "express-session";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -29,6 +29,8 @@ initPassport(app);
 app.use(cors());
 routes(app);
 
+app.use(/^(?!\/api).*$/, express.static(join(pathHere, "public")));
+
 if (mode === "PRODUCTION") {
   const privkey = "/etc/letsencrypt/live/kgt.ktminks.com/privkey.pem";
   const certificate = "/etc/letsencrypt/live/kgt.ktminks.com/cert.pem";
@@ -41,13 +43,9 @@ if (mode === "PRODUCTION") {
   const credentials = { key, cert, ca };
   const msg = "HTTPS listening on https://kgt.ktminks.com:8443";
 
-  app.use("/", stat(join(pathHere, "public")));
-
   const httpsServer = https.createServer(credentials, app);
   httpsServer.listen("8443", () => console.log(msg));
 }
-
-app.use("/", stat(join(pathHere, "public")));
 
 // start server
 const port = process.env.PORT ? process.env.PORT || 80 : PORT;

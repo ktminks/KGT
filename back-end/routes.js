@@ -3,6 +3,7 @@ import * as express from "express";
 import * as kittens from "./controllers/kittenController.js";
 import { googleLogin } from "./controllers/userController.js";
 
+// add additional parameter for dependencies
 export default function routes(app) {
   const router = express.Router();
 
@@ -35,20 +36,22 @@ export default function routes(app) {
   router.delete("/kittens/delete/:id", kittens.delete);
 
   // ------------------ Authentication router ------------
-  // Login
+  // Google login
   router.get("/auth/google/login",
     passport.authenticate("google", { session: true, scope: ["profile", "email"] }));
-
-  router.get("/auth/logout", (req, res) => {
-    req.logout();
-    res.redirect("/");
-  });
 
   router.get("/auth/google/callback",
     passport.authenticate("google", { failureRedirect: "/login" }),
     googleLogin,
     (req, res) => res.redirect("/success"));
 
+  // Logout
+  router.get("/auth/logout", (req, res) => {
+    req.logout();
+    res.redirect("/");
+  });
+
+  // -------------------- Status fetch -------------------
   router.get("/loggedInStatus", (req, res) => {
     let name;
     const loggedIn = req.isAuthenticated();
@@ -58,13 +61,10 @@ export default function routes(app) {
 
   // ------------------ Router definition  ---------------
   app.use("/api", router);
+
   // ------------------ Fallthrough ----------------------
 
-  // app.get("/", (req, res) => {
-  //   res.sendFile("./static/index.html");
-  // });
-
-  // app.all("*", (req, res) => {
+  // app.use("^(?!/api).*$", (req, res) => {
   //   res.redirect("/");
   // });
 }

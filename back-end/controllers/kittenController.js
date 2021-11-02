@@ -3,6 +3,8 @@ import { kittens as Kitten, users as User } from "../models/index.js";
 import { getKitten, sanitize } from "../_helpers/index.js";
 import { findUserById } from "./userController.js";
 
+// array of guest users
+
 const errorHandler = (err, req, res, next) => {
   if (res.headersSent) return next(err);
 
@@ -16,9 +18,13 @@ const getData = (data) => data.map((k) => getKitten(k.name, k.sex, k.birthdate, 
 
 const getUser = async (req, res, next) => {
   if (req.session.passport) {
+    // return user if it exists
     const { user } = req.session.passport;
     if (user) return findUserById(user.id);
+    // if not, then set flag
   }
+  // otherwise, create & return guest user
+  // add to array of guest users, use session ID as id
   return findUserById(0);
 };
 
@@ -61,8 +67,8 @@ export const findAll = async (req, res, next) => {
   try {
     const user = await getUser(req, res, next);
 
-    // console.log("user:");
-    // console.log(user);
+    console.log("user:");
+    console.log(user);
     res.send(getData(user.kittens));
   } catch (err) { errorHandler(err, req, res, next); }
 };
