@@ -49,10 +49,26 @@ export default function routes(app) {
 
   // -------------------- Status fetch -------------------
   router.get("/loggedInStatus", (req, res) => {
-    let name;
+    try {
+      res.json({
+        loggedIn: req.isAuthenticated(),
+        user: req.user,
+      });
+    } catch (err) {
+      res.json({
+        loggedIn: false,
+        user: null,
+      });
+    }
     const loggedIn = req.isAuthenticated();
-    if (loggedIn) ({ name: { givenName: name } } = req.user);
-    res.send(loggedIn ? name : false);
+    // if (loggedIn) ({ name: { givenName: name } } = req.user);
+    console.log(loggedIn);
+    console.log(req.user);
+    if (loggedIn) {
+      const { user } = req;
+      const { gid, name } = user || {};
+      if (gid) res.send(name);
+    } else res.send(false);
   });
 
   // ------------------ Router definition  ---------------

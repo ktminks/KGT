@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import { kittens as Kitten } from "../models/index.js";
 import sanitize from "../_helpers/sanitize.js";
 import getKitten from "../_helpers/getKitten.js";
 import errorHandler from "../_helpers/errorHandler.js";
@@ -40,6 +39,7 @@ export const create = async (req, res, next) => {
 export const findAll = async (req, res, next) => {
   try {
     const { kittens } = getKittens(req);
+    console.log(kittens);
     res.send(getData(kittens));
   } catch (err) { errorHandler(err, req, res, next); }
 };
@@ -61,7 +61,7 @@ export const findById = async (req, res, next) => {
     if (id) {
       const { kittens } = getKittens(req);
       const found = kittens.find((k) => k.id === id);
-      if (found) res.send(found._id);
+      if (found) res.send(found.id);
       else res.send({ message: `No kitten found with id ${id}` });
     } else res.send({ message: "No id found in parameters" });
   } catch (err) { errorHandler(err, req, res, next); }
@@ -73,7 +73,7 @@ export const findByName = async (req, res, next) => {
     if (name) {
       const { kittens } = getKittens(req);
       const found = kittens.find((k) => k.name === name);
-      if (found) res.send(found._id);
+      if (found) res.send(found.id);
       else res.send({ message: `No kitten found with name ${name}` });
     } else res.send({ message: "No name found in parameters" });
   } catch (err) { errorHandler(err, req, res, next); }

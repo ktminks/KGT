@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // everything querying the database goes here
 // query DB, return data in cookie or response object
 
@@ -5,6 +6,9 @@ import { users as User } from "../models/index.js";
 import errorHandler from "../_helpers/errorHandler.js";
 
 // -------------------- Handle user CRUD functions ----------------------------
+
+// array of guest users
+const guests = [];
 
 // ------------- Utilities----------------
 
@@ -19,14 +23,16 @@ const createUser = async (data) => {
 };
 
 const setUserCookie = async (req, res, user, index) => {
+  console.log(user);
   const alteredKittenIndex = index || null;
   const {
-    _id, gid, name, email, kittens,
+    id, gid, name, email, kittens,
   } = user;
   const updatedUser = {
-    alteredKittenIndex, _id, gid, name, email, kittens,
+    alteredKittenIndex, id, gid, name, email, kittens,
   };
   req.user = updatedUser;
+  console.log("user cookie set");
 };
 
 export async function checkDBForUser(req, res, next) {
@@ -54,21 +60,39 @@ export async function checkDBForUser(req, res, next) {
   } catch (err) { errorHandler(err, req, res, next); }
 }
 
+const isOnGuestList = (guestID) => guests.findIndex((g) => g[id] === guestID);
+
+const makeGuestUser = async (id) => {
+  const template = await findUserById(0);
+  const { name, email, kittens } = template;
+  const guestUser = {
+    id, gid: null, name, email, kittens,
+  };
+  return guestUser;
+};
+
 export async function getUser(req, res, next) {
-  if (req.session.passport) {
-    // return user if it exists
-    const { user } = req.session.passport;
-    if (user) {
-      const dbUser = await findUserById(user.id);
-      setUserCookie(req, res, dbUser);
+  try {
+    // return user if it exists, otherwise set flag
+    if (req.session.passport) {
+      const { user } = req.session.passport;
+      const dbUser = user ? await findUserById(user.id) : null;
+      if (dbUser) setUserCookie(req, res, dbUser);
+    } else {
+      // otherwise, create & return guest user
+      // add to array of guest users, use session ID as id
+
+      const { id } = req.session;
+      const index = isOnGuestList(id);
+      if (index < 0) {
+        const guest = await makeGuestUser(id);
+        if (guest) {
+          guests.push(guest);
+          setUserCookie(req, res, guest);
+        }
+      } else setUserCookie(req, res, guests[index]);
     }
-    // if not, then set flag
-  } else {
-    // otherwise, create & return guest user
-    // add to array of guest users, use session ID as id
-    const guestUser = await findUserById(0);
-    setUserCookie(req, res, guestUser);
-  }
+  } catch (err) { errorHandler(err, req, res, next); }
   next();
 }
 
