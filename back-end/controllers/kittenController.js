@@ -38,9 +38,9 @@ export const create = async (req, res, next) => {
 // Retrieve all kittens from the user
 export const findAll = async (req, res, next) => {
   try {
-    const { kittens } = getKittens(req);
-    console.log(kittens);
-    res.send(getData(kittens));
+    const { kittens } = getKittens(req) || {};
+    if (kittens) res.send(getData(kittens));
+    else res.send({ message: "No kittens found in user cookie." });
   } catch (err) { errorHandler(err, req, res, next); }
 };
 

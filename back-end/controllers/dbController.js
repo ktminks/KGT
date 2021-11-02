@@ -23,16 +23,16 @@ const createUser = async (data) => {
 };
 
 const setUserCookie = async (req, res, user, index) => {
-  console.log(user);
-  const alteredKittenIndex = index || null;
-  const {
-    id, gid, name, email, kittens,
-  } = user;
-  const updatedUser = {
-    alteredKittenIndex, id, gid, name, email, kittens,
-  };
-  req.user = updatedUser;
-  console.log("user cookie set");
+  if (user) {
+    const alteredKittenIndex = index || null;
+    const {
+      id, gid, name, email, kittens,
+    } = user;
+    const updatedUser = {
+      alteredKittenIndex, id, gid, name, email, kittens,
+    };
+    req.user = updatedUser;
+  }
 };
 
 export async function checkDBForUser(req, res, next) {
@@ -60,7 +60,7 @@ export async function checkDBForUser(req, res, next) {
   } catch (err) { errorHandler(err, req, res, next); }
 }
 
-const isOnGuestList = (guestID) => guests.findIndex((g) => g[id] === guestID);
+const isOnGuestList = (guestID) => guests.findIndex((g) => g.id === guestID);
 
 const makeGuestUser = async (id) => {
   const template = await findUserById(0);
@@ -81,7 +81,6 @@ export async function getUser(req, res, next) {
     } else {
       // otherwise, create & return guest user
       // add to array of guest users, use session ID as id
-
       const { id } = req.session;
       const index = isOnGuestList(id);
       if (index < 0) {
@@ -92,7 +91,7 @@ export async function getUser(req, res, next) {
         }
       } else setUserCookie(req, res, guests[index]);
     }
-  } catch (err) { errorHandler(err, req, res, next); }
+  } catch (err) { next(new Error("Something went wrong.")); }
   next();
 }
 
@@ -108,10 +107,9 @@ async function manageKittens(req, res, next, message, index) {
   try {
     const { user } = req;
     const updatedUser = user ? await updateUser(user) : null;
-    if (updatedUser) {
-      setUserCookie(req, res, updatedUser, index);
-      next();
-    } else res.send({ message });
+    if (updatedUser) setUserCookie(req, res, updatedUser, index);
+    next();
+    // else res.send({ message });
   } catch (err) { errorHandler(err, req, res, next); }
 }
 

@@ -6,27 +6,29 @@ import SearchKittens from "./search";
 import KittenDataService from "../../_services/data.service";
 
 const Navbar = ({ searchName, reset }) => {
-  const [isLoggedIn, setLoggedIn] = useState({ data: false });
-  const loggedIn = async () => {
-    try {
-      const result = await KittenDataService.isLoggedIn();
-      if (result) {
-        // console.log(result.data);
-        return result;
-      }
-    } catch (err) { console.log(err); }
-    return { data: false };
-  };
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    loggedIn().then((res) => {
-      setLoggedIn(res);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }, []);
+    const getLoginStatus = () => {
+      try {
+        KittenDataService.isLoggedIn()
+          .then((result) => {
+            const { loggedIn, user } = result.data;
+            setLoggedIn(loggedIn);
+            if (loggedIn) {
+              const { name } = user;
+              setUserName(name.givenName || name);
+            }
+            console.log(result.data);
+          // return result.data;
+          });
+      } catch (err) { console.log(err); }
+    // return { loggedIn: false, user: null };
+    };
 
-  // console.log(isLoggedIn);
+    getLoginStatus();
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -59,12 +61,12 @@ const Navbar = ({ searchName, reset }) => {
             </li>
             <li className="nav-item">
               <Link to="/login" className="nav-link">
-                {isLoggedIn.data
+                {isLoggedIn
                   ? (
                   // <Link to="/auth/logout" className="nav-link">
                   //   Logout
                   // </Link>
-                    `Hi, ${isLoggedIn.data}!`
+                    `Hi, ${userName}!`
                   )
                   : (
                     "Login"

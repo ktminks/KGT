@@ -7,12 +7,11 @@ import * as db from "./controllers/dbController.js";
 // add additional parameter for dependencies
 export default function routes(app) {
   const router = express.Router();
-
   // ------------------ API -----------------------------
   router.all("*", db.getUser);
 
   // Retrieve all Kittens
-  router.get("/", kittens.findAll);
+  router.get("/:?", kittens.findAll);
 
   // Retrieve a single Kitten with id
   router.get("*/id=:id?", kittens.findById);
@@ -50,30 +49,20 @@ export default function routes(app) {
   // -------------------- Status fetch -------------------
   router.get("/loggedInStatus", (req, res) => {
     try {
-      res.json({
-        loggedIn: req.isAuthenticated(),
-        user: req.user,
-      });
-    } catch (err) {
-      res.json({
-        loggedIn: false,
-        user: null,
-      });
-    }
-    const loggedIn = req.isAuthenticated();
-    // if (loggedIn) ({ name: { givenName: name } } = req.user);
-    console.log(loggedIn);
-    console.log(req.user);
-    if (loggedIn) {
-      const { user } = req;
-      const { gid, name } = user || {};
-      if (gid) res.send(name);
-    } else res.send(false);
+      const loggedIn = req.user.gid;
+
+      // console.log(loggedIn);
+      if (loggedIn !== null) {
+        const { user } = req;
+        console.log(user);
+        res.send({ loggedIn, user });
+        console.log("why is this triggering?");
+      } else res.send({ loggedIn: false, user: null });
+    } catch (err) { res.send({ loggedIn: false, user: null }); }
   });
 
   // ------------------ Router definition  ---------------
   app.use("/api", router);
-
   // ------------------ Fallthrough ----------------------
 
   // app.use("^(?!/api).*$", (req, res) => {
