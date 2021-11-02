@@ -38,18 +38,6 @@ module.exports = {
     hot: true,
     open: true,
     devMiddleware: { index: false },
-    // proxy: [
-    //   {
-    //     context: ["/forward", "/success", "#"],
-    //     cookieDomainRewrite: {
-    //       "http://localhost:4000": "http://localhost:4001",
-    //     },
-    //     forward: "http://localhost:4001/kittens",
-    //     // ws: true,
-    //     changeOrigin: true,
-    //     pathRewrite: { "^/api/forward": "" },
-    //   },
-    // ],
     proxy: {
       "/api": {
         target: "http://localhost:4000/api",
