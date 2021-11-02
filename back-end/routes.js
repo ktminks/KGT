@@ -50,11 +50,11 @@ export default function routes(app) {
   router.get("/loggedInStatus", (req, res) => {
     try {
       const loggedIn = req.user.gid;
+      const { user } = req;
+      console.log(user);
 
       // console.log(loggedIn);
       if (loggedIn !== null) {
-        const { user } = req;
-        console.log(user);
         res.send({ loggedIn, user });
         console.log("why is this triggering?");
       } else res.send({ loggedIn: false, user: null });

@@ -99,7 +99,7 @@ export async function updateUser(user) {
   const { kittens } = user;
 
   const index = isOnGuestList(user.id);
-  if (index) {
+  if (index >= 0) {
     guests[index].kittens = kittens;
     return guests[index];
   }

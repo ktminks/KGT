@@ -16,7 +16,8 @@ app.use(session({
     httpOnly: false,
   },
   resave: true,
-  saveUninitialized: false,
+  saveUninitialized: true,
+  // store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 initPassport(app);
 app.use(cors());
