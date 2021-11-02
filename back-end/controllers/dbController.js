@@ -97,6 +97,13 @@ export async function getUser(req, res, next) {
 
 export async function updateUser(user) {
   const { kittens } = user;
+
+  const index = isOnGuestList(user.id);
+  if (index) {
+    guests[index].kittens = kittens;
+    return guests[index];
+  }
+
   const filter = { gid: user.gid };
   const update = { kittens };
   return User.findOneAndUpdate(filter, update, { new: true }).exec();
