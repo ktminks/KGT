@@ -20,8 +20,26 @@ class App extends Component {
     };
   }
 
+  setLocalStorage = (kittens, currentIndex) => {
+    localStorage.setItem("kittens", JSON.stringify(kittens));
+    localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
+  };
+
+  getLocalStorage = () => {
+    const kittens = JSON.parse(localStorage.getItem("kittens"));
+    const currentIndex = JSON.parse(localStorage.getItem("currentIndex"));
+    return { kittens, currentIndex };
+  };
+
   componentDidMount = () => {
-    this.retrieveKittens();
+    const { kittens, currentIndex } = this.getLocalStorage();
+    if (currentIndex >= 0) {
+      this.setState({
+        kittens,
+        currentIndex,
+        currentKitten: kittens[currentIndex],
+      });
+    } else this.retrieveKittens();
   };
 
   retrieveKittens = () => (
@@ -60,17 +78,14 @@ class App extends Component {
       })
       .catch((e) => console.log(e)));
 
-  getIndex = (kitten) => {
-    const { kittens } = this.state;
-    return kittens.findIndex((k) => k.id === kitten.id);
-  };
-
   setActiveKitten = (kitten) => {
-    const index = this.getIndex(kitten);
+    const { kittens } = this.state;
+    const index = kittens.findIndex((k) => k.id === kitten.id);
     this.setState({
       currentKitten: kitten,
       currentIndex: index,
     });
+    this.setLocalStorage(kittens, index);
   };
 
   searchName = async (searchTerm) => {
@@ -80,13 +95,14 @@ class App extends Component {
       const { message, foundKitten } = search.data;
       console.log(message);
       if (!foundKitten) return;
-      const found = kittens.filter((e) => e.id === foundKitten.id);
-      console.log(found[0]);
+      const filteredKittens = kittens.filter((e) => e.id === foundKitten.id);
+      console.log(filteredKittens[0]);
       this.setState({
-        kittens: found,
-        currentKitten: found[0],
+        kittens: filteredKittens,
+        currentKitten: filteredKittens[0],
         currentIndex: 0,
       });
+      this.setLocalStorage(filteredKittens, 0);
     } catch (e) { console.err(e); }
   };
 
