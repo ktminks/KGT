@@ -9,11 +9,12 @@ const { Header } = require("..");
 const CurrentKitten = ({
   currentKitten, currentIndex, kittens, onRefresh,
 }) => {
+  const { id } = currentKitten;
   // ------- Handle updating data --------------
   const history = useHistory();
   const deleteKitten = () => {
     try {
-      KittenDataService.delete(currentKitten.id)
+      KittenDataService.delete(id)
         .then((res) => {
           console.log(res.data.message);
           kittens.splice(currentIndex, 1);
@@ -29,7 +30,7 @@ const CurrentKitten = ({
   const buttons = true;
   return (
     <div>
-      {currentKitten.id ? (
+      {id ? (
         <div className="d-flex flex-column">
           {/* ------- Header : Kitten name & basic details ------- */}
           <Header

@@ -3,8 +3,8 @@ this module contains all possible kitten data
 and returns only the applicable data when getData is called
 */
 
-class KittenGrowth {
-  milestones = {
+const KittenData = {
+  milestones: {
     temperature: [
       { age: 0, desc: [85, 90] },
       { age: 7, desc: [80, 85] },
@@ -54,9 +54,9 @@ class KittenGrowth {
       { age: 63, desc: "needs to see a veterinary for their second visit" },
       { age: 84, desc: "needs to see a veterinary for their third visit" },
     ],
-  };
+  },
 
-  food = {
+  food: {
     foodtype: [
       { age: 0, desc: "milk" },
       { age: 35, desc: "milk and/or kitten food" },
@@ -85,85 +85,92 @@ class KittenGrowth {
       { age: 35, desc: true },
       { age: 42, desc: false },
     ],
-  };
+  },
 
-  concerns = [
+  concerns: [
     { age: 0, desc: ["hypothermia", "lethargy", "diarrhea", "vomiting"] },
     { age: 28, desc: ["diarrhea", "vomiting", "developmental delays"] },
-  ];
+  ],
 
-  weight = [];
+  weight: [],
+};
 
-  constructor(birthdate, name, sex, id) {
-    this.name = name;
-    this.sex = sex;
-    this.id = id;
-    this.age = this.getAge(birthdate);
-    this.birthdate = birthdate;
-    this.generateData();
-    this.milestones = this.reduceObj(this.milestones);
-    this.food = this.reduceObj(this.food);
-    this.concerns = this.reduceGrowth(this.concerns);
+const getWeight = (age) => {
+  let ageCounter = age;
+  const weight = [];
+
+  while (ageCounter < 86) {
+    weight.push({
+      age: ageCounter,
+      desc: Math.floor(50 + (100 / 7) * ageCounter),
+    });
+    ageCounter += 1;
   }
 
-  generateData = () => {
-    let ageCounter = this.age;
-    const weight = [];
-    while (ageCounter < 86) {
-      weight.push({
-        age: ageCounter,
-        desc: Math.floor(50 + (100 / 7) * ageCounter),
-      });
-      ageCounter += 1;
-    }
-    this.weight = weight.length ? weight : [{
-      age: this.age,
-      desc: Math.floor(50 + (100 / 7) * this.age),
-    }];
-  };
+  if (!weight.length && age > 150) weight.push({ age, desc: 2300 });
+  return weight.length
+    ? weight
+    : [{ age, desc: Math.floor(50 + (100 / 7) * age) }];
+};
 
-  getAge = (birthdate) => {
-    const today = new Date();
-    const dob = new Date(birthdate);
-    return Math.ceil((today - dob) / (1000 * 60 * 60 * 24));
-  };
+const getAge = (birthdate) => {
+  const today = new Date();
+  const dob = new Date(birthdate);
+  return Math.ceil((today - dob) / (1000 * 60 * 60 * 24));
+};
 
-  getPrevItem = (a, b) => {
-    const aAgeDiff = a.age - this.age;
-    const bAgeDiff = b.age - this.age;
-    if (bAgeDiff >= 0 && aAgeDiff < 0) return a;
+const reduceGrowth = (prop, age) => {
+  // delete all items that are below the current age
+  const filteredProp = prop.filter((entry) => entry.age >= age);
 
+  // get the most recent item below the current age
+  const getPrevItem = (a, b) => {
+    const aAgeDiff = a.age - age;
+    const bAgeDiff = b.age - age;
+    // if next value is larger than current & previous value is smaller
+    if (bAgeDiff >= 0 && aAgeDiff < 0) return a; // target value
+    // if current value is closer to next value than to previous value
     if (Math.abs(bAgeDiff) < Math.abs(aAgeDiff)) return b;
     return a;
   };
 
-  reduceGrowth = (prop) => {
-    // delete all items that are below the current age
-    const filteredProp = prop.filter((entry) => entry.age >= this.age);
-    // get the most recent item below the current age
-    const prevItem = prop.reduce(this.getPrevItem);
-    // if the filtered array doesn't contain it already, add it
-    if (!filteredProp.includes(prevItem)) { filteredProp.unshift(prevItem); }
-    // if the filtered array is still empty, add the last item in the props list
-    return filteredProp.length ? filteredProp : [prop.pop()];
-  };
+  const prevItem = prop.reduce(getPrevItem);
+  // if the filtered array doesn't contain it already, add it
+  if (!filteredProp.includes(prevItem)) { filteredProp.unshift(prevItem); }
+  // if the filtered array is still empty, add the last item in the props list
+  return filteredProp.length ? filteredProp : [prop.pop()];
+};
 
-  reduceObj = (obj) => {
-    const objKeys = Object.keys(obj);
-    const newObj = {};
-    objKeys.map((key) => {
-      newObj[key] = this.reduceGrowth(obj[key]);
-      return newObj[key];
-    });
-    return newObj;
-  };
+const reduceObj = (obj, age) => {
+  const objKeys = Object.keys(obj);
+  const newObj = {};
+  objKeys.map((key) => {
+    newObj[key] = reduceGrowth(obj[key], age);
+    return newObj[key];
+  });
+  return newObj;
+};
+
+class Kitten {
+  constructor(birthdate, name, sex, id) {
+    const age = getAge(birthdate);
+    this.age = age;
+    this.name = name;
+    this.sex = sex;
+    this.id = id;
+    this.birthdate = birthdate;
+    this.weight = getWeight(age);
+    this.milestones = reduceObj(KittenData.milestones, age);
+    this.food = reduceObj(KittenData.food, age);
+    this.concerns = reduceGrowth(KittenData.concerns, age);
+  }
 }
 
 const getKitten = (kitten) => {
   const {
     birthdate, name, sex, id,
   } = kitten;
-  return new KittenGrowth(birthdate, name, sex, id);
+  return new Kitten(birthdate, name, sex, id);
 };
 
 // console.log(reduceData("09/01/2021"));

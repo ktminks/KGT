@@ -56,12 +56,13 @@ const AddKitten = ({ kittens, onRefresh }) => {
       KittenDataService.create({
         name, sex, birthdate,
       }).then((res) => {
-        const newKitten = res.data;
-        console.log(res.data.message);
-        kittens.push(newKitten);
-        onRefresh();
-        // history.push(`/kittens/id=${newKitten.id}`);
-        history.goBack();
+        const { message, newKitten } = res.data;
+        console.log(message);
+        if (newKitten) {
+          kittens.push(newKitten);
+          onRefresh();
+          history.goBack();
+        }
       });
     } catch (err) {
       console.log(err);

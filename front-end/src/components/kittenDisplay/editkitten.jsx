@@ -16,11 +16,14 @@ const EditKitten = ({
     try {
       KittenDataService.update(id, newKitten)
         .then((res) => {
-          console.log(res.data.message);
-          kittens.splice(currentIndex, 1, newKitten);
-          onRefresh(currentIndex);
-          // history.push(`/kittens/id=${id}`);
-          history.goBack();
+          const { message, updatedKitten } = res.data;
+          console.log(message);
+          if (updatedKitten) {
+            kittens.splice(currentIndex, 1, newKitten);
+            onRefresh(currentIndex);
+            // history.push(`/kittens/id=${id}`);
+            history.goBack();
+          }
         });
     } catch (err) {
       console.log(err);
