@@ -76,31 +76,7 @@ const LoginPage = () => {
         <div className="w-100 d-flex flex-column justify-content-center text-center">
           <h4>or</h4>
           <div data-testid="google-signin-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
-            {/* <div
-              id="g_id_onload"
-              data-client_id=
-              "843196960554-8lss663jtiigovh3tkqse44eqohvvf5g.apps.googleusercontent.com"
-              data-context="signin"
-              data-ux_mode="popup"
-              data-login_uri="http://localhost:4000/auth/googleLogin"
-              data-auto_prompt="false"
-            />
 
-            <div
-              className="g_id_signin"
-              data-type="standard"
-              data-shape="pill"
-              data-theme="filled_blue"
-              data-text="signin_with"
-              data-size="large"
-              data-logo_alignment="left"
-            /> */}
-            {/* <input
-              type="button"
-              className="btn btn-danger"
-              value="Login with Google"
-              onClick={() => { KittenDataService.googleLogin(); }}
-            /> */}
             <a href="http://localhost:4000/api/auth/google/login" className="btn btn-primary">Login with Google</a>
           </div>
         </div>

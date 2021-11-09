@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./public/App.css";
 
 import {
-  Navbar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
+  NavBar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
 } from "./components";
 import KittenDataService from "./_services/data.service";
 
@@ -31,16 +31,20 @@ class App extends Component {
     return { kittens, currentIndex };
   };
 
-  componentDidMount = () => {
+  updateDisplayedKittens = () => {
     const { kittens, currentIndex } = this.getLocalStorage();
-    if (currentIndex >= 0) {
+    if (kittens) {
       this.setState({
         kittens,
         currentIndex,
         currentKitten: kittens[currentIndex],
       });
     } else this.retrieveKittens();
-  };
+  }
+
+  componentDidMount = () => this.updateDisplayedKittens();
+
+  componentDidUpdate = () => this.updateDisplayedKittens();
 
   retrieveKittens = () => (
     KittenDataService.getAll()
@@ -120,7 +124,7 @@ class App extends Component {
 
     return (
       <Router>
-        <Navbar
+        <NavBar
           searchName={this.searchName}
           reset={this.reset}
         />
