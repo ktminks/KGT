@@ -32,6 +32,10 @@ body {
   background-repeat: no-repeat;
 }
 
+button {
+  all: unset;
+}
+
 @media only screen and (min-width: 992px) {
   #kittenList {
     width: 25vw;

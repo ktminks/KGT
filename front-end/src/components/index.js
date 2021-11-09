@@ -3,8 +3,7 @@ import EditKitten from "./kittenDisplay/editkitten";
 import Header from "./header";
 import CurrentKitten from "./kittenDisplay/currentkitten";
 import KittenDisplay from "./kittenDisplay/kittendisplay";
-import Navbar from "./navbar/navbar";
-import SearchKittens from "./navbar/search";
+import NavBar from "./navbar/navbar";
 import CurrentKittenDev from "./growthDisplay/currentkittendev";
 import GrowthDisplay from "./growthDisplay/growthdisplay";
 import Dashboard from "./dashboard";
@@ -17,8 +16,7 @@ export {
   Header,
   CurrentKitten,
   KittenDisplay,
-  Navbar,
-  SearchKittens,
+  NavBar,
   CurrentKittenDev,
   GrowthDisplay,
   Dashboard,

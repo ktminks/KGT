@@ -37,9 +37,8 @@ export const getLoginStatus = (req, res, next) => {
     const loggedIn = req.user.gid;
     const { user } = req;
 
-    if (loggedIn) {
-      res.send({ loggedIn, user });
-    } else res.send({ loggedIn: false, user: null });
+    if (loggedIn) res.send({ loggedIn, user });
+    else res.send({ loggedIn: false, user });
   } catch (err) { errorHandler(err, req, res, next); }
 };
 

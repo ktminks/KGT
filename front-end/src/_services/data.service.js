@@ -17,6 +17,8 @@ class KittenDataService {
   findByName = (name) => http.get(`/search/name=${name}`);
 
   isLoggedIn = () => http.get("/loggedInStatus");
+
+  logout = () => http.get("/auth/logout");
 }
 
 export default new KittenDataService();
