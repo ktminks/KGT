@@ -21,7 +21,7 @@ export const concerns = (entry, date) => `${date}, watch out for signs of ${entr
 export const weight = (entry, date, name) => {
   const g = entry.desc;
   const lb = Number.parseFloat(g / 454).toPrecision(2);
-  return `${name} should weigh around ${g}g (about ${lb}lb) ${date}`;
+  return `${name} should weigh at least ${g}g (about ${lb}lb) ${date}`;
 };
 
 export const any = (entry, date, name) => `${name} ${entry.desc} ${date}`;

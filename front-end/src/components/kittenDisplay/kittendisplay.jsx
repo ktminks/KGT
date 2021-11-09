@@ -9,19 +9,20 @@ import KittenDataService from "../../_services/data.service";
 const { CurrentKitten, AddKitten, EditKitten } = require("..");
 
 const KittenDisplay = ({
-  kittens, currentIndex, currentKitten, setActiveKitten,
+  kittens, currentIndex, currentKitten, setActiveKitten, retrieveKittens,
 }) => {
   // const history = useHistory();
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
-    // console.log(kitten);
-    // history.push(`/kittens/id=${kitten.id}`);
     KittenDataService.view(kitten.id);
   };
 
   // console.log(currentKitten);
 
-  const handleRefresh = (index = kittens.length - 1) => handleSetActive(kittens[index], index);
+  const handleRefresh = (index = kittens.length - 1) => {
+    if (index >= 0) handleSetActive(kittens[index], index);
+    else retrieveKittens();
+  };
 
   return (
     <BrowserRouter>

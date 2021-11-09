@@ -16,31 +16,7 @@ class App extends Component {
     this.state = {
       kittens: [],
       currentIndex: -1,
-      currentKitten: {
-        id: null,
-        name: "",
-        sex: "",
-        birthdate: "",
-        age: 0,
-        milestones: {
-          temperature: [[0, 0, 0]],
-          eyes: [["", 0]],
-          ears: [["", 0]],
-          teeth: [["", 0]],
-          litterTraining: [["", 0]],
-          mobility: [["", 0]],
-          socialization: [["", 0]],
-          veterinary: [[0, 0]],
-        },
-        food: {
-          foodtype: [["", 0]],
-          capacity: [[0, 0]],
-          frequency: [[0, 0]],
-          weaning: [[false, 0]],
-        },
-        concerns: [["", 0]],
-        weight: [[0, 0]],
-      },
+      currentKitten: {},
     };
   }
 
@@ -53,18 +29,33 @@ class App extends Component {
       .then((res) => {
         this.setState({
           kittens: res.data,
+          currentIndex: -1,
+          currentKitten: {
+            id: null,
+            name: "",
+            sex: "",
+            birthdate: "",
+            age: 0,
+            milestones: {
+              temperature: [[0, 0, 0]],
+              eyes: [["", 0]],
+              ears: [["", 0]],
+              teeth: [["", 0]],
+              litterTraining: [["", 0]],
+              mobility: [["", 0]],
+              socialization: [["", 0]],
+              veterinary: [[0, 0]],
+            },
+            food: {
+              foodtype: [["", 0]],
+              capacity: [[0, 0]],
+              frequency: [[0, 0]],
+              weaning: [[false, 0]],
+            },
+            concerns: [["", 0]],
+            weight: [[0, 0]],
+          },
         });
-        // if (currentKitten.id) {
-        //   this.setState({
-        //     kittens: res.data,
-        //   });
-        // } else {
-        //   this.setState({
-        //     kittens: res.data,
-        //     currentKitten: res.data[0],
-        //     currentIndex: 0,
-        //   });
-        // }
         return res.data;
       })
       .catch((e) => console.log(e)));
@@ -82,28 +73,21 @@ class App extends Component {
     });
   };
 
-  searchName = (searchTerm) => {
-    let kittens;
+  searchName = async (searchTerm) => {
     try {
-      KittenDataService.findByName(searchTerm)
-        .then((res) => {
-          if (!res.data.message) {
-            KittenDataService.getAll()
-              .then((all) => {
-                kittens = all.data.filter((e) => e.id === res.data);
-                this.setState({
-                  kittens,
-                  currentKitten: kittens[0],
-                  currentIndex: 0,
-                });
-              });
-          } else {
-            console.log(res.data.message);
-          }
-        });
-    } catch (e) {
-      console.err(e);
-    }
+      const { data: kittens } = await KittenDataService.getAll();
+      const search = await KittenDataService.findByName(searchTerm);
+      const { message, foundKitten } = search.data;
+      console.log(message);
+      if (!foundKitten) return;
+      const found = kittens.filter((e) => e.id === foundKitten.id);
+      console.log(found[0]);
+      this.setState({
+        kittens: found,
+        currentKitten: found[0],
+        currentIndex: 0,
+      });
+    } catch (e) { console.err(e); }
   };
 
   reset = (e) => {
@@ -140,6 +124,7 @@ class App extends Component {
                 currentIndex={currentIndex}
                 currentKitten={currentKitten}
                 setActiveKitten={this.setActiveKitten}
+                retrieveKittens={this.retrieveKittens}
               />
             </Route>
             <Route path="/login">

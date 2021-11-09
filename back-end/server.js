@@ -2,7 +2,7 @@ import express, { urlencoded, json } from "express";
 import session from "express-session";
 import cors from "cors";
 import initPassport from "./auth/passport.js";
-import routes from "./routes.js";
+import routes from "./routes/routes.js";
 import startServer from "./_helpers/startServer.js";
 
 const app = express();

@@ -12,7 +12,8 @@ const userSchema = new Schema(
   },
 );
 
-userSchema.method("toJSON", () => {
+// eslint-disable-next-line func-names
+userSchema.method("toJSON", function () {
   const { _id, ...object } = this.toObject();
   object.id = _id;
   return object;
