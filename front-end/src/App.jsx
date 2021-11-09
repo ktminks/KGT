@@ -11,12 +11,38 @@ import {
 import KittenDataService from "./_services/data.service";
 
 class App extends Component {
+  defaultKitten = {
+    id: null,
+    name: "",
+    sex: "",
+    birthdate: "",
+    age: 0,
+    milestones: {
+      temperature: [[0, 0, 0]],
+      eyes: [["", 0]],
+      ears: [["", 0]],
+      teeth: [["", 0]],
+      litterTraining: [["", 0]],
+      mobility: [["", 0]],
+      socialization: [["", 0]],
+      veterinary: [[0, 0]],
+    },
+    food: {
+      foodtype: [["", 0]],
+      capacity: [[0, 0]],
+      frequency: [[0, 0]],
+      weaning: [[false, 0]],
+    },
+    concerns: [["", 0]],
+    weight: [[0, 0]],
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       kittens: [],
       currentIndex: -1,
-      currentKitten: {},
+      currentKitten: this.defaultKitten,
     };
   }
 
@@ -31,53 +57,40 @@ class App extends Component {
     return { kittens, currentIndex };
   };
 
-  updateDisplayedKittens = () => {
-    const { kittens, currentIndex } = this.getLocalStorage();
-    if (kittens) {
-      this.setState({
-        kittens,
-        currentIndex,
-        currentKitten: kittens[currentIndex],
-      });
-    } else this.retrieveKittens();
+  compareStateToLocalStorage = () => {
+    const { kittens: localKittens, currentIndex: localIndex } = this.getLocalStorage();
+    if (localKittens) {
+      const { currentKitten, currentIndex } = this.state;
+      if (localIndex !== currentIndex
+      && localKittens[localIndex] !== currentKitten) return true;
+    }
+    return false;
+  };
+
+  handleStatusChange = (kittens, currentKitten, currentIndex) => {
+    this.setState({
+      kittens,
+      currentIndex,
+      currentKitten,
+    });
   }
 
-  componentDidMount = () => this.updateDisplayedKittens();
+  updateDisplayFromLocal = () => {
+    const sameAsLocal = this.compareStateToLocalStorage();
+    if (!sameAsLocal) {
+      const { kittens: localKittens, currentIndex: localIndex } = this.getLocalStorage();
+      if (localKittens && localIndex >= 0) {
+        this.handleStatusChange(localKittens, localKittens[localIndex], localIndex);
+      } else this.retrieveKittens();
+    }
+  }
 
-  componentDidUpdate = () => this.updateDisplayedKittens();
+  componentDidMount = () => this.retrieveKittens();
 
   retrieveKittens = () => (
     KittenDataService.getAll()
       .then((res) => {
-        this.setState({
-          kittens: res.data,
-          currentIndex: -1,
-          currentKitten: {
-            id: null,
-            name: "",
-            sex: "",
-            birthdate: "",
-            age: 0,
-            milestones: {
-              temperature: [[0, 0, 0]],
-              eyes: [["", 0]],
-              ears: [["", 0]],
-              teeth: [["", 0]],
-              litterTraining: [["", 0]],
-              mobility: [["", 0]],
-              socialization: [["", 0]],
-              veterinary: [[0, 0]],
-            },
-            food: {
-              foodtype: [["", 0]],
-              capacity: [[0, 0]],
-              frequency: [[0, 0]],
-              weaning: [[false, 0]],
-            },
-            concerns: [["", 0]],
-            weight: [[0, 0]],
-          },
-        });
+        this.handleStatusChange(res.data, this.defaultKitten, -1);
         return res.data;
       })
       .catch((e) => console.log(e)));
@@ -127,6 +140,7 @@ class App extends Component {
         <NavBar
           searchName={this.searchName}
           reset={this.reset}
+          updateDisplayFromLocal={this.updateDisplayFromLocal}
         />
         <div className="container mt-3 w-100">
           <Switch>

@@ -1,35 +1,51 @@
 import React, { useState, useEffect } from "react";
 import KittenDataService from "../../_services/data.service";
+// import { Link } from "react-router-dom";
 
-const LoginButton = () => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+const LoginButton = ({ updateDisplayFromLocal }) => {
   const [userName, setUserName] = useState("");
+  const [loginButton, setLoginButton] = useState(null);
+  const [logoutButton, setLogoutButton] = useState(null);
+
+  // const clearCookies = () => document.cookie = "expires=Thu,01Jan1970 00:00:00UTC; path = /;";
 
   useEffect(() => {
-    const getLoginStatus = () => {
+    const loginTag = <a href="http://localhost:4000/api/auth/google/login" className="nav-link">Login with Google</a>;
+
+    const reset = () => {
+      setUserName("");
+      localStorage.clear();
+      setLoginButton(loginTag);
+      setLogoutButton(null);
+      //   clearCookies();
+      updateDisplayFromLocal();
+    };
+
+    const onLogout = () => {
+      KittenDataService.logout()
+        .then(() => reset());
+    };
+
+    const logoutTag = <button className="nav-link" type="button" onClick={() => onLogout()}>Logout</button>;
+
+    const getLoginStatus = async () => {
       try {
-        KittenDataService.isLoggedIn()
-          .then((result) => {
-            const { loggedIn, user } = result.data;
-            setLoggedIn(loggedIn);
-            if (loggedIn) {
-              const { name } = user;
-              setUserName(name.givenName || name);
-            } else localStorage.clear();
-            console.log(result.data);
-            // return result.data;
-          });
+        const result = await KittenDataService.isLoggedIn();
+        console.log(result.data);
+        const { loggedIn, user } = result.data;
+        if (loggedIn) {
+          const { name } = user;
+          setUserName(name.givenName || name);
+          const greeting = <span className="nav-link">{`Hi, ${userName}!`}</span>;
+          setLoginButton(greeting);
+          setLogoutButton(logoutTag);
+          updateDisplayFromLocal();
+        } else onLogout();
       } catch (err) { console.log(err); }
-      // return { loggedIn: false, user: null };
     };
 
     getLoginStatus();
-  }, []);
-
-  const loginATag = <a href="http://localhost:4000/api/auth/google/login" className="nav-link">Login with Google</a>;
-  const loggedInSpan = <span className="nav-link">{`Hi, ${userName}!`}</span>;
-  const loginButton = isLoggedIn ? loggedInSpan : loginATag;
-  const logoutButton = isLoggedIn ? <a href="http://localhost:4000/api/auth/logout" className="nav-link">Logout</a> : null;
+  }, [userName, updateDisplayFromLocal]);
 
   return (
     <span className="d-flex">

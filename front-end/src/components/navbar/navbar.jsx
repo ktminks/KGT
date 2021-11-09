@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import SearchKittens from "./search";
 import LoginButton from "./loginButton";
 
-const NavBar = ({ searchName, reset }) => (
+const NavBar = ({ searchName, reset, updateDisplayFromLocal }) => (
   <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
     <div className="container-fluid">
       <Link to="/" className="navbar-brand ms-2">
@@ -35,7 +35,7 @@ const NavBar = ({ searchName, reset }) => (
             </Link>
           </li>
           <li className="nav-item">
-            <LoginButton />
+            <LoginButton updateDisplayFromLocal={updateDisplayFromLocal} />
           </li>
         </ul>
         <SearchKittens searchName={searchName} reset={reset} />
