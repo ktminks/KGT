@@ -81,11 +81,18 @@ class App extends Component {
       const { kittens: localKittens, currentIndex: localIndex } = this.getLocalStorage();
       if (localKittens && localIndex >= 0) {
         this.handleStatusChange(localKittens, localKittens[localIndex], localIndex);
-      } else this.retrieveKittens();
-    }
+      } else {
+        this.retrieveKittens();
+      }
+      return true;
+    } return false;
   }
 
-  componentDidMount = () => this.retrieveKittens();
+  componentDidMount = () => {
+    if (!this.updateDisplayFromLocal()) {
+      this.retrieveKittens();
+    }
+  }
 
   retrieveKittens = () => (
     KittenDataService.getAll()
