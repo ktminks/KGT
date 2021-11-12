@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { loginLink } from "../../_services/authData";
 // import KittenDataService from "../_services/data.service";
 
 const LoginPage = () => {
@@ -77,7 +78,7 @@ const LoginPage = () => {
           <h4>or</h4>
           <div data-testid="google-signin-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
 
-            <a href="http://localhost:4000/api/auth/google/login" className="btn btn-primary">Login with Google</a>
+            <a href={loginLink} className="btn btn-primary">Login with Google</a>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import KittenDataService from "../../_services/data.service";
+import { loginLink } from "../../_services/authData";
 // import { Link } from "react-router-dom";
 
 const LoginButton = ({ updateDisplayFromLocal }) => {
@@ -10,7 +11,7 @@ const LoginButton = ({ updateDisplayFromLocal }) => {
   // const clearCookies = () => document.cookie = "expires=Thu,01Jan1970 00:00:00UTC; path = /;";
 
   useEffect(() => {
-    const loginTag = <a href="http://localhost:4000/api/auth/google/login" className="nav-link">Login with Google</a>;
+    const loginTag = <a href={loginLink} className="nav-link">Login with Google</a>;
 
     const reset = () => {
       setUserName("");

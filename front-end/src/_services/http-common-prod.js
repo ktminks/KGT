@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const baseURL = "https://kgt.ktminks.com/api";
+
 export default axios.create({
-  baseURL: "https://kgt.ktminks.com/api",
+  baseURL,
   headers: {
     "Content-type": "application/json",
   },
