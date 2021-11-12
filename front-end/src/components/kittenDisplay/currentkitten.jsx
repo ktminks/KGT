@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import * as Alert from "../alerts/alerts";
 import KittenDataService from "../../_services/data.service";
 import { get } from "../../_utilities";
 import { card, header, list } from "../../_utilities/classes";
@@ -16,14 +17,12 @@ const CurrentKitten = ({
     try {
       KittenDataService.delete(id)
         .then((res) => {
-          console.log(res.data.message);
+          Alert.Success(res.data.message);
           kittens.splice(currentIndex, 1);
           onRefresh();
           history.push("/kittens");
         });
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) { Alert.Problem(e); }
   };
 
   // --------- Finally, render -------------

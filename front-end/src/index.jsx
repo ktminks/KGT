@@ -1,12 +1,22 @@
 import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 
-import App from "./App";
+import Home from "./Home";
 
-render(
+const options = {
+  timeout: 5000,
+  position: positions.BOTTOM_CENTER,
+};
+
+const App = () => (
   <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById("root"),
+    <Provider template={AlertTemplate} options={options}>
+      <Home />
+    </Provider>
+  </BrowserRouter>
 );
+
+render(<App />, document.getElementById("root"));

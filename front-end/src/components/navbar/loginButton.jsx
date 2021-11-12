@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import * as Alert from "../alerts/alerts";
 import KittenDataService from "../../_services/data.service";
-import { loginLink } from "../../_services/authData";
+import { loginLink } from "../../_services/address.service";
 // import { Link } from "react-router-dom";
 
 const LoginButton = ({ updateDisplayFromLocal }) => {
@@ -42,7 +43,7 @@ const LoginButton = ({ updateDisplayFromLocal }) => {
           setLogoutButton(logoutTag);
           updateDisplayFromLocal();
         } else onLogout();
-      } catch (err) { console.log(err); }
+      } catch (err) { Alert.Problem(err); }
     };
 
     getLoginStatus();

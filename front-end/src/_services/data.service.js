@@ -1,5 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
-import http from "front-end";
+import connect from "./http.service";
+import { baseURL } from "./address.service";
+
+const http = connect(baseURL);
 
 class KittenDataService {
   getAll = () => http.get("/");

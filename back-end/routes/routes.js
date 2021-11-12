@@ -7,7 +7,7 @@ export default function routes(app) {
 
   // ------------------ API -----------------------------
   // Retrieve all Kittens
-  router.get("/", handle.getAllKittens);
+  router.get("/", handle.xsrfToken, handle.getAllKittens);
 
   // Retrieve a single Kitten with id
   router.get("*/id=:id?", handle.getOneKitten);
@@ -38,6 +38,7 @@ export default function routes(app) {
   router.get("/loggedInStatus", handle.getLoginStatus);
 
   // ------------------ Router definition  ---------------
+  app.use("*", handle.csrfErrors);
   app.use(/^(?!.*(auth)).*/, handle.getUser);
   app.use("/api", router);
 
