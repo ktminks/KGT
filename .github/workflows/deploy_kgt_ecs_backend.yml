@@ -33,7 +33,7 @@ on:
 
 env:
   AWS_REGION: us-east-1 # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: KGT_backend # set this to your Amazon ECR repository name
+  ECR_REPOSITORY: kgt_backend # set this to your Amazon ECR repository name
   ECS_SERVICE: KGT_backend_service # set this to your Amazon ECS service name
   ECS_CLUSTER: KGT-cluster # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION:
