@@ -48,6 +48,9 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
+    defaults:
+      run:
+        working-directory: back-end
 
     steps:
       - name: Checkout
