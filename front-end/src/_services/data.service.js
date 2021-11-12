@@ -1,7 +1,5 @@
-import connect from "./http.service";
-import { baseURL } from "./address.service";
-
-const http = connect(baseURL);
+// eslint-disable-next-line import/no-unresolved
+import http from "front-end";
 
 class KittenDataService {
   getAll = () => http.get("/");

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import * as Alert from "../alerts/alerts";
 import KittenDataService from "../../_services/data.service";
 
 const EditKitten = ({
@@ -18,15 +17,17 @@ const EditKitten = ({
       KittenDataService.update(id, newKitten)
         .then((res) => {
           const { message, updatedKitten } = res.data;
+          console.log(message);
           if (updatedKitten) {
-            Alert.Success(message);
             kittens.splice(currentIndex, 1, newKitten);
             onRefresh(currentIndex);
             // history.push(`/kittens/id=${id}`);
             history.goBack();
-          } else Alert.Problem(message);
+          }
         });
-    } catch (err) { Alert.Problem(err); }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

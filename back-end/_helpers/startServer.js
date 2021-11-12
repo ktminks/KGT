@@ -8,9 +8,9 @@ const pathHere = dirname(fileURLToPath(import.meta.url));
 
 export default function startServer(app) {
   const mode = checkMode();
-  // const mode = "production";
+  // const mode = "PRODUCTION";
 
-  if (mode === "production") {
+  if (mode === "PRODUCTION") {
     const key = process.env.HTTPS_PRIVKEY;
     const cert = process.env.HTTPS_CERT;
     const ca = process.env.HTTPS_CHAIN;

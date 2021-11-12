@@ -7,26 +7,7 @@ import errorHandler from "../_helpers/errorHandler.js";
 
 export const redirect = (req, res) => { res.redirect("/"); };
 
-// ----------------------- HANDLE CSRF ------------------------
-
-export const xsrfToken = (req, res, next) => {
-  res.cookie("XSRF-TOKEN", req.csrfToken());
-  next();
-};
-
-// error handler
-export const csrfErrors = (err, req, res, next) => {
-  console.log(`CSRF token: ${req.csrfToken()}`);
-
-  // handle bad csrf tokens
-  if (err.code !== "EBADCSRFTOKEN") return next(err);
-
-  // handle CSRF token errors
-  console.log("CSRF token error");
-  res.status(403).send("form tampered with");
-};
-
-// ----------------------- HANDLE AUTH ------------------------
+// auth
 export const googleLogin = (req, res, next) => auth.googleLogin(req, res, next);
 
 export const googleLoginCallback = (req, res, next) => auth.googleLoginCallback(req, res, next);

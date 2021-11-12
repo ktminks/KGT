@@ -10,7 +10,7 @@ import {
 } from "./components";
 import KittenDataService from "./_services/data.service";
 
-class Home extends Component {
+class App extends Component {
   defaultKitten = {
     id: null,
     name: "",
@@ -100,7 +100,7 @@ class Home extends Component {
         this.handleStatusChange(res.data, this.defaultKitten, -1);
         return res.data;
       })
-      .catch((error) => console.log(error)));;
+      .catch((e) => console.log(e)));
 
   setActiveKitten = (kitten) => {
     const { kittens } = this.state;
@@ -117,19 +117,17 @@ class Home extends Component {
       const { data: kittens } = await KittenDataService.getAll();
       const search = await KittenDataService.findByName(searchTerm);
       const { message, foundKitten } = search.data;
-      if (!foundKitten) {
-        console.log(message);
-        return;
-      }
       console.log(message);
+      if (!foundKitten) return;
       const filteredKittens = kittens.filter((e) => e.id === foundKitten.id);
+      console.log(filteredKittens[0]);
       this.setState({
         kittens: filteredKittens,
         currentKitten: filteredKittens[0],
         currentIndex: 0,
       });
       this.setLocalStorage(filteredKittens, 0);
-    } catch (e) { console.log(e); }
+    } catch (e) { console.err(e); }
   };
 
   reset = (e) => {
@@ -185,4 +183,4 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+export default App;

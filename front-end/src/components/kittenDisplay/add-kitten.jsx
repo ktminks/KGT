@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import UseAlert from "../alerts/UseAlert";
 import KittenDataService from "../../_services/data.service";
 import { card, list, listItem } from "../../_utilities/classes";
 
@@ -51,18 +50,23 @@ const AddKitten = ({ kittens, onRefresh }) => {
     setBirthdate(getBirthdate(age));
   };
 
-  const saveKitten = async (e) => {
+  const saveKitten = (e) => {
     e.preventDefault();
     try {
-      const res = await KittenDataService.create({ name, sex, birthdate });
-      const { message, newKitten } = res.data;
-      if (newKitten) {
-        UseAlert(message, "success");
-        kittens.push(newKitten);
-        onRefresh();
-        history.goBack();
-      } else UseAlert({ message }, "warning");
-    } catch (err) { UseAlert(err, "error"); }
+      KittenDataService.create({
+        name, sex, birthdate,
+      }).then((res) => {
+        const { message, newKitten } = res.data;
+        console.log(message);
+        if (newKitten) {
+          kittens.push(newKitten);
+          onRefresh();
+          history.goBack();
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
