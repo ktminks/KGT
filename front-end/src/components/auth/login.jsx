@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { loginLink } from "../../_services/authData";
+import { loginLink } from "../../_services/address.service";
 // import KittenDataService from "../_services/data.service";
 
 const LoginPage = () => {

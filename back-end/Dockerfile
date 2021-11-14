@@ -9,7 +9,7 @@ RUN npm install
 COPY . .
 
 ENV PORT 4000
-ENV MODE "PRODUCTION"
+ENV MODE "production"
 
 EXPOSE 4000
 
