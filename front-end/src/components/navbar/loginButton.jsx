@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import KittenDataService from "../../_services/data.service";
-import { loginLink } from "../../_services/authData";
+import { loginLink } from "../../_services/address.service";
 // import { Link } from "react-router-dom";
 
 const LoginButton = ({ updateDisplayFromLocal }) => {

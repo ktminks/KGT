@@ -5,6 +5,8 @@ on:
     branches: [main]
 
 env:
+  # frontend env
+  # backend env
   AWS_REGION: us-east-1 # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: kgt_backend # set this to your Amazon ECR repository name
   ECS_SERVICE: KGT_backend_service # set this to your Amazon ECS service name
@@ -15,6 +17,13 @@ env:
   CONTAINER_NAME:
     KGT_backend
     # set this to the name of the container in the containerDefinitions section of your task definition
+  GOOGLE_CLIENT_ID: ${{ secrets.KGT_GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.KGT_GOOGLE_CLIENT_SECRET }}
+  MONGODB_URI: ${{ secrets.KGT_MONGODB_URI }}
+  HTTPS_CERT: ${{ secrets.KGT_HTTPS_CERT }}
+  HTTPS_CHAIN: ${{ secrets.KGT_HTTPS_CHAIN }}
+  HTTPS_PRIVKEY: ${{ secrets.KGT_HTTPS_KEY }}
+
 jobs:
   check_files:
     runs-on: ubuntu-latest
@@ -163,9 +172,9 @@ jobs:
       - name: Deploy to AWS
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.KGT_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.KGT_EC2_KEY }}
           ARGS: "-rltgoDzvO --delete"
           SOURCE: "front-end/dist/*"
-          REMOTE_HOST: ${{ secrets.KGT_HOST }}
-          REMOTE_USER: ${{ secrets.KGT_USER }}
+          REMOTE_HOST: ${{ secrets.KGT_EC2_HOST }}
+          REMOTE_USER: ${{ secrets.KGT_EC2_USER }}
           TARGET: "/home/ktkat/KGT/front-end"
