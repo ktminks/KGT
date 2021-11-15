@@ -1,18 +1,23 @@
-// Use this code snippet in your app.
-// If you need more information about configurations or implementing the sample code, visit the AWS docs:
 // https://aws.amazon.com/developers/getting-started/nodejs/
 import AWS from "aws-sdk";
 import dotenv from "dotenv";
 import * as fs from "fs/promises";
 
 export default async function getSecrets() {
+  // check if env is already populated
+  const envFilePath = "./.env";
+  if (process.env.MONGODB_URI) {
+    console.log("ENV already populated -- no need to hit AWS secrets");
+    return;
+  }
+
   // Load the AWS SDK
   const region = "us-east-1";
   const secretName = "arn:aws:secretsmanager:us-east-1:470624414136:secret:KGT_backend_secrets-6FzySI";
 
   // Create a Secrets Manager client
   const client = new AWS.SecretsManager({ region });
-  const envFilePath = "../.env";
+  let secrets;
 
   // In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
   // See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
@@ -41,27 +46,17 @@ export default async function getSecrets() {
       // Deal with the exception here, and/or rethrow at your discretion.
         throw err;
       }
-    } else if (!data) {
-      console.log("No data found.");
-      return;
-    }
+    } else if (!data) return;
+
     // Decrypts secret using the associated KMS CMK.
     // Depending on whether the secret is a string or binary, one of these fields will be populated.
-    if ("SecretString" in data) {
-      const secret = data.SecretString;
-      console.log(secret);
-      // write data to .env file
-      await fs.writeFile(envFilePath, secret);
-    } else {
-      const buff = Buffer.from(data.SecretBinary, "base64");
-      const decodedBinarySecret = buff.toString("ascii");
-      console.log(decodedBinarySecret);
-      // write data to .env file
-      await fs.writeFile(envFilePath, decodedBinarySecret);
-    }
+    if ("SecretString" in data) secrets = data.SecretString;
+    else secrets = Buffer.from(data.SecretBinary, "base64").toString("ascii");
 
-    // Your code goes here.
-
-    dotenv.config({ path: envFilePath });
+    // console.log(secrets);
+    fs.writeFile(envFilePath, secrets);
+    console.log("ENV set from AWS secrets");
   });
+
+  dotenv.config({ path: envFilePath });
 }
