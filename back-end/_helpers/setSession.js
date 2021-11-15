@@ -1,9 +1,10 @@
 import session from "express-session";
-// import MongoStore from "connect-mongo";
+import MongoStore from "connect-mongo";
 // import { client } from "./db.js";
 
-export default function setSession(app) {
-//   const clientPromise = new Promise((res) => res(client));
+export default function setSession(app, client) {
+  const clientPromise = new Promise((res) => res(client));
+
   app.use(session({
     secret: process.env.KGT_SESSION_SECRET || "catballs",
     cookie: {
@@ -13,11 +14,12 @@ export default function setSession(app) {
     },
     resave: true,
     saveUninitialized: true,
-    // store: MongoStore.create({
-    //   clientPromise,
-    //   dbName: "KGT",
-    //   autoRemove: "interval",
-    //   autoRemoveInterval: 60,
-    // }),
+    store: MongoStore.create({
+      clientPromise,
+      dbName: "KGT",
+      autoRemove: "interval",
+      autoRemoveInterval: 60,
+    }),
   }));
+  console.log("Session set");
 }
