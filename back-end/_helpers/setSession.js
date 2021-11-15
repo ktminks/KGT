@@ -5,7 +5,7 @@ import session from "express-session";
 export default function setSession(app) {
 //   const clientPromise = new Promise((res) => res(client));
   app.use(session({
-    secret: process.env.KGT_SESSION_SECRET || "catballs",
+    secret: process.env.SESSION_SECRET || "catballs",
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
       httpOnly: false,
