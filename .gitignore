@@ -50,9 +50,11 @@ typings/
 
 # deployment variables & files
 .env
+.env.json
 **/.env
 .deploy.env
 **/deploy.env
+credentials
 
 # old build versions
 dist/
