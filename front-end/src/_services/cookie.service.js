@@ -10,7 +10,7 @@ export const getCookie = (cookieName) => {
   // handle special characters like $
   const decodedCookie = decodeURIComponent(document.cookie);
   // split into array of individual cookies
-  const cookieArray = decodedCookie.split(";");
+  const cookieArray = decodedCookie ? decodedCookie.split(";") : [];
   // return only value of the one we're looking for
   if (cookieArray.length > 0) {
     const cookie = cookieArray.filter((ck) => ck.toString().includes(searchText))[0];

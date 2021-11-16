@@ -38,15 +38,8 @@ export default function routes(app) {
   router.get("/loggedInStatus", handle.getLoginStatus);
 
   // ------------------ Router definition  ---------------
+  app.use("*", handle.xsrfToken);
   app.use("*", handle.csrfErrors);
   app.use(/^(?!.*(auth)).*/, handle.getUser);
   app.use("/api", router);
-
-  app.get("/success", (req, res) => res.redirect("/"));
-  app.get("/failure", (req, res) => res.send("error logging in"));
-  // ------------------ Fallthrough ----------------------
-
-  // app.use("^(?!/api).*$", (req, res) => {
-  //   res.redirect("/");
-  // });
 }

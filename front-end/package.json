@@ -8,6 +8,7 @@
     "axios": "^0.21.4",
     "bootstrap": "^5.1.1",
     "css-loader": "^6.2.0",
+    "dotenv-webpack": "^7.0.3",
     "http-server": "^13.0.2",
     "jest": "^27.2.4",
     "react": "^17.0.2",
@@ -75,7 +76,7 @@
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
-      "front-end$": "<rootDir>/src/_services/http.service-dev.js"
+      "front-end$": "<rootDir>/src/_services/http.service.js"
     }
   }
 }
