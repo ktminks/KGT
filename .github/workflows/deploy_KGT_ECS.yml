@@ -159,6 +159,11 @@ jobs:
         with:
           node-version: "16.x"
 
+      - name: Set mode
+        run: |
+          touch .env
+          echo "production" > .env
+
       - name: Install npm dependencies
         run: npm install
 

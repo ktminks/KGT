@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import { baseURL } from "front-end";
+import { baseURL } from "./address.service";
 
 console.log(baseURL);
 export const loginLink = `${baseURL}/auth/google/login`;
