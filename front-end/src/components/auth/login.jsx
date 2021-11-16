@@ -10,12 +10,11 @@ const LoginPage = () => {
   //   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
 
-  const showPassword = () => {
-    // eslint-disable-next-line no-unused-expressions
+  const showPassword = () => (
     passwordType === "password"
       ? setPasswordType("text")
-      : setPasswordType("password");
-  };
+      : setPasswordType("password")
+  );
 
   return (
     <div className="w-100 d-flex flex-column justify-content-center">
