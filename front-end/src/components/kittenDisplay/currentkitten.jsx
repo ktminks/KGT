@@ -23,6 +23,9 @@ const CurrentKitten = ({
           history.push("/kittens");
         });
     } catch (e) { Alert.Problem(e); }
+    // } catch (e) {
+    //   console.error(e);
+    // }
   };
 
   // --------- Finally, render -------------

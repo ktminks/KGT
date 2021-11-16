@@ -11,13 +11,10 @@ const { CurrentKitten, AddKitten, EditKitten } = require("..");
 const KittenDisplay = ({
   kittens, currentIndex, currentKitten, setActiveKitten, retrieveKittens,
 }) => {
-  // const history = useHistory();
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
     KittenDataService.view(kitten.id);
   };
-
-  // console.log(currentKitten);
 
   const handleRefresh = (index = kittens.length - 1) => {
     if (index >= 0) handleSetActive(kittens[index], index);

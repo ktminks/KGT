@@ -13,7 +13,7 @@ const LoginButton = ({ updateDisplayFromLocal }) => {
 
   useEffect(() => {
     const loginTag = <a href={loginLink} className="nav-link">Login with Google</a>;
-    console.log(loginLink);
+
     const reset = () => {
       setUserName("");
       localStorage.clear();
@@ -44,6 +44,7 @@ const LoginButton = ({ updateDisplayFromLocal }) => {
           updateDisplayFromLocal();
         } else onLogout();
       } catch (err) { Alert.Problem(err); }
+      // } catch (err) { console.error(err); }
     };
 
     getLoginStatus();

@@ -27,6 +27,9 @@ const EditKitten = ({
           } else Alert.Problem(message);
         });
     } catch (err) { Alert.Problem(err); }
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return (

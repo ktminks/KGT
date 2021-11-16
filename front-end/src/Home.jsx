@@ -100,7 +100,7 @@ class Home extends Component {
         this.handleStatusChange(res.data, this.defaultKitten, -1);
         return res.data;
       })
-      .catch((error) => console.log(error)));;
+      .catch((e) => console.error(e)));
 
   setActiveKitten = (kitten) => {
     const { kittens } = this.state;

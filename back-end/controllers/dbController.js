@@ -32,7 +32,7 @@ export async function getOrCreateDBUser(profile) {
         console.log("You are now signed up.");
         return newUser;
       });
-  } catch (err) { console.log(err); }
+  } catch (err) { console.error(err); }
   return null;
 }
 

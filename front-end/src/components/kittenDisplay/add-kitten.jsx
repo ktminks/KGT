@@ -63,6 +63,21 @@ const AddKitten = ({ kittens, onRefresh }) => {
         history.goBack();
       } else UseAlert({ message }, "warning");
     } catch (err) { UseAlert(err, "error"); }
+
+    // KittenDataService.create({
+    //   name, sex, birthdate,
+    // }).then((res) => {
+    //   const { message, newKitten } = res.data;
+    //   console.log(message);
+    //   if (newKitten) {
+    //     kittens.push(newKitten);
+    //     onRefresh();
+    //     history.goBack();
+    //   }
+    // });
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return (
