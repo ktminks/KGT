@@ -3,9 +3,9 @@ import MongoStore from "connect-mongo";
 
 export default function setSession(app, client) {
   const clientPromise = new Promise((res) => res(client));
-  const secret = process.env.SESSION_SECRET;
+
   app.use(session({
-    secret,
+    secret: process.env.SESSION_SECRET || "catballs",
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
       httpOnly: false,
