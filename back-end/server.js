@@ -10,12 +10,12 @@ const app = express();
 try {
   app.use(urlencoded({ extended: true }));
   app.use(json());
-  setSession(app);
-  app.use(csurf());
-  initPassport(app);
-  app.use(cors());
-  routes(app);
+  await connectDB(app).then(() => {
+    app.use(csurf());
+    initPassport(app);
+    app.use(cors());
+    routes(app);
 
-  startServer(app);
+    startServer(app);
+  });
 } catch (err) { console.error(err); }
-

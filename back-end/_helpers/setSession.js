@@ -1,6 +1,5 @@
 import session from "express-session";
 import MongoStore from "connect-mongo";
-// import { client } from "./db.js";
 
 export default function setSession(app, client) {
   const clientPromise = new Promise((res) => res(client));
