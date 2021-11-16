@@ -12,7 +12,7 @@ const LoginButton = ({ updateDisplayFromLocal }) => {
 
   useEffect(() => {
     const loginTag = <a href={loginLink} className="nav-link">Login with Google</a>;
-
+    console.log(loginLink);
     const reset = () => {
       setUserName("");
       localStorage.clear();

@@ -1,10 +1,14 @@
 import passport from "passport";
 import { OAuth2Strategy as GoogleStrategy } from "passport-google-oauth";
+import checkMode from "../_helpers/checkMode.js";
 
 const initGoogleAuth = () => {
   const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-  const callback = "http://localhost:4000/api/auth/google/callback";
+  const mode = checkMode();
+  const callback = (mode === "development")
+    ? "http://localhost:4000/api/auth/google/callback"
+    : "https://kgt.ktminks.com/api/auth/google/callback";
 
   // Use the GoogleStrategy within Passport.
   //   Strategies in Passport require a `verify` function, which accept
