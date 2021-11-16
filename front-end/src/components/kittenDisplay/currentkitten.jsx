@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import * as Alert from "../alerts/alerts";
+import { useAlert } from "react-alert";
 import KittenDataService from "../../_services/data.service";
 import { get } from "../../_utilities";
 import { card, header, list } from "../../_utilities/classes";
@@ -11,18 +11,20 @@ const CurrentKitten = ({
   currentKitten, currentIndex, kittens, onRefresh,
 }) => {
   const { id } = currentKitten;
+  const alert = useAlert();
+
   // ------- Handle updating data --------------
   const history = useHistory();
   const deleteKitten = () => {
     try {
       KittenDataService.delete(id)
         .then((res) => {
-          Alert.Success(res.data.message);
-          kittens.splice(currentIndex, 1);
-          onRefresh();
-          history.push("/kittens");
+          alert.success(res.data.message, { timeout: 2000 });
         });
-    } catch (e) { Alert.Problem(e); }
+      kittens.splice(currentIndex, 1);
+      onRefresh();
+      history.push("/kittens");
+    } catch (e) { alert.error(e, { timeout: 5000 }); }
     // } catch (e) {
     //   console.error(e);
     // }

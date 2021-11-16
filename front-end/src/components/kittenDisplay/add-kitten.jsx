@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import UseAlert from "../alerts/UseAlert";
+import { useAlert } from "react-alert";
 import KittenDataService from "../../_services/data.service";
 import { card, list, listItem } from "../../_utilities/classes";
 
@@ -16,6 +16,7 @@ const AddKitten = ({ kittens, onRefresh }) => {
   const [ageDisplay, setAgeDisplay] = useState("");
   const [ageCalcClass, setAgeCalcClass] = useState("d-none");
   const [saveButtonClass, setSaveButtonClass] = useState("btn btn-success w-75 ms-2");
+  const alert = useAlert();
 
   const swapWeightAndBirthdate = (e) => {
     e.preventDefault();
@@ -57,12 +58,12 @@ const AddKitten = ({ kittens, onRefresh }) => {
       const res = await KittenDataService.create({ name, sex, birthdate });
       const { message, newKitten } = res.data;
       if (newKitten) {
-        UseAlert(message, "success");
+        alert.success(message, { timeout: 2000 });
         kittens.push(newKitten);
         onRefresh();
         history.goBack();
-      } else UseAlert({ message }, "warning");
-    } catch (err) { UseAlert(err, "error"); }
+      } else alert.error(message, { timeout: 2000 });
+    } catch (err) { alert.error(err, { timeout: 5000 }); }
 
     // KittenDataService.create({
     //   name, sex, birthdate,

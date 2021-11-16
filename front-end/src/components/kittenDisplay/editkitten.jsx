@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import * as Alert from "../alerts/alerts";
+import { useAlert } from "react-alert";
 import KittenDataService from "../../_services/data.service";
 
 const EditKitten = ({
@@ -10,6 +10,7 @@ const EditKitten = ({
   const [newName, changeName] = useState(name);
   const [newSex, changeSex] = useState(sex);
   const history = useHistory();
+  const alert = useAlert();
 
   const updateKitten = (e) => {
     e.preventDefault();
@@ -19,14 +20,14 @@ const EditKitten = ({
         .then((res) => {
           const { message, updatedKitten } = res.data;
           if (updatedKitten) {
-            Alert.Success(message);
+            alert.success(message, { timeout: 2000 });
             kittens.splice(currentIndex, 1, newKitten);
             onRefresh(currentIndex);
             // history.push(`/kittens/id=${id}`);
             history.goBack();
-          } else Alert.Problem(message);
+          } else alert.error(message, { timeout: 3000 });
         });
-    } catch (err) { Alert.Problem(err); }
+    } catch (err) { alert.error(err, { timeout: 5000 }); }
     // } catch (err) {
     //   console.error(err);
     // }
