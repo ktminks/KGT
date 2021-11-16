@@ -5,24 +5,15 @@ on:
     branches: [main]
 
 env:
-  # backend env
   AWS_REGION: us-east-1 # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: kgt_backend # set this to your Amazon ECR repository name
   ECS_SERVICE: KGT_backend_service # set this to your Amazon ECS service name
   ECS_CLUSTER: KGT-cluster # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION:
-    .aws/task-definition.json
+  ECS_TASK_DEFINITION: back-end/.aws/task-definition.json
     # set this to the path to your Amazon ECS task definition file, e.g. .aws/task-definition.json
   CONTAINER_NAME:
     KGT_backend
     # set this to the name of the container in the containerDefinitions section of your task definition
-  # frontend env
-  KGT_GOOGLE_CLIENT_ID: ${{ secrets.KGT_GOOGLE_CLIENT_ID }}
-  KGT_GOOGLE_CLIENT_SECRET: ${{ secrets.KGT_GOOGLE_CLIENT_SECRET }}
-  KGT_MONGODB_URI: ${{ secrets.KGT_MONGODB_URI }}
-  KGT_HTTPS_CERT: ${{ secrets.KGT_HTTPS_CERT }}
-  KGT_HTTPS_CHAIN: ${{ secrets.KGT_HTTPS_CHAIN }}
-  KGT_HTTPS_PRIVKEY: ${{ secrets.KGT_HTTPS_KEY }}
 
 jobs:
   check_files:
@@ -129,6 +120,13 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Download task definition
+        id: download-task-definition
+        env:
+          TASK_FAMILY: KGT_service
+        run: |
+          aws ecs describe-task-definition --task-definition $TASK_FAMILY --query taskDefinition > .aws/task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def

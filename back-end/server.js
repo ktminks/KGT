@@ -7,13 +7,15 @@ import routes from "./routes/routes.js";
 import startServer from "./_helpers/startServer.js";
 
 const app = express();
+try {
+  app.use(urlencoded({ extended: true }));
+  app.use(json());
+  setSession(app);
+  app.use(csurf());
+  initPassport(app);
+  app.use(cors());
+  routes(app);
 
-app.use(urlencoded({ extended: true }));
-app.use(json());
-await connectDB(app);
-app.use(csurf());
-initPassport(app);
-app.use(cors());
-routes(app);
+  startServer(app);
+} catch (err) { console.error(err); }
 
-startServer(app);

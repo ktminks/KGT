@@ -53,6 +53,7 @@ typings/
 **/.env
 .deploy.env
 **/deploy.env
+credentials
 
 # old build versions
 dist/
