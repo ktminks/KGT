@@ -38,8 +38,7 @@ export default function routes(app) {
   router.get("/loggedInStatus", handle.getLoginStatus);
 
   // ------------------ Router definition  ---------------
-  app.get(/^(?!\/api).*$/, handle.xsrfToken);
   app.use("*", handle.csrfErrors);
   app.use(/^(?!.*(auth)).*/, handle.getUser);
-  app.use("/api", router);
+  app.use("/api", router, handle.xsrfToken);
 }
