@@ -100,7 +100,7 @@ class App extends Component {
         this.handleStatusChange(res.data, this.defaultKitten, -1);
         return res.data;
       })
-      .catch((e) => console.log(e)));
+      .catch((e) => console.error(e)));
 
   setActiveKitten = (kitten) => {
     const { kittens } = this.state;
@@ -120,7 +120,7 @@ class App extends Component {
       console.log(message);
       if (!foundKitten) return;
       const filteredKittens = kittens.filter((e) => e.id === foundKitten.id);
-      console.log(filteredKittens[0]);
+
       this.setState({
         kittens: filteredKittens,
         currentKitten: filteredKittens[0],

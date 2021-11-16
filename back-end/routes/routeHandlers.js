@@ -137,7 +137,7 @@ export const getOneKitten = (req, res) => {
     const foundKitten = id
       ? kitten.findById(id, kittens)
       : kitten.findByName(name, kittens);
-    console.log(foundKitten);
+
     // return kitten found, or null if no params
     res.send({ foundKitten, message: "Kitten found!" });
   } catch (err) { errorHandler(err, req, res); }

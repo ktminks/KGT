@@ -173,5 +173,4 @@ const getKitten = (kitten) => {
   return new Kitten(birthdate, name, sex, id);
 };
 
-// console.log(reduceData("09/01/2021"));
 export default getKitten;

@@ -22,7 +22,7 @@ const CurrentKitten = ({
           history.push("/kittens");
         });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

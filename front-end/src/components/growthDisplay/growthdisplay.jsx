@@ -12,7 +12,6 @@ const GrowthDisplay = ({
 }) => {
   const handleSetActive = (kitten, index) => {
     setActiveKitten(kitten, index);
-    // console.log(kitten);
     KittenDataService.view(kitten.id);
   };
 
