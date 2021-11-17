@@ -2,7 +2,7 @@ import { static as exStatic } from "express";
 import https from "https";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import checkMode from "./checkMode.js";
+import checkMode from "../_helpers/checkMode.js";
 
 const pathHere = dirname(fileURLToPath(import.meta.url));
 

@@ -1,10 +1,10 @@
 import express, { urlencoded, json } from "express";
 import cors from "cors";
 import csurf from "csurf";
-import connectDB from "./_helpers/db.js";
+import connectDB from "./server/db.js";
 import initPassport from "./auth/passport.js";
 import routes from "./routes/routes.js";
-import startServer from "./_helpers/startServer.js";
+import startServer from "./server/startServer.js";
 
 const app = express();
 await connectDB(app).then(() => {
@@ -17,3 +17,5 @@ await connectDB(app).then(() => {
 
   startServer(app);
 }).catch((err) => console.error(err));
+
+export default app;
