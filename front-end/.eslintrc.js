@@ -34,6 +34,10 @@ module.exports = {
     "@babel",
   ],
   rules: {
+    "no-return-assign": [
+      "error",
+      "except-parens",
+    ],
     "no-console": "off",
     quotes: [
       "error",

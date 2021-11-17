@@ -65,7 +65,7 @@ const AddKitten = ({ kittens, onRefresh }) => {
         }
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

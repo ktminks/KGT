@@ -17,8 +17,6 @@ const KittenDisplay = ({
     KittenDataService.view(kitten.id);
   };
 
-  // console.log(currentKitten);
-
   const handleRefresh = (index = kittens.length - 1) => {
     if (index >= 0) handleSetActive(kittens[index], index);
     else retrieveKittens();

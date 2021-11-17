@@ -6,7 +6,7 @@ const getLoginStatus = (req) => {
   try {
     status.isLoggedIn = req.user ? req.user.gid : false;
     status.user = status.isLoggedIn ? req.user : null;
-  } catch (err) { console.log(err); }
+  } catch (err) { console.error(err); }
   return status;
 };
 
