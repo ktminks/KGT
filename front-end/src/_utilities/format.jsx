@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import * as format from "./formatText";
 import { isSoon } from "./dates";
 
@@ -188,27 +187,4 @@ export const formattedNeeds = (kitten) => {
     getDetail("concerns", 0),
     getDetail("needs", 0),
   ];
-};
-
-export const formattedKittens = (kittens, handleSetActive, currentIndex) => {
-  if (!kittens || !kittens.length) return null;
-  const printKitten = (kitten, index) => {
-    const currentClass = `list-group-item list-group-item-action ${index === currentIndex ? "active" : ""}`;
-
-    const keySelect = (e) => handleSetActive(kittens[e.key], e.key);
-
-    return (
-      <li
-        className={currentClass}
-        key={index}
-        data-testid={`${kitten.name}${index}`}
-        onKeyPress={(e) => keySelect(e)}
-        onClick={() => handleSetActive(kitten, index)}
-      >
-        {kitten.name}
-      </li>
-    );
-  };
-
-  return (kittens && kittens.flatMap(printKitten));
 };

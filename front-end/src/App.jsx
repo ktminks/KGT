@@ -4,23 +4,15 @@ import { Switch, Route, useHistory } from "react-router-dom";
 import {
   NavBar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
 } from "./components";
-// import getPrevState from "./_services/localStorage.service";
-import {
-  searchKittens, resetKittens, retrieveKittens, deleteKitten, addKitten, editKitten,
-} from "./_services/kittens.service";
-import defaultState from "./_utilities/data";
 
-const App = () => {
+const App = ({ kittenService, defaultState }) => {
   const [kittens, setKittens] = useState(defaultState.kittens);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentKitten, setCurrentKitten] = useState(defaultState.defaultKitten);
   const history = useHistory();
-
-  const handleStatusChange = (newKittens, newCurrentKitten, newIndex) => {
-    setKittens(newKittens);
-    setCurrentIndex(newIndex);
-    setCurrentKitten(newCurrentKitten);
-  };
+  const {
+    searchKittens, resetKittens, retrieveKittens, deleteKitten, addKitten, editKitten,
+  } = kittenService;
 
   // loads kittens on app initialization
   useEffect(() => retrieveKittens().then((res) => {
@@ -28,9 +20,9 @@ const App = () => {
       const { newKittens, newIndex } = res;
       setKittens(newKittens);
       setCurrentIndex(newIndex);
-      setCurrentKitten(newKittens[0]);
+      setCurrentKitten(newKittens[newIndex]);
     }
-  }), []);
+  }), [retrieveKittens]);
 
   // refreshes the page when kittens list changes
   useEffect(() => {}, [kittens]);
@@ -92,12 +84,15 @@ const App = () => {
   };
 
   const handleSearch = async (searchTerm) => {
-    try {
-      const searchResults = await searchKittens(searchTerm);
-      if (!searchResults) return null;
-      const { foundKittens, foundKitten, foundIndex } = searchResults;
-      handleStatusChange(foundKittens, foundKitten, foundIndex);
-    } catch (e) { console.err(e); }
+    searchKittens(searchTerm)
+      .then((searchResults) => {
+        if (!searchResults) return null;
+        const { foundKittens, foundKitten, foundIndex } = searchResults;
+        setKittens(foundKittens);
+        setCurrentIndex(foundIndex);
+        setCurrentKitten(foundKitten);
+        return foundKitten;
+      }).catch((e) => { console.err(e); });
     return null;
   };
   const handleReset = async () => resetKittens();

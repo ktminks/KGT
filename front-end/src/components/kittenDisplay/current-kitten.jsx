@@ -1,8 +1,7 @@
 import React from "react";
 import { get } from "../../_utilities";
 import { card, header, list } from "../../_utilities/classes";
-
-const { Header } = require("..");
+import Header from "../header";
 
 const CurrentKitten = ({ currentKitten, handleDelete }) => (
   <div data-testid="current-kitten">

@@ -1,3 +1,0 @@
-const KittenListItem = ({ kittens, onKittenClick }) => {
-
-};

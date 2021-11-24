@@ -4,13 +4,31 @@ import {
 } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "../App";
+import defaultState from "../_utilities/data";
 
 // let container = null;
 // const App = require("../App").default;
-
+const kittenService = {
+  searchKittens: async () => {},
+  resetKittens: async () => {},
+  retrieveKittens: async () => {},
+  deleteKitten: async () => {},
+  addKitten: async () => {},
+  editKitten: async () => {},
+};
 describe("app", () => {
+  let asFragment;
+
   beforeEach(() => {
-    render(<App />, { wrapper: MemoryRouter });
+    ({ asFragment } = render(<App
+      kittenService={kittenService}
+      defaultState={defaultState}
+    />, { wrapper: MemoryRouter }));
+  });
+
+  it("matches the snapshot", () => {
+    expect.hasAssertions();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("renders the navbar", async () => {
@@ -29,12 +47,6 @@ describe("app", () => {
       expect(dashboard).toBeDefined();
       expect(dashboard).toBeInTheDocument();
     });
-  });
-
-  it("matches the snapshot", () => {
-    expect.hasAssertions();
-    const { asFragment } = render(<App />, { wrapper: MemoryRouter });
-    expect(asFragment()).toMatchSnapshot();
   });
 
   it("renders the kitten display", async () => {

@@ -2,9 +2,10 @@ import React from "react";
 import {
   Switch, Route, Link, BrowserRouter,
 } from "react-router-dom";
-import { get } from "../../_utilities";
-
-const { CurrentKitten, AddKitten, EditKitten } = require("..");
+import KittenList from "../kittenList";
+import AddKitten from "./add-kitten";
+import EditKitten from "./edit-kitten";
+import CurrentKitten from "./current-kitten";
 
 const KittenDisplay = ({
   kittens, currentIndex, handleSetActive, handleAdd, handleDelete, handleEdit, history,
@@ -48,7 +49,11 @@ const KittenDisplay = ({
             +
           </Link>
           <li className="list-group-item text-center display-6" data-testid="kitten-list">Kittens</li>
-          {get.formattedKittens(kittens, handleSetActive, currentIndex, "kittens")}
+          <KittenList
+            kittens={kittens}
+            handleSetActive={handleSetActive}
+            currentIndex={currentIndex}
+          />
         </ul>
       </div>
     </div>

@@ -2,9 +2,8 @@ import React from "react";
 import {
   Switch, Route, BrowserRouter,
 } from "react-router-dom";
-import { get } from "../../_utilities";
-
-const { CurrentKittenDev } = require("..");
+import KittenList from "../kittenList";
+import CurrentKittenDev from "./currentkittendev";
 
 const GrowthDisplay = ({ kittens, currentIndex, handleSetActive }) => (
   <BrowserRouter>
@@ -22,7 +21,11 @@ const GrowthDisplay = ({ kittens, currentIndex, handleSetActive }) => (
       <div>
         <ul className="list-group sticky-top m-2">
           <li className="list-group-item text-center display-6">Kittens</li>
-          {get.formattedKittens(kittens, handleSetActive, currentIndex, "growth")}
+          <KittenList
+            kittens={kittens}
+            handleSetActive={handleSetActive}
+            currentIndex={currentIndex}
+          />
         </ul>
       </div>
     </div>
