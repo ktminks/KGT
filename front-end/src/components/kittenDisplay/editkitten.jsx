@@ -31,7 +31,7 @@ const EditKitten = ({
   };
 
   return (
-    <div className="me-2">
+    <div className="me-2" data-testid="edit-kitten">
       <h4 className="text-center">
         Edit
         {" "}

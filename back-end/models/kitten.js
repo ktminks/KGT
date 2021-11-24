@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose;
-
-export const kittenSchema = new Schema(
+export const kittenSchema = new mongoose.Schema(
   {
     name: { type: String, default: "kitten" },
     sex: { type: String, default: "n/a" },

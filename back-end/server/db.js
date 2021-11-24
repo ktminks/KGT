@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import { Kitten } from "../models/kitten.js";
-import User from "../models/user.js";
+import { User } from "../models/user.js";
 import setSession from "./setSession.js";
 
-export default async function connectDB(app) {
-  const { connect } = mongoose;
+export async function connectDB(app = null) {
+  const URI = process.env.MONGODB_URI || "mongodb://localhost:27017/kittens";
+  let message = "Haven't connected yet";
 
   const connectionOptions = {
     useCreateIndex: true,
@@ -13,16 +14,18 @@ export default async function connectDB(app) {
     useFindAndModify: false,
   };
 
-  await connect(process.env.MONGODB_URI, connectionOptions)
-    .then(() => console.log("Connected to the database!"))
+  const connection = await mongoose.connect(URI, connectionOptions)
+    .then(() => (message = "Connected to the database!"))
     .catch((err) => {
-      console.log("Cannot connect to the database!", err);
+      message = `Cannot connect to the database! Error: ${err}`;
       process.exit();
     });
 
-  const client = mongoose.connection.getClient();
-  setSession(app, client);
+  if (connection && app) setSession(app, mongoose.connection.getClient());
+
   mongoose.Promise = global.Promise;
+  return message;
 }
 
 export { Kitten, User };
+export default connectDB;

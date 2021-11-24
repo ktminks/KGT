@@ -52,6 +52,7 @@ module.exports = {
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
+    "jest/no-hooks": "off",
   },
   settings: {
     "import/resolver": {

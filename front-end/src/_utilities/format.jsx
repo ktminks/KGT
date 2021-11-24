@@ -77,7 +77,6 @@ const getFoodDetails = (i) => {
 
   if (type && cap && freq) {
     const mostRecent = [type, cap, freq].reduce((a, b) => (b[i].age > a[i].age ? b : a));
-    console.log(mostRecent);
     let date = isSoon(mostRecent[i].age, age);
     const foodList = date
       ? getListItem(format.food(type[i], cap[i], freq[i], date, name), "foodlist", i) : null;
@@ -138,7 +137,6 @@ const printItem = (category, index) => {
     "upcoming needs": () => needs.flatMap((e, i) => getGrowth(e, needs[i])),
   };
   const result = [router[category]()].flat();
-  console.log(result);
   return result.length ? result : noresult(category, index);
 };
 
@@ -193,7 +191,7 @@ export const formattedNeeds = (kitten) => {
 };
 
 export const formattedKittens = (kittens, handleSetActive, currentIndex) => {
-  if (!kittens.length) return null;
+  if (!kittens || !kittens.length) return null;
   const printKitten = (kitten, index) => {
     const currentClass = `list-group-item list-group-item-action ${index === currentIndex ? "active" : ""}`;
 

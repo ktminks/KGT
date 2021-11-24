@@ -3,32 +3,36 @@ import {
   Switch, Route, BrowserRouter,
 } from "react-router-dom";
 import { get } from "../../_utilities";
-import KittenDataService from "../../_services/data.service";
+import { setActiveKitten } from "../../_services/kittens.service";
 
 const { CurrentKittenDev } = require("..");
 
-const GrowthDisplay = ({
-  kittens, currentIndex, currentKitten, setActiveKitten,
-}) => {
+const GrowthDisplay = ({ kittens, currentIndex, currentKitten }) => {
+  const [displayKittens, setKittens] = React.useState(kittens);
+  const [displayIndex, setIndex] = React.useState(currentIndex);
+  const [displayKitten, setKitten] = React.useState(currentKitten);
+
   const handleSetActive = (kitten, index) => {
-    setActiveKitten(kitten, index);
-    KittenDataService.view(kitten.id);
+    setActiveKitten(kitten, index, kittens, setKittens, setKitten, setIndex);
   };
 
   return (
     <BrowserRouter>
-      <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
+      <div
+        className="d-flex justify-content-evenly flex-column-reverse flex-sm-row"
+        data-testid="growth-display"
+      >
         <div className="w-100">
           <Switch>
             <Route path="/:id">
-              <CurrentKittenDev currentKitten={currentKitten} />
+              <CurrentKittenDev currentKitten={displayKitten} />
             </Route>
           </Switch>
         </div>
         <div>
           <ul className="list-group sticky-top m-2">
             <li className="list-group-item text-center display-6">Kittens</li>
-            {get.formattedKittens(kittens, handleSetActive, currentIndex, "growth")}
+            {get.formattedKittens(displayKittens, handleSetActive, displayIndex, "growth")}
           </ul>
         </div>
       </div>

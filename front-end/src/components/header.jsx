@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getDate } from "../_utilities";
 import { header } from "../_utilities/classes";
 
-const Header = ({ currentKitten, deleteKitten, buttons }) => {
+const Header = ({ currentKitten, onDelete, buttons }) => {
   const {
     name, sex, birthdate, age, id,
   } = currentKitten;
@@ -42,7 +42,7 @@ const Header = ({ currentKitten, deleteKitten, buttons }) => {
           <Link
             to="/kittens"
             className="btn btn-danger m-1"
-            onClick={deleteKitten}
+            onClick={onDelete}
           >
             Delete
           </Link>

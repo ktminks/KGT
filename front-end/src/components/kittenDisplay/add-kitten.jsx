@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import KittenDataService from "../../_services/data.service";
 import { card, list, listItem } from "../../_utilities/classes";
 
-const AddKitten = ({ kittens, onRefresh }) => {
+const AddKitten = ({ onAddKitten }) => {
   const history = useHistory();
   const [name, setName] = useState("Kitten name");
   const [sex, setSex] = useState("N/A");
@@ -52,25 +51,11 @@ const AddKitten = ({ kittens, onRefresh }) => {
 
   const saveKitten = (e) => {
     e.preventDefault();
-    try {
-      KittenDataService.create({
-        name, sex, birthdate,
-      }).then((res) => {
-        const { message, newKitten } = res.data;
-        console.log(message);
-        if (newKitten) {
-          kittens.push(newKitten);
-          onRefresh();
-          history.goBack();
-        }
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    onAddKitten({ name, sex, birthdate });
   };
 
   return (
-    <div className="me-2">
+    <div className="me-2" data-testid="add-kitten">
       <h4 className="text-center">Add a new kitten!</h4>
 
       <form onSubmit={saveKitten}>

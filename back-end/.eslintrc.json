@@ -12,7 +12,7 @@
     "parser": "@babel/eslint-parser",
     "parserOptions": {
         "babelOptions": {
-            "configFile": "./back-end/babel.config.json"
+            "configFile": "./back-end/.babelrc"
         },
         "ecmaVersion": 12,
         "sourceType": "module"

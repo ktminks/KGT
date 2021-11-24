@@ -1,42 +1,21 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import KittenDataService from "../../_services/data.service";
 import { get } from "../../_utilities";
 import { card, header, list } from "../../_utilities/classes";
 
 const { Header } = require("..");
 
-const CurrentKitten = ({
-  currentKitten, currentIndex, kittens, onRefresh,
-}) => {
-  const { id } = currentKitten;
-  // ------- Handle updating data --------------
-  const history = useHistory();
-  const deleteKitten = () => {
-    try {
-      KittenDataService.delete(id)
-        .then((res) => {
-          console.log(res.data.message);
-          kittens.splice(currentIndex, 1);
-          onRefresh();
-          history.push("/kittens");
-        });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+const CurrentKitten = ({ currentKitten, handleDelete }) => {
+  const onDelete = () => handleDelete(currentKitten.id);
 
-  // --------- Finally, render -------------
-  const buttons = true;
   return (
-    <div>
-      {id ? (
+    <div data-testid="current-kitten">
+      {currentKitten && currentKitten.id ? (
         <div className="d-flex flex-column">
           {/* ------- Header : Kitten name & basic details ------- */}
           <Header
             currentKitten={currentKitten}
-            deleteKitten={deleteKitten}
-            buttons={buttons}
+            onDelete={onDelete}
+            buttons={1}
           />
 
           <div className="d-flex flex-wrap flex-row">
