@@ -75,5 +75,9 @@ describe("app", () => {
     });
   });
 
-  it.todo("renders the mock state");
+  it.todo("renders the default state");
+  it.todo("sets a kitten as active");
+  it.todo("adds a kitten");
+  it.todo("deletes a kitten");
+  it.todo("updates a kitten");
 });

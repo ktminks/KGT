@@ -40,7 +40,7 @@ const KittenDisplay = ({
       </div>
 
       <div>
-        <ul className="list-group sticky-top m-2">
+        <ul className="list-group sticky-top m-2" data-testid="kitten-list">
           <Link
             to="/kittens/add"
             className="btn btn-danger w-100"
@@ -48,7 +48,7 @@ const KittenDisplay = ({
           >
             +
           </Link>
-          <li className="list-group-item text-center display-6" data-testid="kitten-list">Kittens</li>
+          <li className="list-group-item text-center display-6">Kittens</li>
           <KittenList
             kittens={kittens}
             handleSetActive={handleSetActive}

@@ -12,14 +12,6 @@ export const retrieveKittens = async () => {
   return kittens;
 };
 
-export const setActiveKitten = (kitten, i, kittens) => {
-  let index;
-  if (!i && kittens) index = kittens.findIndex((k) => k.id === kitten.id);
-  else index = i;
-  // setLocalStorage(kittens, index);
-  return { kittens, currentKitten: kitten, currentIndex: index };
-};
-
 export const searchKittens = async (searchTerm) => {
   console.log(searchTerm);
   const { kittens } = await retrieveKittens();
@@ -40,14 +32,14 @@ export const searchKittens = async (searchTerm) => {
   return null;
 };
 
-export const resetKittens = async (e, currentKitten) => {
-  if (e) e.preventDefault();
-  await retrieveKittens()
-    .then((kittens) => {
-      if (currentKitten) setActiveKitten(currentKitten, null, kittens);
-      return kittens;
-    }).catch((err) => console.error(err));
-};
+// export const resetKittens = async (e, currentKitten) => {
+//   if (e) e.preventDefault();
+//   await retrieveKittens()
+//     .then((kittens) => {
+//       if (currentKitten) setActiveKitten(currentKitten, null, kittens);
+//       return kittens;
+//     }).catch((err) => console.error(err));
+// };
 
 export const deleteKitten = async (id) => KittenDataService.delete(id)
   .then((res) => {

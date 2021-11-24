@@ -13,13 +13,13 @@ const GrowthDisplay = ({ kittens, currentIndex, handleSetActive }) => (
     >
       <div className="w-100">
         <Switch>
-          <Route path="/:id">
+          <Route>
             <CurrentKittenDev currentKitten={kittens[currentIndex]} />
           </Route>
         </Switch>
       </div>
       <div>
-        <ul className="list-group sticky-top m-2">
+        <ul className="list-group sticky-top m-2" data-testid="kitten-list-growth">
           <li className="list-group-item text-center display-6">Kittens</li>
           <KittenList
             kittens={kittens}

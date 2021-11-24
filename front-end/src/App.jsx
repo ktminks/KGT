@@ -8,10 +8,9 @@ import {
 const App = ({ kittenService, defaultState }) => {
   const [kittens, setKittens] = useState(defaultState.kittens);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentKitten, setCurrentKitten] = useState(defaultState.defaultKitten);
   const history = useHistory();
   const {
-    searchKittens, resetKittens, retrieveKittens, deleteKitten, addKitten, editKitten,
+    searchKittens, retrieveKittens, deleteKitten, addKitten, editKitten,
   } = kittenService;
 
   // loads kittens on app initialization
@@ -20,7 +19,6 @@ const App = ({ kittenService, defaultState }) => {
       const { newKittens, newIndex } = res;
       setKittens(newKittens);
       setCurrentIndex(newIndex);
-      setCurrentKitten(newKittens[newIndex]);
     }
   }), [retrieveKittens]);
 
@@ -29,25 +27,25 @@ const App = ({ kittenService, defaultState }) => {
 
   // saves current kitten id to local storage
   const saveCurrentKitten = (id) => {
-    console.log(id);
+    if (id) console.log("Placeholder for handling local storage");
   };
 
   // sets current kitten based on local storage
 
-  const setActiveKitten = async (kitten, index) => {
+  const setActiveKitten = async (id, index) => {
     // get kitten details by id or index (doesn't need to know how) - await
 
     // then set currentKitten and currentIndex
-    setCurrentKitten(kitten);
+    // const kitten = kittens.find((kitten) => kitten.id === id);
     setCurrentIndex(index);
-    saveCurrentKitten(kitten.id);
+    saveCurrentKitten(id);
   };
 
   const handleAdd = async (data) => {
     await addKitten(data)
       .then((newKitten) => {
         if (newKitten) {
-          setActiveKitten(newKitten, kittens.length);
+          setActiveKitten(newKitten.id, kittens.length);
           setKittens([...kittens, newKitten]);
           // retrieveKittens()
           //   .then((res) => (res ? setKittens(res.newKittens) : null));
@@ -76,8 +74,7 @@ const App = ({ kittenService, defaultState }) => {
           const newKittens = [...kittens];
           newKittens[index] = editedKitten;
           setKittens(newKittens);
-          setCurrentKitten(editedKitten);
-          setActiveKitten(editedKitten, index);
+          setActiveKitten(id, index);
           history.goBack();
         }
       }).catch((err) => console.error(err));
@@ -90,18 +87,17 @@ const App = ({ kittenService, defaultState }) => {
         const { foundKittens, foundKitten, foundIndex } = searchResults;
         setKittens(foundKittens);
         setCurrentIndex(foundIndex);
-        setCurrentKitten(foundKitten);
         return foundKitten;
       }).catch((e) => { console.err(e); });
     return null;
   };
-  const handleReset = async () => resetKittens();
+  // const handleReset = async () => resetKittens();
 
   return (
     <>
       <NavBar
         handleSearch={handleSearch}
-        reset={handleReset}
+        // reset={handleReset}
       />
       <div className="container mt-3 w-100">
         <Switch>
@@ -109,7 +105,6 @@ const App = ({ kittenService, defaultState }) => {
             <GrowthDisplay
               kittens={kittens}
               currentIndex={currentIndex}
-              currentKitten={currentKitten}
               handleSetActive={setActiveKitten}
             />
           </Route>
@@ -117,7 +112,6 @@ const App = ({ kittenService, defaultState }) => {
             <KittenDisplay
               kittens={kittens}
               currentIndex={currentIndex}
-              currentKitten={currentKitten}
               handleSetActive={setActiveKitten}
               handleAdd={handleAdd}
               handleDelete={handleDelete}
