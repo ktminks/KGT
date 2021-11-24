@@ -34,20 +34,22 @@ const kittens = [
 ];
 
 describe("kittenDisplay", () => {
-  // beforeEach(() => {
-  //   render(<KittenDisplay
-  //     initKittens={kittens}
-  //     initIndex={0}
-  //     initKitten={kittens[0]}
-  //     saveCurrentKitten={saveCurrentKitten}
-  //   />, { wrapper: MemoryRouter });
-  // });
+  beforeEach(() => {
+    render(<KittenDisplay
+      kittens={kittens}
+      currentIndex={0}
+      currentKitten={kittens[0]}
+      handleSetActive={jest.fn()}
+      handleAdd={jest.fn()}
+      handleDelete={jest.fn()}
+      handleEdit={jest.fn()}
+    />, { wrapper: MemoryRouter });
+  });
 
   it("renders the add button correctly", async () => {
     expect.hasAssertions();
     await waitFor(() => {
       const addButton = screen.getByTestId("add-button");
-      expect(addButton).toBeDefined();
       expect(addButton.textContent).toBe("+");
       expect(addButton).toBeInTheDocument();
     });
@@ -58,51 +60,30 @@ describe("kittenDisplay", () => {
 
     await waitFor(() => {
       const kittenList = screen.getByTestId("kitten-list");
-      expect(kittenList).toBeDefined();
       expect(kittenList.textContent).toBe("Kittens");
       expect(kittenList).toBeInTheDocument();
 
       const testKitty = screen.getByTestId("Testkitty0");
-      expect(testKitty).toBeDefined();
+      expect(testKitty).toBeInTheDocument();
     });
     // add something about checking the state (kittens)
   });
 
   it("renders the currentKitten component", async () => {
     expect.hasAssertions();
-
-    render(<KittenDisplay
-      initKittens={kittens}
-      initIndex={0}
-      initKitten={kittens[0]}
-      saveCurrentKitten={jest.fn()}
-    />, { wrapper: MemoryRouter });
-
     await waitFor(() => {
       const currentKitten = screen.getByTestId("current-kitten");
-      expect(currentKitten).toBeDefined();
       expect(currentKitten).toBeInTheDocument();
     });
   });
 
   it("renders the correct kitten on click", async () => {
     expect.hasAssertions();
-
-    const saveCurrentKitten = jest.fn();
-
-    render(<KittenDisplay
-      initKittens={kittens}
-      initIndex={0}
-      initKitten={kittens[0]}
-      saveCurrentKitten={saveCurrentKitten}
-    />, { wrapper: MemoryRouter });
-
     await waitFor(() => {
       const testKitty = screen.getByTestId("Testkitty0");
       fireEvent.click(testKitty);
     }).then(() => {
       const currentKitten = screen.getByTestId("current-kitten");
-      expect(currentKitten).toBeDefined();
       expect(currentKitten).toBeInTheDocument();
     });
   });
@@ -119,7 +100,6 @@ describe("kittenDisplay", () => {
       fireEvent.click(addButton);
     }).then(() => {
       const addKittenForm = screen.getByTestId("add-kitten");
-      expect(addKittenForm).toBeDefined();
       expect(addKittenForm).toBeInTheDocument();
     });
   });

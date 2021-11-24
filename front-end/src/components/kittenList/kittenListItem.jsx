@@ -1,0 +1,3 @@
+const KittenListItem = ({ kittens, onKittenClick }) => {
+
+};

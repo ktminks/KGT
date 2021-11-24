@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { card, list, listItem } from "../../_utilities/classes";
 
-const AddKitten = ({ onAddKitten }) => {
-  const history = useHistory();
+const AddKitten = ({ onAddKitten, history }) => {
   const [name, setName] = useState("Kitten name");
   const [sex, setSex] = useState("N/A");
   const [birthdate, setBirthdate] = useState("2021-09-01");

@@ -24,8 +24,8 @@ const defaultKitten = {
   weight: [[0, 0]],
 };
 
-const initKittens = [defaultKitten];
+const kittens = [defaultKitten];
 
-const defaultState = { initKittens, defaultKitten };
+const defaultState = { kittens, defaultKitten };
 
 export default defaultState;
