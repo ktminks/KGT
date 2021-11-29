@@ -109,7 +109,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Public ECR
-        run: aws ecr-public get-login-password --region us-east-1 | docker login --u AWS --password-stdin public.ecr.aws/e7k2f3b9
+        run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/e7k2f3b9
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
