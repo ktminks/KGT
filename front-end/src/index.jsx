@@ -23,8 +23,7 @@ const App = () => (
         defaultState={defaultState}
       />
     </Provider>
-  </BrowserRouter>,
-  document.getElementById("root")
+  </BrowserRouter>
 );
 
 render(<App />, document.getElementById("root"));
