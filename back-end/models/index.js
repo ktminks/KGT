@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Kitten, User } from "../_helpers/db.js";
+import { Kitten, User } from "../server/db.js";
 
 mongoose.Promise = global.Promise;
 

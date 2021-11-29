@@ -1,44 +1,24 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import KittenDataService from "../../_services/data.service";
 
-const EditKitten = ({
-  currentKitten, currentIndex, kittens, onRefresh,
-}) => {
+const EditKitten = ({ currentKitten, handleEdit, history }) => {
   const { name, id, sex } = currentKitten;
   const [newName, changeName] = useState(name);
   const [newSex, changeSex] = useState(sex);
-  const history = useHistory();
 
-  const updateKitten = (e) => {
+  const onUpdate = (e) => {
     e.preventDefault();
-    const newKitten = { ...currentKitten, sex: newSex, name: newName };
-    try {
-      KittenDataService.update(id, newKitten)
-        .then((res) => {
-          const { message, updatedKitten } = res.data;
-          console.log(message);
-          if (updatedKitten) {
-            kittens.splice(currentIndex, 1, newKitten);
-            onRefresh(currentIndex);
-            // history.push(`/kittens/id=${id}`);
-            history.goBack();
-          }
-        });
-    } catch (err) {
-      console.error(err);
-    }
+    handleEdit(id, { newName, newSex });
   };
 
   return (
-    <div className="me-2">
+    <div className="me-2" data-testid="edit-kitten">
       <h4 className="text-center">
         Edit
         {" "}
         {name}
       </h4>
 
-      <form onSubmit={updateKitten}>
+      <form onSubmit={onUpdate}>
         <div className="input-group">
           <span className="input-group-text">Name</span>
           <input
