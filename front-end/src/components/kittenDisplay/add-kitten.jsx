@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useAlert } from "react-alert";
-import KittenDataService from "../../_services/data.service";
 import { card, list, listItem } from "../../_utilities/classes";
 
 const AddKitten = ({ onAddKitten, history }) => {
@@ -14,7 +12,6 @@ const AddKitten = ({ onAddKitten, history }) => {
   const [ageDisplay, setAgeDisplay] = useState("");
   const [ageCalcClass, setAgeCalcClass] = useState("d-none");
   const [saveButtonClass, setSaveButtonClass] = useState("btn btn-success w-75 ms-2");
-  const alert = useAlert();
 
   const swapWeightAndBirthdate = (e) => {
     e.preventDefault();
@@ -50,33 +47,9 @@ const AddKitten = ({ onAddKitten, history }) => {
     setBirthdate(getBirthdate(age));
   };
 
-  const saveKitten = async (e) => {
+  const saveKitten = (e) => {
     e.preventDefault();
-    try {
-      const res = await KittenDataService.create({ name, sex, birthdate });
-      const { message, newKitten } = res.data;
-      if (newKitten) {
-        alert.success(message, { timeout: 2000 });
-        kittens.push(newKitten);
-        onRefresh();
-        history.goBack();
-      } else alert.error(message, { timeout: 2000 });
-    } catch (err) { alert.error(err, { timeout: 5000 }); }
-
-    // KittenDataService.create({
-    //   name, sex, birthdate,
-    // }).then((res) => {
-    //   const { message, newKitten } = res.data;
-    //   console.log(message);
-    //   if (newKitten) {
-    //     kittens.push(newKitten);
-    //     onRefresh();
-    //     history.goBack();
-    //   }
-    // });
-    // } catch (err) {
-    //   console.error(err);
-    // }
+    onAddKitten({ name, sex, birthdate });
   };
 
   return (
