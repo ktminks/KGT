@@ -108,13 +108,13 @@ jobs:
         with:
           aws-access-key-id: ${{ env.ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: us_east_1
 
       - name: Login to Public ECR via Docker
         env:
           aws-access-key-id: ${{ env.ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ env.SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: us_east_1
         run: |
           aws ecr-public get-login-password --region us-east-1 | docker login -u AWS --password-stdin public.ecr.aws
 
@@ -131,8 +131,6 @@ jobs:
           registry: public.ecr.aws
           username: ${{ secrets.AWS_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        env:
-          AWS_REGION: <region>
 
       - name: Push image to ECR
         run: |
