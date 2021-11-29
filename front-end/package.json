@@ -16,6 +16,7 @@
     "react-alert-template-basic": "^1.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
+    "regenerator-runtime": "^0.13.9",
     "style-loader": "^3.2.1"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5",
     "@babel/runtime": "^7.15.4",
+    "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "babel-loader": "^8.2.2",
     "dotenv-webpack": "^7.0.3",
@@ -44,7 +46,7 @@
     "jest-environment-jsdom": "^27.2.5",
     "path": "^0.12.7",
     "postcss": "^8.3.6",
-    "regenerator-runtime": "^0.13.9",
+    "react-test-renderer": "^17.0.2",
     "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.1"
@@ -58,25 +60,6 @@
   "scripts": {
     "build": "webpack --mode=production",
     "start": "webpack-dev-server --mode=development",
-    "test": "jest"
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./setupTests.js"
-    ],
-    "verbose": false,
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "front-end"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
-      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
-      "front-end$": "<rootDir>/src/_services/http.service.js"
-    }
+    "test": "jest --watch"
   }
 }

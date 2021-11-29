@@ -5,8 +5,11 @@ import { Link } from "react-router-dom";
 import SearchKittens from "./search";
 import LoginButton from "./loginButton";
 
-const NavBar = ({ searchName, reset, updateDisplayFromLocal }) => (
-  <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+const NavBar = ({ searchName, reset, updateDisplay }) => (
+  <nav
+    className="navbar navbar-expand-sm navbar-dark bg-dark"
+    data-testid="navbar"
+  >
     <div className="container-fluid">
       <Link to="/" className="navbar-brand ms-2">
         myClowder
@@ -35,7 +38,7 @@ const NavBar = ({ searchName, reset, updateDisplayFromLocal }) => (
             </Link>
           </li>
           <li className="nav-item">
-            <LoginButton updateDisplayFromLocal={updateDisplayFromLocal} />
+            <LoginButton updateDisplay={updateDisplay} />
           </li>
         </ul>
         <SearchKittens searchName={searchName} reset={reset} />

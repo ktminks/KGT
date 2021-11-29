@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import KittenDataService from "../../_services/data.service";
 import { card, list, listItem } from "../../_utilities/classes";
 
-const AddKitten = ({ kittens, onRefresh }) => {
-  const history = useHistory();
+const AddKitten = ({ onAddKitten, history }) => {
   const [name, setName] = useState("Kitten name");
   const [sex, setSex] = useState("N/A");
   const [birthdate, setBirthdate] = useState("2021-09-01");
@@ -82,7 +80,7 @@ const AddKitten = ({ kittens, onRefresh }) => {
   };
 
   return (
-    <div className="me-2">
+    <div className="me-2" data-testid="add-kitten">
       <h4 className="text-center">Add a new kitten!</h4>
 
       <form onSubmit={saveKitten}>

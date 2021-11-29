@@ -1,188 +1,137 @@
-import React, { Component } from "react";
-import {
-  Switch, Route, BrowserRouter as Router,
-} from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
-import "./public/App.css";
+import React, { useState, useEffect } from "react";
+import { Switch, Route, useHistory } from "react-router-dom";
 
 import {
   NavBar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
 } from "./components";
-import KittenDataService from "./_services/data.service";
 
-class Home extends Component {
-  defaultKitten = {
-    id: null,
-    name: "",
-    sex: "",
-    birthdate: "",
-    age: 0,
-    milestones: {
-      temperature: [[0, 0, 0]],
-      eyes: [["", 0]],
-      ears: [["", 0]],
-      teeth: [["", 0]],
-      litterTraining: [["", 0]],
-      mobility: [["", 0]],
-      socialization: [["", 0]],
-      veterinary: [[0, 0]],
-    },
-    food: {
-      foodtype: [["", 0]],
-      capacity: [[0, 0]],
-      frequency: [[0, 0]],
-      weaning: [[false, 0]],
-    },
-    concerns: [["", 0]],
-    weight: [[0, 0]],
-  };
+const Home = ({ kittenService, defaultState }) => {
+  const [kittens, setKittens] = useState(defaultState.kittens);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const history = useHistory();
+  const {
+    searchKittens, retrieveKittens, deleteKitten, addKitten, editKitten,
+  } = kittenService;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      kittens: [],
-      currentIndex: -1,
-      currentKitten: this.defaultKitten,
-    };
-  }
-
-  setLocalStorage = (kittens, currentIndex) => {
-    localStorage.setItem("kittens", JSON.stringify(kittens));
-    localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
-  };
-
-  getLocalStorage = () => {
-    const kittens = JSON.parse(localStorage.getItem("kittens"));
-    const currentIndex = JSON.parse(localStorage.getItem("currentIndex"));
-    return { kittens, currentIndex };
-  };
-
-  compareStateToLocalStorage = () => {
-    const { kittens: localKittens, currentIndex: localIndex } = this.getLocalStorage();
-    if (localKittens) {
-      const { currentKitten, currentIndex } = this.state;
-      if (localIndex !== currentIndex
-      && localKittens[localIndex] !== currentKitten) return true;
+  // loads kittens on app initialization
+  useEffect(() => retrieveKittens().then((res) => {
+    if (res) {
+      const { newKittens, newIndex } = res;
+      setKittens(newKittens);
+      setCurrentIndex(newIndex);
     }
-    return false;
+  }), [retrieveKittens]);
+
+  // refreshes the page when kittens list changes
+  useEffect(() => {}, [kittens]);
+
+  // saves current kitten id to local storage
+  const saveCurrentKitten = (id) => {
+    if (id) console.log("Placeholder for handling local storage");
   };
 
-  handleStatusChange = (kittens, currentKitten, currentIndex) => {
-    this.setState({
-      kittens,
-      currentIndex,
-      currentKitten,
-    });
-  }
+  // sets current kitten based on local storage
 
-  updateDisplayFromLocal = () => {
-    const sameAsLocal = this.compareStateToLocalStorage();
-    if (!sameAsLocal) {
-      const { kittens: localKittens, currentIndex: localIndex } = this.getLocalStorage();
-      if (localKittens && localIndex >= 0) {
-        this.handleStatusChange(localKittens, localKittens[localIndex], localIndex);
-      } else {
-        this.retrieveKittens();
-      }
-      return true;
-    } return false;
-  }
+  const setActiveKitten = async (id, index) => {
+    // get kitten details by id or index (doesn't need to know how) - await
 
-  componentDidMount = () => {
-    if (!this.updateDisplayFromLocal()) {
-      this.retrieveKittens();
-    }
-  }
-
-  retrieveKittens = () => (
-    KittenDataService.getAll()
-      .then((res) => {
-        this.handleStatusChange(res.data, this.defaultKitten, -1);
-        return res.data;
-      })
-      .catch((e) => console.error(e)));
-
-  setActiveKitten = (kitten) => {
-    const { kittens } = this.state;
-    const index = kittens.findIndex((k) => k.id === kitten.id);
-    this.setState({
-      currentKitten: kitten,
-      currentIndex: index,
-    });
-    this.setLocalStorage(kittens, index);
+    // then set currentKitten and currentIndex
+    // const kitten = kittens.find((kitten) => kitten.id === id);
+    setCurrentIndex(index);
+    saveCurrentKitten(id);
   };
 
-  searchName = async (searchTerm) => {
-    try {
-      const { data: kittens } = await KittenDataService.getAll();
-      const search = await KittenDataService.findByName(searchTerm);
-      const { message, foundKitten } = search.data;
-      if (!foundKitten) {
-        console.log(message);
-        return;
-      }
-      console.log(message);
-      const filteredKittens = kittens.filter((e) => e.id === foundKitten.id);
-      this.setState({
-        kittens: filteredKittens,
-        currentKitten: filteredKittens[0],
-        currentIndex: 0,
-      });
-      this.setLocalStorage(filteredKittens, 0);
-    } catch (e) { console.log(e); }
+  const handleAdd = async (data) => {
+    await addKitten(data)
+      .then((newKitten) => {
+        if (newKitten) {
+          setActiveKitten(newKitten.id, kittens.length);
+          setKittens([...kittens, newKitten]);
+          // retrieveKittens()
+          //   .then((res) => (res ? setKittens(res.newKittens) : null));
+          history.goBack();
+        }
+      }).catch((err) => console.error(err));
   };
 
-  reset = (e) => {
-    e.preventDefault();
-    const { currentKitten } = this.state;
-    this.retrieveKittens()
-      .then(() => {
-        this.setActiveKitten(currentKitten);
-      });
+  const handleDelete = async (id) => {
+    await deleteKitten(id)
+      .then((success) => {
+        if (success) {
+          setKittens(kittens.filter((k) => k.id !== id));
+          history.push("/kittens");
+        }
+      }).catch((err) => console.error(err));
   };
 
-  render() {
-    const { kittens, currentIndex, currentKitten } = this.state;
+  const handleEdit = async (id, data) => {
+    const index = kittens.findIndex((k) => k.id === id);
+    const kittenToEdit = kittens[index];
+    console.log(kittenToEdit);
+    await editKitten(kittenToEdit, data)
+      .then((editedKitten) => {
+        if (editedKitten) {
+          const newKittens = [...kittens];
+          newKittens[index] = editedKitten;
+          setKittens(newKittens);
+          setActiveKitten(id, index);
+          history.goBack();
+        }
+      }).catch((err) => console.error(err));
+  };
 
-    return (
-      <Router>
-        <NavBar
-          searchName={this.searchName}
-          reset={this.reset}
-          updateDisplayFromLocal={this.updateDisplayFromLocal}
-        />
-        <div className="container mt-3 w-100">
-          <Switch>
-            <Route path="/growth">
-              <GrowthDisplay
-                kittens={kittens}
-                currentIndex={currentIndex}
-                currentKitten={currentKitten}
-                setActiveKitten={this.setActiveKitten}
-              />
-            </Route>
-            <Route path="/kittens">
-              <KittenDisplay
-                kittens={kittens}
-                currentIndex={currentIndex}
-                currentKitten={currentKitten}
-                setActiveKitten={this.setActiveKitten}
-                retrieveKittens={this.retrieveKittens}
-              />
-            </Route>
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-            <Route path="/register">
-              <RegisterPage />
-            </Route>
-            <Route path="/*">
-              <Dashboard />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
-}
+  const handleSearch = async (searchTerm) => {
+    searchKittens(searchTerm)
+      .then((searchResults) => {
+        if (!searchResults) return null;
+        const { foundKittens, foundKitten, foundIndex } = searchResults;
+        setKittens(foundKittens);
+        setCurrentIndex(foundIndex);
+        return foundKitten;
+      }).catch((e) => { console.err(e); });
+    return null;
+  };
+  // const handleReset = async () => resetKittens();
+
+  return (
+    <>
+      <NavBar
+        handleSearch={handleSearch}
+        // reset={handleReset}
+      />
+      <div className="container mt-3 w-100">
+        <Switch>
+          <Route path="/growth">
+            <GrowthDisplay
+              kittens={kittens}
+              currentIndex={currentIndex}
+              handleSetActive={setActiveKitten}
+            />
+          </Route>
+          <Route path="/kittens">
+            <KittenDisplay
+              kittens={kittens}
+              currentIndex={currentIndex}
+              handleSetActive={setActiveKitten}
+              handleAdd={handleAdd}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+              history={history}
+            />
+          </Route>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/register">
+            <RegisterPage />
+          </Route>
+          <Route path="/*">
+            <Dashboard />
+          </Route>
+        </Switch>
+      </div>
+    </>
+  );
+};
+
 export default Home;

@@ -50,7 +50,9 @@ typings/
 
 # deployment variables & files
 .env
-**/.env
+.env.json
+**/*.env
+**/*.env.*
 .deploy.env
 **/deploy.env
 credentials

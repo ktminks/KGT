@@ -1,69 +1,63 @@
 import React from "react";
 import {
   Switch, Route, Link, BrowserRouter,
-  // useHistory,
 } from "react-router-dom";
-import { get } from "../../_utilities";
-import KittenDataService from "../../_services/data.service";
-
-const { CurrentKitten, AddKitten, EditKitten } = require("..");
+import KittenList from "../kittenList";
+import AddKitten from "./add-kitten";
+import EditKitten from "./edit-kitten";
+import CurrentKitten from "./current-kitten";
 
 const KittenDisplay = ({
-  kittens, currentIndex, currentKitten, setActiveKitten, retrieveKittens,
-}) => {
-  const handleSetActive = (kitten, index) => {
-    setActiveKitten(kitten, index);
-    KittenDataService.view(kitten.id);
-  };
-
-  const handleRefresh = (index = kittens.length - 1) => {
-    if (index >= 0) handleSetActive(kittens[index], index);
-    else retrieveKittens();
-  };
-
-  return (
-    <BrowserRouter>
-      <div className="d-flex justify-content-evenly flex-column-reverse flex-sm-row">
-        <div className="w-100">
-          <Switch>
-            <Route path="/kittens/add">
-              <AddKitten kittens={kittens} onRefresh={handleRefresh} />
-            </Route>
-            <Route exact path="/kittens/edit/:id">
-              <EditKitten
-                currentKitten={currentKitten}
-                currentIndex={currentIndex}
-                kittens={kittens}
-                onRefresh={handleRefresh}
-              />
-            </Route>
-            <Route path="/:id">
-              <CurrentKitten
-                currentKitten={currentKitten}
-                currentIndex={currentIndex}
-                kittens={kittens}
-                onRefresh={handleRefresh}
-              />
-            </Route>
-          </Switch>
-        </div>
-
-        <div>
-          <ul className="list-group sticky-top m-2">
-            <Link
-              to="/kittens/add"
-              className="btn btn-danger w-100"
-              data-testid="add-button"
-            >
-              +
-            </Link>
-            <li className="list-group-item text-center display-6">Kittens</li>
-            {get.formattedKittens(kittens, handleSetActive, currentIndex, "kittens")}
-          </ul>
-        </div>
+  kittens, currentIndex, handleSetActive, handleAdd, handleDelete, handleEdit, history,
+}) => (
+  <BrowserRouter>
+    <div
+      className="d-flex justify-content-evenly flex-column-reverse flex-sm-row"
+      data-testid="kitten-display"
+    >
+      <div className="w-100">
+        <Switch>
+          <Route path="/kittens/add">
+            <AddKitten
+              onAddKitten={handleAdd}
+              history={history}
+            />
+          </Route>
+          <Route exact path="/kittens/edit/:id">
+            <EditKitten
+              currentKitten={kittens[currentIndex]}
+              handleEdit={handleEdit}
+              history={history}
+            />
+          </Route>
+          <Route>
+            <CurrentKitten
+              currentKitten={kittens[currentIndex]}
+              handleDelete={handleDelete}
+            />
+          </Route>
+        </Switch>
       </div>
-    </BrowserRouter>
-  );
-};
+
+      <div>
+        <ul className="list-group sticky-top m-2" data-testid="kitten-list">
+          <Link
+            to="/kittens/add"
+            className="btn btn-danger w-100"
+            data-testid="add-button"
+          >
+            +
+          </Link>
+          <li className="list-group-item text-center display-6">Kittens</li>
+          <KittenList
+            kittens={kittens}
+            handleSetActive={handleSetActive}
+            currentIndex={currentIndex}
+          />
+        </ul>
+      </div>
+    </div>
+  </BrowserRouter>
+);
 
 export default KittenDisplay;

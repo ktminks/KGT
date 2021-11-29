@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 import { kittenSchema } from "./kitten.js";
 
-const { Schema } = mongoose;
-
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
     gid: { type: Number, required: true, index: { unique: true } },
     email: { type: String, required: true, index: { unique: true } },
@@ -19,4 +17,5 @@ userSchema.method("toJSON", function () {
   return object;
 });
 
-export default mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
+export default User;

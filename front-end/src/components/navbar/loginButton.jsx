@@ -1,13 +1,8 @@
-import React, { useState } from "react";
-import useHandleAuth from "../../hooks/handleAuth";
-// import { Link } from "react-router-dom";
+import React from "react";
+import useAuthStatus from "../../_services/auth.service";
 
-const LoginButton = ({ updateDisplayFromLocal }) => {
-  const [loginButton, setLoginButton] = useState(null);
-  const [logoutButton, setLogoutButton] = useState(null);
-  // const clearCookies = () => document.cookie = "expires=Thu,01Jan1970 00:00:00UTC; path = /;";
-
-  useHandleAuth({ setLoginButton, setLogoutButton, updateDisplayFromLocal });
+const LoginButton = () => {
+  const { loginButton, logoutButton } = useAuthStatus();
 
   return (
     <span className="d-flex">
