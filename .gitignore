@@ -52,6 +52,7 @@ typings/
 .env
 .env.json
 **/.env
+**.env.js
 .deploy.env
 **/deploy.env
 credentials
