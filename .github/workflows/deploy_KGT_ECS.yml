@@ -6,8 +6,8 @@ on:
 
 env:
   AWS_REGION: us-east-1 # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-  ECR_REPOSITORY: kgt_backend # set this to your Amazon ECR repository name
+  ECR_REGISTRY: public.ecr.aws
+  ECR_REPOSITORY: e7k2f3b9/kgt_backend # set this to your Amazon ECR repository name
   ECS_SERVICE: KGT_backend_service # set this to your Amazon ECS service name
   ECS_CLUSTER: KGT-cluster # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .aws/task-definition.json
@@ -110,16 +110,18 @@ jobs:
           aws-secret-access-key: ${{ env.SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Login to Public ECR via Docker
+        env:
+        run: |
+          aws ecr-public get-login-password --region us-east-1 | docker login -u AWS --password-stdin public.ecr.aws
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
-        env:
-          ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
         run: |
           # Build a docker container and push it to ECR so that it can be deployed to ECS.
-          aws ecr-public get-login-password --region us-east-1 | docker login -u AWS --password-stdin public.ecr.aws/e7k2f3b9
           docker build -t $ECR_REPOSITORY .
-          docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:latest"
 
       - name: Fill in the new image ID in the Amazon ECS task definition
@@ -137,6 +139,8 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+
+       tags: latest
 
   build_frontend:
     runs-on: ubuntu-latest
