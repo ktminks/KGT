@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import { connect } from "./http.service";
+import connect from "./http.service";
 import { baseURL } from "./address.service";
 
 const http = connect(baseURL);

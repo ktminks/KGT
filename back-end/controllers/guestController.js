@@ -34,7 +34,6 @@ export const getOrCreateGuestUser = (id) => {
     ? guests[index]
     : createGuestUser(id);
 
-  // console.log(guests);
   return guestUser;
 };
 

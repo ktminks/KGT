@@ -6,7 +6,7 @@ import {
   NavBar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
 } from "./components";
 
-const App = ({ kittenService, defaultState }) => {
+const Home = ({ kittenService, defaultState }) => {
   const [kittens, setKittens] = useState(defaultState.kittens);
   const [currentIndex, setCurrentIndex] = useState(0);
   const history = useHistory();
@@ -137,4 +137,4 @@ const App = ({ kittenService, defaultState }) => {
   );
 };
 
-export default App;
+export default Home;

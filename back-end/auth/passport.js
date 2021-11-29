@@ -6,7 +6,7 @@ const initGoogleAuth = () => {
   const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const mode = checkMode();
-  const callback = (mode === "development")
+  const callback = (mode.toLowerCase() === "development")
     ? "http://localhost:4000/api/auth/google/callback"
     : "https://kgt.ktminks.com/api/auth/google/callback";
 
