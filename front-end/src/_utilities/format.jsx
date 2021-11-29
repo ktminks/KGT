@@ -77,7 +77,7 @@ const getFoodDetails = (i) => {
 
   if (type && cap && freq) {
     const mostRecent = [type, cap, freq].reduce((a, b) => (b[i].age > a[i].age ? b : a));
-    console.log(mostRecent);
+    // console.log(mostRecent);
     let date = isSoon(mostRecent[i].age, age);
     const foodList = date
       ? getListItem(format.food(type[i], cap[i], freq[i], date, name), "foodlist", i) : null;
@@ -138,7 +138,7 @@ const printItem = (category, index) => {
     "upcoming needs": () => needs.flatMap((e, i) => getGrowth(e, needs[i])),
   };
   const result = [router[category]()].flat();
-  console.log(result);
+  // console.log(result);
   return result.length ? result : noresult(category, index);
 };
 

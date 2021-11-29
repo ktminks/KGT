@@ -32,7 +32,7 @@ const LoginButton = ({ updateDisplayFromLocal }) => {
     const getLoginStatus = async () => {
       try {
         const result = await KittenDataService.isLoggedIn();
-        console.log(result.data);
+        // console.log(result.data);
         const { loggedIn, user } = result.data;
         if (loggedIn) {
           const { name } = user;
