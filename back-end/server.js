@@ -15,6 +15,7 @@ await connectDB(app).then((message) => {
   initPassport(app);
   app.use(cors());
   routes(app);
+
   startServer(app);
 }).catch((err) => console.error(err));
 
