@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
+import { useAlert } from "react-alert";
 
 import {
   NavBar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
@@ -9,6 +10,7 @@ const App = ({ kittenService, defaultState }) => {
   const [kittens, setKittens] = useState(defaultState.kittens);
   const [currentIndex, setCurrentIndex] = useState(0);
   const history = useHistory();
+  const alert = useAlert();
   const {
     searchKittens, retrieveKittens, deleteKitten, addKitten, editKitten,
   } = kittenService;
@@ -49,9 +51,10 @@ const App = ({ kittenService, defaultState }) => {
           setKittens([...kittens, newKitten]);
           // retrieveKittens()
           //   .then((res) => (res ? setKittens(res.newKittens) : null));
+          alert.success("Kitten added successfully!");
           history.goBack();
         }
-      }).catch((err) => console.error(err));
+      }).catch((err) => alert.error(err));
   };
 
   const handleDelete = async (id) => {
