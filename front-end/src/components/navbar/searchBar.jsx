@@ -6,17 +6,18 @@ const SearchBar = ({ handleSearch, handleReset }) => {
   const onSearch = async (e, term) => {
     e.preventDefault();
     setSearchTerm("");
-    await handleSearch(term);
+    return handleSearch(term);
   };
 
   const onReset = async (e) => {
     e.preventDefault();
     setSearchTerm("");
-    await handleReset();
+    return handleReset();
   };
 
   return (
-    <form className="d-flex" onSubmit={(e) => onSearch(e, searchTerm)}>
+    <form className="d-flex" onSubmit={async (e) => { onSearch(e, searchTerm); }}>
+      {/* <form className="d-flex" onSubmit={async (e) => { await onSearch(e, searchTerm); }}> */}
       <div className="input-group me-2">
         <input
           type="text"
@@ -37,7 +38,7 @@ const SearchBar = ({ handleSearch, handleReset }) => {
           type="button"
           data-testid="reset-button"
           value="Reset"
-          onClick={(e) => onReset(e)}
+          onClick={async (e) => { await onReset(e); }}
         />
       </div>
     </form>

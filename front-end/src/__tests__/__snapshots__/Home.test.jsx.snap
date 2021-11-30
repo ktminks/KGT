@@ -60,7 +60,20 @@ exports[`home matches the snapshot 1`] = `
           >
             <span
               class="d-flex"
-            />
+            >
+              <a
+                class="nav-link"
+                href="#!"
+              >
+                Login with Google
+              </a>
+              <button
+                class="nav-link"
+                type="button"
+              >
+                Logout
+              </button>
+            </span>
           </li>
         </ul>
         <form

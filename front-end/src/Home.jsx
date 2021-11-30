@@ -5,7 +5,7 @@ import {
   NavBar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
 } from "./components";
 
-const Home = ({ kittenService, defaultKittens }) => {
+const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
   const [kittens, setKittens] = useState(defaultKittens);
   const [currentIndex, setCurrentIndex] = useState(0);
   const history = useHistory();
@@ -27,9 +27,9 @@ const Home = ({ kittenService, defaultKittens }) => {
   // useEffect(() => console.log(currentIndex), [kittens, currentIndex]);
 
   // saves current kitten id to local storage
-  const saveCurrentKitten = (id) => {
-    if (id) console.log("Placeholder for handling local storage");
-  };
+  // const saveCurrentKitten = (id) => {
+  //   if (id) console.log("Placeholder for handling local storage");
+  // };
 
   // sets current kitten based on local storage
 
@@ -38,9 +38,9 @@ const Home = ({ kittenService, defaultKittens }) => {
     const i = index > -1 ? index : kittens.findIndex((kitten) => kitten.id === id);
     // then set currentKitten and currentIndex
     // const kitten = kittens.find((kitten) => kitten.id === id);
-    console.log(i);
+    // console.log(i);
     setCurrentIndex(i);
-    saveCurrentKitten(id);
+    // saveCurrentKitten(id);
   };
 
   const handleAdd = async (data) => addKitten(data)
@@ -76,13 +76,16 @@ const Home = ({ kittenService, defaultKittens }) => {
       }).catch((err) => console.error(err));
   };
 
-  const handleSearch = async (searchTerm) => searchKittens(searchTerm)
-    .then(({ foundKittens }) => {
-      setKittens(foundKittens);
-      return { foundKittens };
-    })
-    .then(({ foundKittens }) => setActiveKitten(foundKittens[0].id, 0))
-    .catch((e) => { console.error(e); });
+  const handleSearch = async (searchTerm) => {
+    await searchKittens(searchTerm)
+      .then(({ foundKittens }) => {
+        setKittens(foundKittens);
+        return foundKittens;
+      })
+      .then((foundKittens) => (
+        foundKittens[0] ? setActiveKitten(foundKittens[0].id, 0) : null))
+      .catch((err) => { console.error(err); });
+  };
 
   const handleReset = async () => {
     const kitten = kittens[currentIndex];
@@ -98,6 +101,7 @@ const Home = ({ kittenService, defaultKittens }) => {
       <NavBar
         handleSearch={handleSearch}
         handleReset={handleReset}
+        useAuthStatus={useAuthStatus}
       />
       <div className="container mt-3 w-100">
         <Switch>

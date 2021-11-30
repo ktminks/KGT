@@ -9,10 +9,13 @@ const KittenList = ({ kittens, handleSetActive, currentIndex }) => {
   useEffect(() => {}, [currentIndex]);
 
   const handleSelect = (id, index, e = null) => {
-    if (e && kittens[e.key] && kittens[e.key].id !== id) {
-      handleSetActive(kittens[e.key].id, e.key);
-      // setActiveIndex(e.key);
-      return;
+    if (e) {
+      e.preventDefault();
+      if (kittens[e.key] && kittens[e.key].id !== id) {
+        handleSetActive(kittens[e.key].id, e.key);
+        // setActiveIndex(e.key);
+        return;
+      }
     }
     // setClass(classDef(index, index));
     handleSetActive(id, index);

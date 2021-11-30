@@ -7,11 +7,13 @@ import KittenDisplay from "../kittendisplay";
 import kittens from "../../mocks/kittens";
 
 describe("kittenDisplay", () => {
+  let currentIndex = 0;
+  const setCurrentIndex = ((index) => (currentIndex = index));
   beforeEach(() => {
     render(<KittenDisplay
       kittens={kittens}
-      currentIndex={0}
-      handleSetActive={jest.fn()}
+      currentIndex={currentIndex}
+      handleSetActive={(id, index) => setCurrentIndex(index)}
       handleAdd={jest.fn()}
       handleDelete={jest.fn()}
       handleEdit={jest.fn()}

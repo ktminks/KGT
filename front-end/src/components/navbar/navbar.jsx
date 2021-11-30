@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import SearchBar from "./searchBar";
 import LoginButton from "./loginButton";
 
-const NavBar = ({ handleSearch, handleReset }) => (
+const NavBar = ({ handleSearch, handleReset, useAuthStatus }) => (
   <nav
     className="navbar navbar-expand-sm navbar-dark bg-dark"
     data-testid="navbar"
@@ -38,7 +38,7 @@ const NavBar = ({ handleSearch, handleReset }) => (
             </Link>
           </li>
           <li className="nav-item">
-            <LoginButton />
+            <LoginButton useAuthStatus={useAuthStatus} />
           </li>
         </ul>
         <SearchBar
