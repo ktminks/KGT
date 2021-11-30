@@ -2,10 +2,10 @@ import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { Navbar as nav } from "bootstrap";
 import { Link } from "react-router-dom";
-import SearchKittens from "./search";
+import SearchBar from "./searchBar";
 import LoginButton from "./loginButton";
 
-const NavBar = ({ searchName, reset, updateDisplay }) => (
+const NavBar = ({ handleSearch, handleReset }) => (
   <nav
     className="navbar navbar-expand-sm navbar-dark bg-dark"
     data-testid="navbar"
@@ -38,10 +38,13 @@ const NavBar = ({ searchName, reset, updateDisplay }) => (
             </Link>
           </li>
           <li className="nav-item">
-            <LoginButton updateDisplay={updateDisplay} />
+            <LoginButton />
           </li>
         </ul>
-        <SearchKittens searchName={searchName} reset={reset} />
+        <SearchBar
+          handleSearch={handleSearch}
+          handleReset={handleReset}
+        />
       </div>
     </div>
   </nav>

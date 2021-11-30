@@ -1,4 +1,4 @@
-const defaultKitten = {
+export const defaultKitten = {
   id: null,
   name: "",
   sex: "",
@@ -24,8 +24,4 @@ const defaultKitten = {
   weight: [[0, 0]],
 };
 
-const kittens = [defaultKitten];
-
-const defaultState = { kittens, defaultKitten };
-
-export default defaultState;
+export const kittens = [defaultKitten];

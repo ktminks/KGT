@@ -6,7 +6,7 @@ import checkMode from "../_helpers/checkMode.js";
 
 const pathHere = dirname(fileURLToPath(import.meta.url));
 
-export default function startServer(app) {
+export default async function startServer(app) {
   const mode = checkMode();
   // const mode = "production";
 
@@ -18,7 +18,6 @@ export default function startServer(app) {
     const msg = "HTTPS listening on https://kgt.ktminks.com:8443";
 
     // app.use(/^(?!\/api).*$/, exStatic(join(pathHere, "../public/prod")));
-
     const httpsServer = https.createServer(credentials, app);
     httpsServer.listen("8443", () => console.log(msg));
   }

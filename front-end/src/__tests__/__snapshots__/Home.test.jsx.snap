@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`app matches the snapshot 1`] = `
+exports[`home matches the snapshot 1`] = `
 <DocumentFragment>
   <nav
     class="navbar navbar-expand-sm navbar-dark bg-dark"
@@ -71,17 +71,20 @@ exports[`app matches the snapshot 1`] = `
           >
             <input
               class="form-control"
+              data-testid="search-input"
               placeholder="Search by name"
               type="text"
               value=""
             />
             <input
               class="btn btn-outline-secondary"
+              data-testid="search-button"
               type="submit"
               value="Search"
             />
             <input
               class="btn btn-outline-secondary"
+              data-testid="reset-button"
               type="button"
               value="Reset"
             />

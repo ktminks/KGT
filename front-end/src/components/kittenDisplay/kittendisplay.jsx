@@ -7,6 +7,9 @@ import AddKitten from "./add-kitten";
 import EditKitten from "./edit-kitten";
 import CurrentKitten from "./current-kitten";
 
+// refreshes the page when kittens list or active kitten changes
+// useEffect(() => { }, [kittens, currentIndex]);
+
 const KittenDisplay = ({
   kittens, currentIndex, handleSetActive, handleAdd, handleDelete, handleEdit, history,
 }) => (
@@ -59,5 +62,4 @@ const KittenDisplay = ({
     </div>
   </BrowserRouter>
 );
-
 export default KittenDisplay;
