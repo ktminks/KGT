@@ -43,7 +43,7 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
     // saveCurrentKitten(id);
   };
 
-  const handleAdd = async (data) => addKitten(data)
+  const handleAdd = (data) => addKitten(data)
     .then((newKitten) => {
       if (newKitten) {
         setActiveKitten(newKitten.id, kittens.length);

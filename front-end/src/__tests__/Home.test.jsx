@@ -78,15 +78,12 @@ describe("home", () => {
       useAuthStatus={jest.fn(() => authStatus)}
     />, { wrapper: BrowserRouter });
 
-    await waitFor(() => {
       const link = screen.getByTestId("kittendisplay-link");
       expect(link).toBeInTheDocument();
       fireEvent.click(link);
-    }).then(() => {
       const kittenDisplay = screen.getByTestId("kitten-display");
       expect(kittenDisplay).toBeDefined();
       expect(kittenDisplay).toBeInTheDocument();
-    });
   });
 
   it("changes the search box text", async () => {
@@ -104,26 +101,55 @@ describe("home", () => {
         expect(searchInput).toHaveValue("Moarkitty");
       });
   });
+
   it("sets a kitten as active upon searching", async () => {
     expect.hasAssertions();
-    await waitFor(() => render(<Home
+    render(<Home
       kittenService={kittenService}
       defaultKittens={kittens}
       useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: BrowserRouter }))
-      .then(() => {
-        const searchInput = screen.getByTestId("search-input");
-        const searchButton = screen.getByTestId("search-button");
-        expect(searchButton).toBeInTheDocument();
-        fireEvent.change(searchInput, { target: { value: "Moarkitty" } });
-        expect(searchInput).toHaveValue("Moarkitty");
+    />, { wrapper: BrowserRouter });
 
-        return act(() => waitFor(() => {
-          fireEvent.click(searchButton);
-        }).then(() => expect(screen.getByTestId("Moarkitty0")).toHaveClass("active")));
-      });
+    const searchButton = screen.getByTestId("search-button");
+    expect(searchButton).toBeInTheDocument();
 
-    // expect(screen.getByTestId("Testkitty0")).not.toBeInTheDocument();
+    const searchInput = screen.getByTestId("search-input");
+    fireEvent.change(searchInput, { target: { value: "Moarkitty" } });
+    await waitFor(()=> expect(searchInput).toHaveValue("Moarkitty"));
+
+    fireEvent.click(searchButton);
+    await waitFor(() => expect(screen.getByTestId("Moarkitty0")).toHaveClass("active"));
+
+    expect(screen.queryByText("Testkitty")).not.toBeInTheDocument();
+  });
+
+  it("sets a found kitten as active upon reset after search", async () => {
+    expect.hasAssertions();
+    render(<Home
+      kittenService={kittenService}
+      defaultKittens={kittens}
+      useAuthStatus={jest.fn(() => authStatus)}
+    />, { wrapper: BrowserRouter });
+
+    // type name in search box
+    const searchInput = screen.getByTestId("search-input");
+    fireEvent.change(searchInput, { target: { value: "Moarkitty" } });
+    await waitFor(()=> expect(searchInput).toHaveValue("Moarkitty"));
+    
+    // hit search button
+    const searchButton = screen.getByTestId("search-button");
+    expect(searchButton).toBeInTheDocument();
+    fireEvent.click(searchButton);
+
+    // wait for search to complete, check that kitten that was searched for is active
+    await waitFor(() => expect(screen.getByTestId("Moarkitty0")).toHaveClass("active"));
+    
+    // hit reset button
+    const resetButton = screen.getByTestId("reset-button");
+    fireEvent.click(resetButton);
+    
+    // check that kitten that was searched for is still active
+    await waitFor(() => expect(screen.getByTestId("Moarkitty0")).toHaveClass("active"));
   });
 
   it("sets the kitten as active on click", async () => {
