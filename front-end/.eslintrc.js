@@ -6,9 +6,6 @@ module.exports = {
   },
   extends: [
     "plugin:react/recommended",
-    "plugin:jest/recommended",
-    "plugin:jest/style",
-    "plugin:jest/all",
     "airbnb",
   ],
   parser: "@babel/eslint-parser",
@@ -29,8 +26,6 @@ module.exports = {
     "jsx",
     "jsx-a11y",
     "import",
-    "jest",
-    "jest-dom",
     "@babel",
   ],
   rules: {
@@ -47,12 +42,6 @@ module.exports = {
     "linebreak-style": "off",
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error",
-    "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error",
-    "jest/no-hooks": "off",
   },
   settings: {
     "import/resolver": {
@@ -61,4 +50,33 @@ module.exports = {
       },
     },
   },
+
+  overrides: [
+    {
+      files: [
+        "**/*.test.js",
+      ],
+      env: {
+        jest: true, // now **/*.test.js files' env has both es6 *and* jest
+      },
+      // Can't extend in overrides: https://github.com/eslint/eslint/issues/8813
+      extends: [
+        "plugin:jest/recommended",
+        "plugin:jest/style",
+        "plugin:jest/all",
+      ],
+      plugins: [
+        "jest",
+        "jest-dom",
+      ],
+      rules: {
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error",
+        "jest/no-hooks": "off",
+      },
+    },
+  ],
 };
