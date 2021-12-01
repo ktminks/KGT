@@ -20,7 +20,7 @@ const SearchBar = ({ handleSearch, handleReset }) => {
       {/* <form className="d-flex" onSubmit={async (e) => { await onSearch(e, searchTerm); }}> */}
       <div className="input-group me-2">
         <input
-          type="text"
+          type="search"
           placeholder="Search by name"
           className="form-control"
           aria-label="search-input"

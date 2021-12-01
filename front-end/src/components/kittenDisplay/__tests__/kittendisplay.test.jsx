@@ -4,7 +4,7 @@ import {
 } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import KittenDisplay from "../kittendisplay";
-import kittens from "../../mocks/kittens";
+import kittens from "../../../mocks/kittens";
 
 describe("kittenDisplay", () => {
   beforeEach(() => {
@@ -34,8 +34,8 @@ describe("kittenDisplay", () => {
 
   it("renders the test kittens", async () => {
     expect.hasAssertions();
-    const testKitty = screen.getByRole("listitem", { name: "Testkitty" });
-    await waitFor(() => expect(testKitty).toBeInTheDocument());
+    const moarKitty = screen.getByRole("listitem", { name: "Moarkitty" });
+    await waitFor(() => expect(moarKitty).toBeInTheDocument());
   });
 
   it("renders the currentKitten component", async () => {
@@ -46,10 +46,13 @@ describe("kittenDisplay", () => {
 
   it("renders the correct kitten on click", async () => {
     expect.hasAssertions();
-    const testKitty = screen.getByRole("listitem", { name: "Testkitty" });
-    fireEvent.click(testKitty);
-    const currentKitten = screen.getByRole("region", { name: "current-kitten" });
-    await waitFor(() => expect(currentKitten).toBeInTheDocument());
+    const firstKitten = screen.getAllByRole("listitem", { name: "active" || "Testkitty" })[0];
+    const name = firstKitten.textContent;
+    fireEvent.click(firstKitten);
+    const kittenView = screen.getByRole("region", { name: "current-kitten" });
+    expect(kittenView).toBeInTheDocument();
+    const currentKitten = screen.getByTestId(name);
+    await waitFor(() => expect(currentKitten).toStrictEqual(kittenView));
   });
   it.todo("renders the edit kitten form on clicking edit");
   it.todo("returns to kitten details on clicking back");
