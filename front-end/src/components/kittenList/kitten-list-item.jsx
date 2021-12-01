@@ -2,20 +2,23 @@
 import React from "react";
 
 const KittenListItem = ({
-  kitten, onSelect, currentIndex, index,
+  kitten, handleSelect, index, classDef,
 }) => {
-  const currentClass = `w-100 list-group-item list-group-item-action ${index === currentIndex ? "active" : ""}`;
+  const handleClick = async (id, i, e) => {
+    // e.preventDefault();
+    if (e.key) await handleSelect(id, i, e.key);
+    else await handleSelect(id, i, null);
+  };
 
   return (
     <li
-      className={currentClass}
-      data-testid={`${kitten.name}${index}`}
-      onKeyDown={(e) => onSelect(kitten.id, index, e)}
-      onClick={() => onSelect(kitten.id, index)}
+      className={classDef}
+      aria-label={`${kitten.name}`}
+      onKeyDown={(e) => handleClick(kitten.id, index, e)}
+      onClick={async (e) => { (await handleClick(kitten.id, index, e)); }}
     >
       {kitten.name}
     </li>
   );
 };
-
 export default KittenListItem;

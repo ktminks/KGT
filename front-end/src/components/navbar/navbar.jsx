@@ -2,14 +2,11 @@ import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { Navbar as nav } from "bootstrap";
 import { Link } from "react-router-dom";
-import SearchKittens from "./search";
+import SearchBar from "./searchBar";
 import LoginButton from "./loginButton";
 
-const NavBar = ({ searchName, reset, updateDisplay }) => (
-  <nav
-    className="navbar navbar-expand-sm navbar-dark bg-dark"
-    data-testid="navbar"
-  >
+const NavBar = ({ handleSearch, handleReset, useAuthStatus }) => (
+  <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
     <div className="container-fluid">
       <Link to="/" className="navbar-brand ms-2">
         myClowder
@@ -38,10 +35,13 @@ const NavBar = ({ searchName, reset, updateDisplay }) => (
             </Link>
           </li>
           <li className="nav-item">
-            <LoginButton updateDisplay={updateDisplay} />
+            <LoginButton useAuthStatus={useAuthStatus} />
           </li>
         </ul>
-        <SearchKittens searchName={searchName} reset={reset} />
+        <SearchBar
+          handleSearch={handleSearch}
+          handleReset={handleReset}
+        />
       </div>
     </div>
   </nav>

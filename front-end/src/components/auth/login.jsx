@@ -76,7 +76,7 @@ const LoginPage = () => {
 
         <div className="w-100 d-flex flex-column justify-content-center text-center">
           <h4>or</h4>
-          <div data-testid="google-signin-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
+          <div aria-label="google-signin-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
 
             <a href={loginLink} className="btn btn-primary">Login with Google</a>
           </div>

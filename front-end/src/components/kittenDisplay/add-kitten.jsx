@@ -53,7 +53,7 @@ const AddKitten = ({ onAddKitten, history }) => {
   };
 
   return (
-    <div className="me-2" data-testid="add-kitten">
+    <section className="me-2" aria-label="add-kitten">
       <h4 className="text-center">Add a new kitten!</h4>
 
       <form onSubmit={saveKitten}>
@@ -149,7 +149,7 @@ const AddKitten = ({ onAddKitten, history }) => {
           <input type="submit" className={saveButtonClass} value="Save kitten" />
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

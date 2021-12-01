@@ -1,10 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`app matches the snapshot 1`] = `
+exports[`home matches the snapshot 1`] = `
 <DocumentFragment>
   <nav
     class="navbar navbar-expand-sm navbar-dark bg-dark"
-    data-testid="navbar"
   >
     <div
       class="container-fluid"
@@ -60,7 +59,20 @@ exports[`app matches the snapshot 1`] = `
           >
             <span
               class="d-flex"
-            />
+            >
+              <a
+                class="nav-link"
+                href="#!"
+              >
+                Login with Google
+              </a>
+              <button
+                class="nav-link"
+                type="button"
+              >
+                Logout
+              </button>
+            </span>
           </li>
         </ul>
         <form
@@ -70,17 +82,20 @@ exports[`app matches the snapshot 1`] = `
             class="input-group me-2"
           >
             <input
+              aria-label="search-input"
               class="form-control"
               placeholder="Search by name"
               type="text"
               value=""
             />
             <input
+              aria-label="search-button"
               class="btn btn-outline-secondary"
               type="submit"
               value="Search"
             />
             <input
+              aria-label="reset-button"
               class="btn btn-outline-secondary"
               type="button"
               value="Reset"
@@ -93,13 +108,13 @@ exports[`app matches the snapshot 1`] = `
   <div
     class="container mt-3 w-100"
   >
-    <div
+    <main
+      aria-label="dashboard"
       class="w-100 d-flex justify-content-evenly text-center"
-      data-testid="dashboard"
     >
       <a
+        aria-label="kittendisplay-link"
         class="card w-50 text-reset text-decoration-none m-2 py-5"
-        data-testid="kittendisplay-link"
         href="/kittens"
       >
         <h2
@@ -109,8 +124,8 @@ exports[`app matches the snapshot 1`] = `
         </h2>
       </a>
       <a
+        aria-label="growthdisplay-link"
         class="card w-50 text-reset text-decoration-none m-2 py-5"
-        data-testid="growthdisplay-link"
         href="/growth"
       >
         <h2
@@ -119,7 +134,7 @@ exports[`app matches the snapshot 1`] = `
           Growth Chart
         </h2>
       </a>
-    </div>
+    </main>
   </div>
 </DocumentFragment>
 `;

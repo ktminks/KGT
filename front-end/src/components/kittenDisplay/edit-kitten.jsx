@@ -11,7 +11,7 @@ const EditKitten = ({ currentKitten, handleEdit, history }) => {
   };
 
   return (
-    <div className="me-2" data-testid="edit-kitten">
+    <div className="me-2" aria-label="edit-kitten">
       <h4 className="text-center">
         Edit
         {" "}

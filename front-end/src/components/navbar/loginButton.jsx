@@ -1,7 +1,6 @@
 import React from "react";
-import useAuthStatus from "../../_services/auth.service";
 
-const LoginButton = () => {
+const LoginButton = ({ useAuthStatus }) => {
   const { loginButton, logoutButton } = useAuthStatus();
 
   return (

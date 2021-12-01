@@ -6,17 +6,17 @@ const Dashboard = () => {
   const titleStyles = "card-title display-2";
 
   return (
-    <div
+    <main
       className="w-100 d-flex justify-content-evenly text-center"
-      data-testid="dashboard"
+      aria-label="dashboard"
     >
-      <Link to="/kittens" className={linkStyles} data-testid="kittendisplay-link">
+      <Link to="/kittens" className={linkStyles} aria-label="kittendisplay-link">
         <h2 className={titleStyles}>My Kittens</h2>
       </Link>
-      <Link to="/growth" className={linkStyles} data-testid="growthdisplay-link">
+      <Link to="/growth" className={linkStyles} aria-label="growthdisplay-link">
         <h2 className={titleStyles}>Growth Chart</h2>
       </Link>
-    </div>
+    </main>
   );
 };
 

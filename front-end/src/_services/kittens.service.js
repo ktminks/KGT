@@ -1,6 +1,9 @@
 // import getPrevState, { setLocalStorage } from "./localStorage.service";
 import KittenDataService from "./data.service";
 
+// get kitten from local storage or from db
+export const getKittenById = (id) => (id || null);
+
 export const retrieveKittens = async () => {
   const dbKittens = await KittenDataService.getAll()
     .then((res) => (res ? res.data : null)).catch((e) => console.error(e));
@@ -8,38 +11,34 @@ export const retrieveKittens = async () => {
 
   // const kittens = localKittens || { kittens: dbKittens, currentIndex: 0 };
   const kittens = { newKittens: dbKittens, newIndex: 0 };
-  console.log(kittens);
   return kittens;
 };
 
-export const searchKittens = async (searchTerm) => {
-  console.log(searchTerm);
-  const { kittens } = await retrieveKittens();
-  await KittenDataService.findByName(searchTerm)
-    .then((res) => {
-      const { message, foundKitten } = res.data; // causing issues
-      if (!foundKitten) return null;
-      console.log(message);
-      const filteredKittens = kittens.filter((e) => e.id === foundKitten.id);
-      // setLocalStorage(filteredKittens, 0);
+export const getKittenIndex = async (id, kittens) => {
+  if (!id) return null;
 
-      return {
-        kittens: filteredKittens,
-        currentKitten: filteredKittens[0],
-        currentIndex: 0,
-      };
-    }).catch((e) => console.error(e));
-  return null;
+  let newKittens;
+  if (kittens) (newKittens = kittens);
+  else ({ newKittens } = await retrieveKittens());
+  console.log({ newKittens });
+  const index = newKittens.findIndex((kitten) => kitten.id === id);
+  console.log(index);
+  return index;
 };
 
-// export const resetKittens = async (e, currentKitten) => {
-//   if (e) e.preventDefault();
-//   await retrieveKittens()
-//     .then((kittens) => {
-//       if (currentKitten) setActiveKitten(currentKitten, null, kittens);
-//       return kittens;
-//     }).catch((err) => console.error(err));
-// };
+export const searchKittens = async (searchTerm) => {
+  const { newKittens } = await retrieveKittens();
+  const filteredKittens = newKittens.filter((e) => e.name === searchTerm);
+  if (filteredKittens.length >= 0) console.log("Kitten found!");
+  else console.log("Kitten not found!");
+  // setLocalStorage(filteredKittens, 0);
+
+  return { foundKittens: filteredKittens };
+};
+
+export const resetKittens = async () => retrieveKittens()
+  .then(({ newKittens }) => ({ newKittens }))
+  .catch((err) => console.error(err));
 
 export const deleteKitten = async (id) => KittenDataService.delete(id)
   .then((res) => {

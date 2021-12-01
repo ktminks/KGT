@@ -4,7 +4,7 @@ import { card, header, list } from "../../_utilities/classes";
 import Header from "../header";
 
 const CurrentKittenDev = ({ currentKitten }) => (
-  <div data-testid="current-kitten-growth">
+  <section aria-label="current-kitten-growth">
     {currentKitten && currentKitten.id ? (
       <div className="d-flex flex-column">
         {/* ------- Header : Kitten name & basic details ------- */}
@@ -32,7 +32,7 @@ const CurrentKittenDev = ({ currentKitten }) => (
     ) : (
       <p className="text-center">Please click on a Kitten...</p>
     )}
-  </div>
+  </section>
 );
 
 export default CurrentKittenDev;
