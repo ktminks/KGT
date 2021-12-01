@@ -4,7 +4,7 @@ import {
   render, screen, waitFor,
 } from "@testing-library/react";
 import KittenList from "..";
-import kittens from "../../mocks/kittens";
+import kittens from "../../../mocks/kittens";
 
 describe("kitten list", () => {
   let currentIndex = 0;

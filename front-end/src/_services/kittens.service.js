@@ -1,8 +1,11 @@
-// import getPrevState, { setLocalStorage } from "./localStorage.service";
+import * as local from "./localStorage.service";
 import KittenDataService from "./data.service";
 
 // get kitten from local storage or from db
 export const getKittenById = (id) => (id || null);
+
+export const getCurrentKitten = () => local.getLocalStorage();
+export const saveCurrentKitten = (id) => local.setLocalStorage(id);
 
 export const retrieveKittens = async () => {
   const dbKittens = await KittenDataService.getAll()

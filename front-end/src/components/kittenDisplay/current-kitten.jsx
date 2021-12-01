@@ -4,9 +4,11 @@ import { card, header, list } from "../../_utilities/classes";
 import Header from "../header";
 
 const CurrentKitten = ({ currentKitten, handleDelete }) => (
-  <section aria-label="current-kitten">
+  <section aria-label="current-kitten" data-testid={currentKitten.name}>
     {currentKitten && currentKitten.id ? (
-      <div className="d-flex flex-column">
+      <section
+        className="d-flex flex-column"
+      >
         {/* ------- Header : Kitten name & basic details ------- */}
         <Header
           currentKitten={currentKitten}
@@ -29,7 +31,7 @@ const CurrentKitten = ({ currentKitten, handleDelete }) => (
             <ul className={list}>{get.formattedStatus(currentKitten)}</ul>
           </div>
         </div>
-      </div>
+      </section>
     ) : (
       <p className="text-center">Please click on a Kitten...</p>
     )}

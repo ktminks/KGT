@@ -7,7 +7,7 @@ export default function routes(app) {
 
   // ------------------ API -----------------------------
   // Retrieve all Kittens
-  router.get("/", handle.getAllKittens);
+  router.get("/", handle.xsrfToken, handle.getAllKittens);
 
   // Retrieve a single Kitten with id
   router.get("*/id=:id?", handle.getOneKitten);

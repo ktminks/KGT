@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { card, list, listItem } from "../../_utilities/classes";
+import { getBirthdate } from "../../_utilities/dates";
 
 const AddKitten = ({ onAddKitten, history }) => {
   const [name, setName] = useState("Kitten name");
@@ -28,16 +29,6 @@ const AddKitten = ({ onAddKitten, history }) => {
     }
   };
 
-  const getBirthdate = (age) => {
-    const today = new Date();
-    const date = new Date();
-    date.setDate(today.getDate() - age);
-    const dd = String(date.getDate()).padStart(2, "0");
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const yyyy = date.getFullYear();
-    return `${yyyy}-${mm}-${dd}`;
-  };
-
   const estimateAge = (e) => {
     e.preventDefault();
     const age = Math.ceil(weight / 64.5);
@@ -49,19 +40,20 @@ const AddKitten = ({ onAddKitten, history }) => {
 
   const saveKitten = (e) => {
     e.preventDefault();
-    onAddKitten({ name, sex, birthdate });
+    return onAddKitten({ name, sex, birthdate });
   };
 
   return (
     <section className="me-2" aria-label="add-kitten">
       <h4 className="text-center">Add a new kitten!</h4>
 
-      <form onSubmit={saveKitten}>
+      <form onSubmit={async (e) => { (await saveKitten(e)); }}>
         <div className="input-group">
           <span className="input-group-text">Name</span>
           <input
             type="text"
             className="form-control"
+            aria-label="kitten-name"
             value={name}
             placeholder="Up to 20 letters and spaces only"
             onChange={(e) => setName(e.target.value)}
@@ -89,6 +81,7 @@ const AddKitten = ({ onAddKitten, history }) => {
           <span className="input-group-text">Birthdate</span>
           <input
             type="date"
+            aria-label="birthdate"
             className="form-control"
             value={birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
@@ -109,6 +102,7 @@ const AddKitten = ({ onAddKitten, history }) => {
           <input
             type="number"
             className="form-control"
+            aria-label="weight"
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
             required
@@ -125,7 +119,10 @@ const AddKitten = ({ onAddKitten, history }) => {
 
         <div id="calculation" className={ageDivClass}>
           <ul className={list}>
-            <li className={listItem}>
+            <li
+              aria-label="age-calculation"
+              className={listItem}
+            >
               {ageDisplay}
             </li>
           </ul>
@@ -141,12 +138,17 @@ const AddKitten = ({ onAddKitten, history }) => {
           />
           <input
             type="button"
-            aria-label="Calculate age"
+            aria-label="estimate-age"
             value="Calculate my age"
             onClick={(e) => estimateAge(e)}
             className={ageCalcClass}
           />
-          <input type="submit" className={saveButtonClass} value="Save kitten" />
+          <input
+            type="submit"
+            className={saveButtonClass}
+            value="Save kitten"
+            aria-label="save-kitten"
+          />
         </div>
       </form>
     </section>

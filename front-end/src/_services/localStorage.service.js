@@ -1,45 +1,30 @@
-export const setLocalStorage = (kittens, currentIndex) => {
-  localStorage.setItem("kittens", JSON.stringify(kittens));
-  localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
+export const setLocalStorage = (id) => {
+  try {
+    localStorage.setItem("kittenID", id);
+    return true;
+  } catch (e) { console.error(e); }
+  return false;
 };
 
-const getLocalStorage = () => {
-  const kittens = JSON.parse(localStorage.getItem("kittens"));
-  const currentIndex = JSON.parse(localStorage.getItem("currentIndex"));
-  return { kittens, currentIndex };
-};
+export const getLocalStorage = () => localStorage.getItem("kittenID");
 
-const isSameAsLocalStorage = (state) => {
-  // store only the ID of the current kitten
-  // don't save list or index
-
+const isSameAsLocalStorage = (id) => {
   // get data from local storage
-  const { kittens: localKittens, currentIndex: localIndex } = getLocalStorage();
+  const kittenID = getLocalStorage();
   // if nothing is in local, return false
-  if (!localKittens) return false;
-  // if something is in local, destructure local data
-  const { kittens, currentIndex } = state;
-  // if data matches, return true
-  if (localKittens !== kittens) return false;
-  if (localIndex === currentIndex) return true;
-  // otherwise, they must be different. return false
+  if (!kittenID) return false;
+  // if something is in local, continue
+  // if data matches, return the idea
+  if (kittenID !== id) return kittenID;
+  // otherwise, they must be the same. return false
   return false;
 };
 
-const getPrevState = (state) => { // kittens, kitten, index
+export const getPrevState = (id) => { // kittens, kitten, index
   // compare state to local storage
-  const sameAsLocal = isSameAsLocalStorage(state);
-  // if they are the same, return state as is
-  if (sameAsLocal) return state;
-  // if they are not the same, check if anything is in local
-  const { kittens, currentIndex } = getLocalStorage();
-  // if so, return data from local
-  if (kittens && currentIndex >= 0) {
-    return { kittens, currentIndex };
-  }
-  if (kittens) return { kittens, currentIndex: 0 };
-  // if not, return false (no prev state)
-  return false;
+  const sameAsLocal = isSameAsLocalStorage(id);
+  // if local contains a different ID, return that ID
+  if (sameAsLocal) return sameAsLocal;
+  // if they are the same, return id as is
+  return id;
 };
-
-export default getPrevState;
