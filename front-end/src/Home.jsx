@@ -22,7 +22,7 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
         const id = await kittenService.getCurrentKitten();
         setKittens(newKittens);
         console.log(newKittens);
-        const index = id >= 0 ? kittenService.getKittenIndex(id, newKittens) : 0;
+        const index = id >= 0 ? await kittenService.getKittenIndex(id, newKittens) : 0;
         console.log(index);
         console.log(newKittens[index]);
         setCurrentIndex(index);
