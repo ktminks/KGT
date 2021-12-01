@@ -3,7 +3,7 @@ import https from "https";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import checkMode from "../_helpers/checkMode.js";
-const {static: exStatic} = express;
+const { static: exStatic } = express;
 const pathHere = dirname(fileURLToPath(import.meta.url));
 
 export default async function startServer(app) {

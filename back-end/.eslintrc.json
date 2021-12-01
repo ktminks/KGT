@@ -31,7 +31,7 @@
             "error",
             "double"
         ],
-        "linebreak-style": "off",
+        "linebreak-style": "error",
         "no-return-assign": [
             "error",
             "except-parens"
