@@ -7,9 +7,9 @@ import CurrentKittenDev from "./currentkittendev";
 
 const GrowthDisplay = ({ kittens, currentIndex, handleSetActive }) => (
   <BrowserRouter>
-    <div
+    <main
       className="d-flex justify-content-evenly flex-column-reverse flex-sm-row"
-      data-testid="growth-display"
+      aria-label="growth-display"
     >
       <div className="w-100">
         <Switch>
@@ -19,7 +19,7 @@ const GrowthDisplay = ({ kittens, currentIndex, handleSetActive }) => (
         </Switch>
       </div>
       <div>
-        <ul className="list-group sticky-top m-2" data-testid="kitten-list-growth">
+        <ul className="list-group sticky-top m-2" aria-label="kitten-list-growth">
           <li className="list-group-item text-center display-6">Kittens</li>
           <KittenList
             kittens={kittens}
@@ -28,7 +28,7 @@ const GrowthDisplay = ({ kittens, currentIndex, handleSetActive }) => (
           />
         </ul>
       </div>
-    </div>
+    </main>
   </BrowserRouter>
 );
 

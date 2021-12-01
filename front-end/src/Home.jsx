@@ -52,7 +52,7 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
       }
     }).catch((err) => console.error(err));
 
-  const handleDelete = async (id) => deleteKitten(id)
+  const handleDelete = (id) => deleteKitten(id)
     .then((success) => {
       if (success) {
         setKittens(kittens.filter((k) => k.id !== id));
@@ -60,11 +60,11 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
       }
     }).catch((err) => console.error(err));
 
-  const handleEdit = async (id, data) => {
+  const handleEdit = (id, data) => {
     const index = kittens.findIndex((k) => k.id === id);
     const kittenToEdit = kittens[index];
     console.log(kittenToEdit);
-    await editKitten(kittenToEdit, data)
+    editKitten(kittenToEdit, data)
       .then((editedKitten) => {
         if (editedKitten) {
           const newKittens = [...kittens];
@@ -76,8 +76,8 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
       }).catch((err) => console.error(err));
   };
 
-  const handleSearch = async (searchTerm) => {
-    await searchKittens(searchTerm)
+  const handleSearch = (searchTerm) => {
+    searchKittens(searchTerm)
       .then(({ foundKittens }) => {
         setKittens(foundKittens);
         return foundKittens;
@@ -87,10 +87,10 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
       .catch((err) => { console.error(err); });
   };
 
-  const handleReset = async () => {
+  const handleReset = () => {
     const kitten = kittens[currentIndex];
-    console.log(kitten);
-    await resetKittens()
+    // console.log(kitten);
+    resetKittens()
       .then((newKittens) => setKittens(newKittens))
       .then(() => setActiveKitten(kitten.id))
       .catch((err) => console.error(err));

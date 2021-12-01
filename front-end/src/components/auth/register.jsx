@@ -74,7 +74,7 @@ const RegisterPage = () => {
 
         <div className="w-100 d-flex flex-column justify-content-center text-center">
           <h4>or</h4>
-          <div data-testid="google-signup-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
+          <div aria-label="google-signup-button" className="w-100 h-100 mb-2 d-flex justify-content-center text-center">
             <div
               id="g_id_onload"
               data-client_id="843196960554-8lss663jtiigovh3tkqse44eqohvvf5g.apps.googleusercontent.com"

@@ -145,7 +145,7 @@ const getDetail = (category, index = 0) => {
   let result = printItem(category, index) || noresult(category, index);
   const key = `${category}${index}`;
   result = (
-    <li key={key} data-testid={category} className={listItemClass}>
+    <li key={key} aria-label={category} className={listItemClass}>
       <h5 key="title" className="card-subtitle text-center">{category}</h5>
       <ul key="list" className="list-group list-group-flush">{result}</ul>
     </li>

@@ -19,11 +19,13 @@ describe("kitten list", () => {
   });
   it("should render a list of kittens", async () => {
     expect.assertions(1);
-    await waitFor(() => expect(screen.getByTestId("Moarkitty1")).toBeInTheDocument());
+    const moarKitty = screen.getByRole("listitem", { name: "Moarkitty" });
+    await waitFor(() => expect(moarKitty).toBeInTheDocument());
   });
 
   it("should display the kitten's name", async () => {
     expect.assertions(1);
-    await waitFor(() => expect(screen.getByTestId("Moarkitty1")).toHaveTextContent("Moarkitty"));
+    const moarKitty = screen.getByRole("listitem", { name: "Moarkitty" });
+    await waitFor(() => expect(moarKitty).toHaveTextContent("Moarkitty"));
   });
 });

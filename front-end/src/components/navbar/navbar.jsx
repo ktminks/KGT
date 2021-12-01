@@ -6,10 +6,7 @@ import SearchBar from "./searchBar";
 import LoginButton from "./loginButton";
 
 const NavBar = ({ handleSearch, handleReset, useAuthStatus }) => (
-  <nav
-    className="navbar navbar-expand-sm navbar-dark bg-dark"
-    data-testid="navbar"
-  >
+  <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
     <div className="container-fluid">
       <Link to="/" className="navbar-brand ms-2">
         myClowder

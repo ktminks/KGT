@@ -6,7 +6,7 @@ const KittenListItem = ({
 }) => (
   <li
     className={classDef}
-    data-testid={`${kitten.name}${index}`}
+    aria-label={`${kitten.name}`}
     onKeyDown={(e) => handleSelect(kitten.id, index, e)}
     onClick={() => handleSelect(kitten.id, index)}
   >

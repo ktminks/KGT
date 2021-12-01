@@ -14,9 +14,9 @@ const KittenDisplay = ({
   kittens, currentIndex, handleSetActive, handleAdd, handleDelete, handleEdit, history,
 }) => (
   <BrowserRouter>
-    <div
+    <main
       className="d-flex justify-content-evenly flex-column-reverse flex-sm-row"
-      data-testid="kitten-display"
+      aria-label="kitten-display"
     >
       <div className="w-100">
         <Switch>
@@ -43,11 +43,11 @@ const KittenDisplay = ({
       </div>
 
       <div>
-        <ul className="list-group sticky-top m-2" data-testid="kitten-list">
+        <ul className="list-group sticky-top m-2" aria-label="kitten-list">
           <Link
             to="/kittens/add"
             className="btn btn-danger w-100"
-            data-testid="add-button"
+            aria-label="add-button"
           >
             +
           </Link>
@@ -59,7 +59,7 @@ const KittenDisplay = ({
           />
         </ul>
       </div>
-    </div>
+    </main>
   </BrowserRouter>
 );
 export default KittenDisplay;

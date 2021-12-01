@@ -23,20 +23,20 @@ const SearchBar = ({ handleSearch, handleReset }) => {
           type="text"
           placeholder="Search by name"
           className="form-control"
-          data-testid="search-input"
+          aria-label="search-input"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <input
           className="btn btn-outline-secondary"
           type="submit"
-          data-testid="search-button"
+          aria-label="search-button"
           value="Search"
         />
         <input
           className="btn btn-outline-secondary"
           type="button"
-          data-testid="reset-button"
+          aria-label="reset-button"
           value="Reset"
           onClick={async (e) => { await onReset(e); }}
         />
