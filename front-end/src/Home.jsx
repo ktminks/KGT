@@ -2,27 +2,39 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 
 import {
-  NavBar, KittenDisplay, GrowthDisplay, Dashboard, LoginPage, RegisterPage,
+  NavBar, KittenDisplay, GrowthDisplay, Dashboard,
 } from "./components";
 
 const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
   const [kittens, setKittens] = useState(defaultKittens);
-  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const history = useHistory();
   const { searchKittens, deleteKitten, addKitten } = kittenService;
   const { editKitten, resetKittens, getKittenIndex } = kittenService;
+  const { saveCurrentKitten } = kittenService;
 
   // loads kittens on app initialization
-  useEffect(() => kittenService.retrieveKittens()
-    .then((res) => {
+  useEffect(() => {
+    const fetchKittens = async () => {
+      const res = await kittenService.retrieveKittens();
       if (res) {
-        // const { newKittens, newIndex } = res;
         const { newKittens } = res;
+        const id = await kittenService.getCurrentKitten();
         setKittens(newKittens);
-        // if (currentIndex < 0) setCurrentIndex(newIndex);
+        console.log(newKittens);
+        const index = id >= 0 ? kittenService.getKittenIndex(id, newKittens) : 0;
+        console.log(index);
+        console.log(newKittens[index]);
+        setCurrentIndex(index);
       }
-    }), [kittenService]);
-  // }), [retrieveKittens, currentIndex]);
+    };
+    try {
+      return fetchKittens();
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }, [kittenService]);
 
   // refreshes the page when kittens list or active kitten changes
   // useEffect(() => console.log(currentIndex), [kittens, currentIndex]);
@@ -36,13 +48,12 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
 
   const setActiveKitten = async (id, i = -1) => {
     // get kitten details by id or index (doesn't need to know how) - await
-    console.log(kittens);
     const kittenIndex = i >= 0 ? i : await getKittenIndex(id, kittens);
     // const i = index > -1 ? index : ;
     // then set currentKitten and currentIndex
     // const kitten = kittens.find((kitten) => kitten.id === id);
     setCurrentIndex(kittenIndex);
-    // saveCurrentKitten(id);
+    saveCurrentKitten(id);
   };
 
   const handleAdd = async (data) => {
@@ -51,18 +62,20 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
       if (newKitten) {
         await setActiveKitten(newKitten.id, kittens.length);
         setKittens([...kittens, newKitten]);
-        history.goBack();
+        history.push("/kittens");
       }
     } catch (err) { console.error(err); }
   };
 
-  const handleDelete = async (id) => deleteKitten(id)
-    .then((success) => {
+  const handleDelete = async (id) => {
+    try {
+      const success = await deleteKitten(id);
       if (success) {
         setKittens(kittens.filter((k) => k.id !== id));
         history.push("/kittens");
       }
-    }).catch((err) => console.error(err));
+    } catch (err) { console.error(err); }
+  };
 
   const handleEdit = async (id, data) => {
     try {
@@ -124,12 +137,6 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
               handleEdit={handleEdit}
               history={history}
             />
-          </Route>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Route path="/register">
-            <RegisterPage />
           </Route>
           <Route path="/*">
             <Dashboard />

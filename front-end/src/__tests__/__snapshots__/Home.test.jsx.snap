@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`home matches the snapshot 1`] = `
+exports[`the app renders matches the snapshot 1`] = `
 <DocumentFragment>
   <nav
     class="navbar navbar-expand-sm navbar-dark bg-dark"
@@ -85,7 +85,7 @@ exports[`home matches the snapshot 1`] = `
               aria-label="search-input"
               class="form-control"
               placeholder="Search by name"
-              type="text"
+              type="search"
               value=""
             />
             <input

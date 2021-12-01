@@ -2,7 +2,7 @@
 import React from "react";
 
 const KittenListItem = ({
-  kitten, handleSelect, index, classDef,
+  kitten, handleSelect, index, classDef, label,
 }) => {
   const handleClick = async (id, i, e) => {
     // e.preventDefault();
@@ -13,7 +13,7 @@ const KittenListItem = ({
   return (
     <li
       className={classDef}
-      aria-label={`${kitten.name}`}
+      aria-label={`${label}`}
       onKeyDown={(e) => handleClick(kitten.id, index, e)}
       onClick={async (e) => { (await handleClick(kitten.id, index, e)); }}
     >
