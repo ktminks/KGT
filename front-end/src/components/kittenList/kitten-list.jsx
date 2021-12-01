@@ -1,25 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import KittenListItem from "./kitten-list-item";
 
 const KittenList = ({ kittens, handleSetActive, currentIndex }) => {
+  const [activeIndex, setActiveIndex] = useState(currentIndex);
   const classDef = (i, active) => `w-100 list-group-item list-group-item-action ${i === active ? "active" : ""}`;
-  // const [activeIndex, setActiveIndex] = useState(currentIndex);
-  // const [currentClass, setClass] = useState(classDef(0, activeIndex));
 
-  useEffect(() => {}, [currentIndex]);
+  useEffect(() => setActiveIndex(currentIndex), [currentIndex]);
 
-  const handleSelect = (id, index, e = null) => {
-    if (e) {
-      e.preventDefault();
-      if (kittens[e.key] && kittens[e.key].id !== id) {
-        handleSetActive(kittens[e.key].id, e.key);
-        // setActiveIndex(e.key);
-        return;
-      }
+  const handleSelect = async (id, index, key) => {
+    if (key && kittens[key] && kittens[key].id !== id) {
+      await handleSetActive(kittens[key].id, key);
+      setActiveIndex(key);
+      return;
     }
     // setClass(classDef(index, index));
-    handleSetActive(id, index);
-    // setActiveIndex(index);
+    await handleSetActive(id, index);
+    setActiveIndex(index);
   };
 
   return (
@@ -30,7 +26,8 @@ const KittenList = ({ kittens, handleSetActive, currentIndex }) => {
           kitten={kitten}
           handleSelect={handleSelect}
           index={i}
-          classDef={classDef(i, currentIndex)}
+          activeIndex={activeIndex}
+          classDef={classDef(i, activeIndex)}
         />
       ))}
     </>

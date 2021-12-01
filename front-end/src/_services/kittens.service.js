@@ -14,6 +14,18 @@ export const retrieveKittens = async () => {
   return kittens;
 };
 
+export const getKittenIndex = async (id, kittens) => {
+  if (!id) return null;
+
+  let newKittens;
+  if (kittens) (newKittens = kittens);
+  else ({ newKittens } = await retrieveKittens());
+  console.log({ newKittens });
+  const index = newKittens.findIndex((kitten) => kitten.id === id);
+  console.log(index);
+  return index;
+};
+
 export const searchKittens = async (searchTerm) => {
   const { newKittens } = await retrieveKittens();
   const filteredKittens = newKittens.filter((e) => e.name === searchTerm);
@@ -25,7 +37,7 @@ export const searchKittens = async (searchTerm) => {
 };
 
 export const resetKittens = async () => retrieveKittens()
-  .then(({ newKittens }) => newKittens)
+  .then(({ newKittens }) => ({ newKittens }))
   .catch((err) => console.error(err));
 
 export const deleteKitten = async (id) => KittenDataService.delete(id)

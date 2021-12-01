@@ -2,9 +2,9 @@ import React from "react";
 import {
   render, screen, waitFor, fireEvent,
 } from "@testing-library/react";
-import { MemoryRouter, BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import Home from "../Home";
-import kittens from "../components/mocks/kittens";
+import mockKittens from "../components/mocks/kittens";
 // import defaultState from "../_utilities/data";
 
 // let container = null;
@@ -12,7 +12,7 @@ import kittens from "../components/mocks/kittens";
 const kittenService = {
   searchKittens: async (searchTerm) => {
     try {
-      const filteredKittens = kittens.filter((e) => e.name === searchTerm);
+      const filteredKittens = mockKittens.filter((e) => e.name === searchTerm);
       if (filteredKittens.length >= 0) console.log("Kitten found!");
       else console.log("Kitten not found!");
       // setLocalStorage(filteredKittens, 0);
@@ -20,11 +20,21 @@ const kittenService = {
     } catch (error) { console.error(error); }
     return { foundKittens: [] };
   },
-  resetKittens: async () => kittens,
+  resetKittens: async () => ({ newKittens: mockKittens }),
   retrieveKittens: async () => {},
   deleteKitten: async () => {},
   addKitten: async () => {},
   editKitten: async () => {},
+  getKittenIndex: async (id, kittens) => {
+    if (!id) return null;
+    let newKittens;
+    if (kittens) (newKittens = kittens);
+    else (newKittens = mockKittens);
+    console.log({ newKittens });
+    const index = newKittens.findIndex((kitten) => kitten.id === id);
+    console.log(index);
+    return index;
+  },
 };
 const authStatus = {
   loginButton: <a href="#!" className="nav-link">Login with Google</a>,
@@ -32,34 +42,36 @@ const authStatus = {
 };
 
 describe("home", () => {
+  const openDisplay = () => {
+    const link = screen.getByRole("link", { name: "kittendisplay-link" });
+    expect(link).toBeInTheDocument();
+    fireEvent.click(link);
+    const kittenDisplay = screen.getByRole("main", { name: "kitten-display" });
+    expect(kittenDisplay).toBeInTheDocument();
+  };
+
+  const renderDefault = () => (render(<Home
+    kittenService={kittenService}
+    defaultKittens={mockKittens}
+    useAuthStatus={jest.fn(() => authStatus)}
+  />, { wrapper: MemoryRouter }));
+
   it("matches the snapshot", () => {
     expect.hasAssertions();
-    const { asFragment } = render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: MemoryRouter });
+    const { asFragment } = renderDefault();
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("renders the navbar", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: MemoryRouter });
+    renderDefault();
     const navbar = screen.getByRole("navigation");
     await waitFor(() => expect(navbar).toBeInTheDocument());
   });
 
   it("renders the dashboard", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: MemoryRouter });
+    renderDefault();
 
     const dashboard = screen.getByRole("main", { name: "dashboard" });
     await waitFor(() => expect(dashboard).toBeInTheDocument());
@@ -67,26 +79,13 @@ describe("home", () => {
 
   it("renders the kitten display", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: MemoryRouter });
-
-    const link = screen.getByRole("link", { name: "kittendisplay-link" });
-    expect(link).toBeInTheDocument();
-    fireEvent.click(link);
-    const kittenDisplay = screen.getByRole("main", { name: "kitten-display" });
-    expect(kittenDisplay).toBeInTheDocument();
+    renderDefault();
+    openDisplay();
   });
 
   it("changes the search box text", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: MemoryRouter });
+    renderDefault();
 
     let searchInput = screen.getByRole("textbox", { name: "search-input" });
     fireEvent.change(searchInput, { target: { value: "Moarkitty" } });
@@ -96,17 +95,8 @@ describe("home", () => {
 
   it("sets the kitten as active on click", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: MemoryRouter });
-
-    const link = screen.getByRole("link", { name: "kittendisplay-link" });
-    expect(link).toBeInTheDocument();
-    fireEvent.click(link);
-    const kittenDisplay = screen.getByRole("main", { name: "kitten-display" });
-    expect(kittenDisplay).toBeInTheDocument();
+    renderDefault();
+    openDisplay();
 
     let moarKitty = screen.getByRole("listitem", { name: "Moarkitty" });
     expect(moarKitty).not.toHaveClass("active");
@@ -119,17 +109,8 @@ describe("home", () => {
 
   it("sets the kitten as active on key down", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: MemoryRouter });
-
-    const link = screen.getByRole("link", { name: "kittendisplay-link" });
-    expect(link).toBeInTheDocument();
-    fireEvent.click(link);
-    const kittenDisplay = screen.getByRole("main", { name: "kitten-display" });
-    expect(kittenDisplay).toBeInTheDocument();
+    renderDefault();
+    openDisplay();
 
     let moarKitty = screen.getByRole("listitem", { name: "Moarkitty" });
     expect(moarKitty).not.toHaveClass("active");
@@ -141,17 +122,8 @@ describe("home", () => {
   });
   it("sets a kitten as active upon searching", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: BrowserRouter });
-
-    const link = screen.getByRole("link", { name: "kittendisplay-link" });
-    expect(link).toBeInTheDocument();
-    fireEvent.click(link);
-    const kittenDisplay = screen.getByRole("main", { name: "kitten-display" });
-    expect(kittenDisplay).toBeInTheDocument();
+    renderDefault();
+    openDisplay();
 
     const searchButton = screen.getByRole("button", { name: "search-button" });
     expect(searchButton).toBeInTheDocument();
@@ -169,11 +141,8 @@ describe("home", () => {
 
   it("sets a found kitten as active upon reset after search", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: BrowserRouter });
+    renderDefault();
+    openDisplay();
 
     // type name in search box
     const searchInput = screen.getByRole("textbox", { name: "search-input" });
@@ -187,7 +156,11 @@ describe("home", () => {
 
     // wait for search to complete, check that kitten that was searched for is active
     let moarKitty = screen.getByRole("listitem", { name: "Moarkitty" });
-    await waitFor(() => expect(moarKitty).toHaveClass("active"));
+    let testKitty = screen.getByRole("listitem", { name: "Testkitty" });
+    await waitFor(() => {
+      expect(testKitty).not.toBeInTheDocument();
+      expect(moarKitty).toHaveClass("active");
+    });
 
     // hit reset button
     const resetButton = screen.getByRole("button", { name: "reset-button" });
@@ -196,17 +169,15 @@ describe("home", () => {
     // check that kitten that was searched for is still active
     await waitFor(() => {
       moarKitty = screen.getByRole("listitem", { name: "Moarkitty" });
+      testKitty = screen.getByRole("listitem", { name: "Testkitty" });
+      expect(testKitty).toBeInTheDocument();
       expect(moarKitty).toHaveClass("active");
     });
   });
 
   it("renders the growth display", async () => {
     expect.hasAssertions();
-    render(<Home
-      kittenService={kittenService}
-      defaultKittens={kittens}
-      useAuthStatus={jest.fn(() => authStatus)}
-    />, { wrapper: MemoryRouter });
+    renderDefault();
 
     const link = screen.getByRole("link", { name: "growthdisplay-link" });
     expect(link).toBeInTheDocument();

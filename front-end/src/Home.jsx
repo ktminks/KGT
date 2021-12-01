@@ -7,21 +7,22 @@ import {
 
 const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
   const [kittens, setKittens] = useState(defaultKittens);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(-1);
   const history = useHistory();
-  const {
-    searchKittens, retrieveKittens, deleteKitten, addKitten, editKitten, resetKittens,
-  } = kittenService;
+  const { searchKittens, deleteKitten, addKitten } = kittenService;
+  const { editKitten, resetKittens, getKittenIndex } = kittenService;
 
   // loads kittens on app initialization
-  useEffect(() => retrieveKittens()
+  useEffect(() => kittenService.retrieveKittens()
     .then((res) => {
       if (res) {
-        const { newKittens, newIndex } = res;
+        // const { newKittens, newIndex } = res;
+        const { newKittens } = res;
         setKittens(newKittens);
-        setCurrentIndex(newIndex);
+        // if (currentIndex < 0) setCurrentIndex(newIndex);
       }
-    }), [retrieveKittens]);
+    }), [kittenService]);
+  // }), [retrieveKittens, currentIndex]);
 
   // refreshes the page when kittens list or active kitten changes
   // useEffect(() => console.log(currentIndex), [kittens, currentIndex]);
@@ -33,26 +34,29 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
 
   // sets current kitten based on local storage
 
-  const setActiveKitten = (id, index = -1) => {
+  const setActiveKitten = async (id, i = -1) => {
     // get kitten details by id or index (doesn't need to know how) - await
-    const i = index > -1 ? index : kittens.findIndex((kitten) => kitten.id === id);
+    console.log(kittens);
+    const kittenIndex = i >= 0 ? i : await getKittenIndex(id, kittens);
+    // const i = index > -1 ? index : ;
     // then set currentKitten and currentIndex
     // const kitten = kittens.find((kitten) => kitten.id === id);
-    // console.log(i);
-    setCurrentIndex(i);
+    setCurrentIndex(kittenIndex);
     // saveCurrentKitten(id);
   };
 
-  const handleAdd = (data) => addKitten(data)
-    .then((newKitten) => {
+  const handleAdd = async (data) => {
+    try {
+      const newKitten = await addKitten(data);
       if (newKitten) {
-        setActiveKitten(newKitten.id, kittens.length);
+        await setActiveKitten(newKitten.id, kittens.length);
         setKittens([...kittens, newKitten]);
         history.goBack();
       }
-    }).catch((err) => console.error(err));
+    } catch (err) { console.error(err); }
+  };
 
-  const handleDelete = (id) => deleteKitten(id)
+  const handleDelete = async (id) => deleteKitten(id)
     .then((success) => {
       if (success) {
         setKittens(kittens.filter((k) => k.id !== id));
@@ -60,40 +64,38 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
       }
     }).catch((err) => console.error(err));
 
-  const handleEdit = (id, data) => {
-    const index = kittens.findIndex((k) => k.id === id);
-    const kittenToEdit = kittens[index];
-    console.log(kittenToEdit);
-    editKitten(kittenToEdit, data)
-      .then((editedKitten) => {
-        if (editedKitten) {
-          const newKittens = [...kittens];
-          newKittens[index] = editedKitten;
-          setKittens(newKittens);
-          setActiveKitten(id, index);
-          history.goBack();
-        }
-      }).catch((err) => console.error(err));
+  const handleEdit = async (id, data) => {
+    try {
+      const index = kittens.findIndex((k) => k.id === id);
+      const kittenToEdit = kittens[index];
+      console.log(kittenToEdit);
+      const editedKitten = await editKitten(kittenToEdit, data);
+      if (editedKitten) {
+        const newKittens = [...kittens];
+        newKittens[index] = editedKitten;
+        setKittens(newKittens);
+        await setActiveKitten(id, index);
+        history.goBack();
+      }
+    } catch (err) { console.error(err); }
   };
 
-  const handleSearch = (searchTerm) => {
-    searchKittens(searchTerm)
-      .then(({ foundKittens }) => {
-        setKittens(foundKittens);
-        return foundKittens;
-      })
-      .then((foundKittens) => (
-        foundKittens[0] ? setActiveKitten(foundKittens[0].id, 0) : null))
-      .catch((err) => { console.error(err); });
+  const handleSearch = async (searchTerm) => {
+    try {
+      const { foundKittens } = await searchKittens(searchTerm);
+      setKittens(foundKittens);
+      if (foundKittens[0]) await setActiveKitten(foundKittens[0].id, 0);
+    } catch (err) { console.error(err); }
   };
 
-  const handleReset = () => {
-    const kitten = kittens[currentIndex];
-    // console.log(kitten);
-    resetKittens()
-      .then((newKittens) => setKittens(newKittens))
-      .then(() => setActiveKitten(kitten.id))
-      .catch((err) => console.error(err));
+  const handleReset = async (id = kittens[currentIndex].id) => {
+    try {
+      // console.log(kitten);
+      const { newKittens } = await resetKittens();
+      setKittens(newKittens);
+      const index = await getKittenIndex(id);
+      await setActiveKitten(id, index);
+    } catch (err) { console.error(err); }
   };
 
   return (
