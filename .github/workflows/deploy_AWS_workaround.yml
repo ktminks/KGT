@@ -21,6 +21,14 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       server_updated: ${{ steps.check_files.outputs.server_updated }}
+      client_updated: ${{ steps.check_files.outputs.client_updated }}
+
+    steps:
+      - name: checkout files
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
       - name: check which files were updated
         id: check_files
         run: |
