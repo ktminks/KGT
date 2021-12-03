@@ -30,6 +30,7 @@ export default {
     "\\\\node_modules\\\\",
     "\\\\index\\\\",
     "\\\\debug\\\\",
+    "\\\\mocks\\\\",
   ],
 
   // Indicates which provider should be used to instrument code for coverage

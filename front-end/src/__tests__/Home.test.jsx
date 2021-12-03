@@ -283,7 +283,7 @@ describe("the kitten manager", () => {
 
     it("adds a kitten", async () => {
       expect.hasAssertions();
-      renderDefault("open");
+      renderDefault(null, BrowserRouter);
 
       // open the add form
       const addButton = screen.getByRole("link", { name: "add-button" });
