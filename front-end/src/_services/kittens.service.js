@@ -23,9 +23,7 @@ export const getKittenIndex = async (id, kittens) => {
   let newKittens;
   if (kittens) (newKittens = kittens);
   else ({ newKittens } = await retrieveKittens());
-  console.log({ newKittens });
   const index = newKittens.findIndex((kitten) => kitten.id === id);
-  console.log(index);
   return index;
 };
 
@@ -60,7 +58,6 @@ export const editKitten = async (kitten, data) => {
   const newKitten = { ...kitten, sex, name };
   return KittenDataService.update(kitten.id, newKitten)
     .then((res) => {
-      console.log(res.data);
       const { message, updatedKitten } = res.data;
       console.log(message);
       if (updatedKitten) return { ...updatedKitten, ...newKitten };

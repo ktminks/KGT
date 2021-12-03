@@ -24,7 +24,7 @@ const useAuthStatus = () => {
     const logoutTag = <button className="nav-link" type="button" onClick={() => onLogout()}>Logout</button>;
     KittenDataService.isLoggedIn()
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         const { loggedIn, user } = res.data;
         if (loggedIn) {
           const { name } = user;
