@@ -44,16 +44,6 @@ describe("kittenDisplay", () => {
     await waitFor(() => expect(currentKitten).toBeInTheDocument());
   });
 
-  it("renders the correct kitten on click", async () => {
-    expect.hasAssertions();
-    const firstKitten = screen.getAllByRole("listitem", { name: "active" || "Testkitty" })[0];
-    const name = firstKitten.textContent;
-    fireEvent.click(firstKitten);
-    const kittenView = screen.getByRole("region", { name: "current-kitten" });
-    expect(kittenView).toBeInTheDocument();
-    const currentKitten = screen.getByTestId(name);
-    await waitFor(() => expect(currentKitten).toStrictEqual(kittenView));
-  });
   it.todo("renders the edit kitten form on clicking edit");
   it.todo("returns to kitten details on clicking back");
   it.todo("returns to kitten details on clicking submit edit");

@@ -20,6 +20,7 @@ const KittenList = ({ kittens, handleSetActive, currentIndex }) => {
   };
 
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {kittens && kittens.length ? kittens.map((kitten, i) => (
         <KittenListItem

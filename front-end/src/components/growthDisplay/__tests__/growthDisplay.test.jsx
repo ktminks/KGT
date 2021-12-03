@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  render, screen, waitFor, fireEvent,
+  render, screen, waitFor,
 } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import GrowthDisplay from "..";
@@ -31,16 +31,5 @@ describe("growthDisplay", () => {
     expect.hasAssertions();
     const currentKitten = screen.getByRole("region", { name: "current-kitten-growth" });
     await waitFor(() => expect(currentKitten).toBeInTheDocument());
-  });
-
-  it("renders the correct kitten on click", async () => {
-    expect.hasAssertions();
-    const firstKitten = screen.getAllByRole("listitem", { name: "active" || "Testkitty" })[0];
-    const name = firstKitten.textContent;
-    fireEvent.click(firstKitten);
-    const kittenView = screen.getByRole("region", { name: "current-kitten-growth" });
-    expect(kittenView).toBeInTheDocument();
-    const currentKitten = screen.getByTestId(name);
-    await waitFor(() => expect(currentKitten).toStrictEqual(kittenView));
   });
 });

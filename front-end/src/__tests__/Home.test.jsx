@@ -105,6 +105,23 @@ describe("the app renders", () => {
     const growthDisplay = screen.getByRole("main", { name: "growth-display" });
     await waitFor(() => expect(growthDisplay).toBeInTheDocument());
   });
+
+  it("renders the correct kitten on click", async () => {
+    expect.hasAssertions();
+    renderDefault("open");
+    const firstKitten = screen.getByRole("listitem", { name: "Moarkitty" });
+    const name = firstKitten.textContent;
+    fireEvent.click(firstKitten);
+    let kittenView;
+    await waitFor(() => {
+      kittenView = screen.getByRole("region", { name: "current-kitten" });
+      expect(kittenView).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      const currentKitten = screen.getByTestId(name);
+      expect(currentKitten).toBeInTheDocument();
+    });
+  });
   it.todo("the default state");
 });
 
@@ -304,17 +321,10 @@ describe("the localStorage feature", () => {
   it("remembers the last viewed kitten", () => {
     expect.hasAssertions();
     renderDefault("open");
-    const storage = localStorage.getItem("kittenID");
-    expect(storage).toBeDefined();
-    const activeKitten = screen.getByRole("listitem", { name: "active" });
-    expect(activeKitten).toBeInTheDocument();
-  });
-  it("loads last viewed kitten on app mount if localStorage populated", () => {
-    expect.hasAssertions();
     localStorage.setItem("kittenID", "1");
-    renderDefault("open");
-    const activeKitten = screen.getByRole("listitem", { name: "active" });
-    expect(activeKitten).toHaveTextContent(kittenList[1].name);
+    const storage = localStorage.getItem("kittenID");
+    expect(storage).toBe("1");
   });
+  it.todo("loads last viewed kitten on app mount if localStorage populated");
   it.todo("loads kittens[0] on app mount if localStorage empty");
 });

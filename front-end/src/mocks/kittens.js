@@ -1,6 +1,6 @@
 const kittens = [
   {
-    id: 1,
+    id: 2,
     name: "Testkitty",
     sex: "F",
     birthdate: "09/02/2021",
@@ -25,7 +25,7 @@ const kittens = [
     weight: [[0, 0]],
   },
   {
-    id: 2,
+    id: 1,
     name: "Moarkitty",
     sex: "F",
     birthdate: "09/02/2021",

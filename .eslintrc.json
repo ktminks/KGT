@@ -15,8 +15,7 @@
     "sourceType": "module",
     "ecmaVersion": 12,
     "babelOptions": {
-      "configFile": "./.babelrc",
-      "presets": ["@babel/env"]
+      "configFile": "./.babelrc"
     },
     "allowImportExportEverywhere": false,
     "ecmaFeatures": {
@@ -64,6 +63,18 @@
     }
   },
   "overrides": [
+    {
+      "files": ["**/back-end/**/*.js"],
+      "rules": {    
+        "import/extensions": [
+          "error",
+          "ignorePackages",
+          {
+            "js": "always",
+            "jsx": "never"
+          }
+        ]
+      }},
     {
       "files": [
         "**/*.test.js",
