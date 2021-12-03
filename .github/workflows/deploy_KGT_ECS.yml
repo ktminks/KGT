@@ -139,7 +139,7 @@ jobs:
       - name: Download task definition
         id: download-task-definition
         env:
-          TASK_FAMILY: KGT_task_definition
+          TASK_FAMILY: KGT_task
         run: |
           aws ecs describe-task-definition --task-definition $TASK_FAMILY --query taskDefinition > .aws/task-definition.json
           
