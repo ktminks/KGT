@@ -21,7 +21,7 @@ const KittenList = ({ kittens, handleSetActive, currentIndex }) => {
 
   return (
     <>
-      {kittens && kittens.length && kittens.map((kitten, i) => (
+      {kittens && kittens.length ? kittens.map((kitten, i) => (
         <KittenListItem
           key={`${kitten.name}${kitten.id}`}
           kitten={kitten}
@@ -31,7 +31,7 @@ const KittenList = ({ kittens, handleSetActive, currentIndex }) => {
           classDef={classDef(i, activeIndex)}
           label={itemLabel(i, activeIndex)}
         />
-      ))}
+      )) : null}
     </>
   );
 };

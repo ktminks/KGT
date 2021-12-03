@@ -4,9 +4,10 @@ import { card, header, list } from "../../_utilities/classes";
 import Header from "../header";
 
 const CurrentKitten = ({ currentKitten, handleDelete }) => (
-  <section aria-label="current-kitten" data-testid={currentKitten.name}>
+  <section aria-label="current-kitten">
     {currentKitten && currentKitten.id ? (
       <section
+        data-testid={currentKitten.name}
         className="d-flex flex-column"
       >
         {/* ------- Header : Kitten name & basic details ------- */}
