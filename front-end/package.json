@@ -10,7 +10,6 @@
     "css-loader": "^6.2.0",
     "dotenv-webpack": "^7.0.3",
     "http-server": "^13.0.2",
-    "jest": "^27.2.4",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
@@ -20,46 +19,16 @@
     "style-loader": "^3.2.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/eslint-parser": "^7.15.8",
-    "@babel/eslint-plugin": "^7.14.5",
-    "@babel/plugin-syntax-jsx": "^7.14.5",
-    "@babel/preset-env": "^7.15.6",
-    "@babel/preset-react": "^7.14.5",
-    "@babel/runtime": "^7.15.4",
-    "@testing-library/jest-dom": "^5.15.0",
-    "@testing-library/react": "^12.1.2",
+    "@babel/runtime": "^7.16.3",
     "babel-loader": "^8.2.2",
     "dotenv-webpack": "^7.0.3",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jest": "^24.5.2",
-    "eslint-plugin-jest-dom": "^3.9.2",
-    "eslint-plugin-jsx": "^0.1.0",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-plugin-testing-library": "^4.12.4",
     "html-webpack-plugin": "^5.3.2",
-    "jest-environment-jsdom": "^27.2.5",
     "path": "^0.12.7",
     "postcss": "^8.3.6",
-    "react-test-renderer": "^17.0.2",
     "webpack": "^5.53.0",
-    "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.2.1"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "webpack-cli": "^4.8.0"
   },
   "scripts": {
-    "build": "webpack --mode=production",
-    "start": "webpack-dev-server --mode=development",
-    "test": "jest --watchAll"
+    "build": "webpack --mode=production"
   }
 }

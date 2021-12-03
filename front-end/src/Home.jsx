@@ -59,7 +59,7 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
       if (newKitten) {
         await setActiveKitten(newKitten.id, kittens.length);
         setKittens([...kittens, newKitten]);
-        history.push("/kittens");
+        history.goBack();
       }
     } catch (err) { console.error(err); }
   };

@@ -1,37 +1,38 @@
 {
   "env": {
     "browser": true,
+    "commonjs": true,
     "es2021": true,
     "jest/globals": true
   },
   "extends": [
-    "plugin:react/recommended",
     "eslint:recommended",
+    "plugin:react/recommended",
     "airbnb"
   ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "sourceType": "module",
-    "allowImportExportEverywhere": false,
     "ecmaVersion": 12,
+    "babelOptions": {
+      "configFile": "./.babelrc",
+      "presets": ["@babel/env"]
+    },
+    "allowImportExportEverywhere": false,
     "ecmaFeatures": {
       "globalReturn": false,
       "jsx": true
-    },
-    "babelOptions": {
-      "configFile": "./front-end/.babelrc"
     }
   },
   "plugins": [
+    "import",
+    "@babel",
     "react",
     "react-hooks",
     "testing-library",
     "jsx",
     "jsx-a11y",
-    "import",
-    "jest",
-    "jest-dom",
-    "@babel"
+    "jest-dom"
   ],
   "rules": {
     "no-return-assign": [
@@ -43,16 +44,14 @@
       "error",
       "double"
     ],
+    "linebreak-style": ["error", "unix"],
     "react/prop-types": 0,
-    "linebreak-style": "off",
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error",
-    "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error",
-    "jest/no-hooks": "off"
+    "react/function-component-definition": ["error", {
+      "namedComponents": "arrow-function",
+      "unnamedComponents": "function-expression"
+    }]
   },
   "settings": {
     "import/resolver": {
@@ -67,7 +66,8 @@
   "overrides": [
     {
       "files": [
-        "**/*.test.js"
+        "**/*.test.js",
+        "**/*.test.jsx"
       ],
       "env": {
         "jest": true // now **/*.test.js files' env has both es6 *and* jest
@@ -86,7 +86,8 @@
         "jest/no-focused-tests": "error",
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
-        "jest/valid-expect": "error"
+        "jest/valid-expect": "error",
+        "jest/no-hooks": "off"
       }
     }
   ]

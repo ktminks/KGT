@@ -10,16 +10,19 @@ const initGoogleAuth = () => {
     ? "http://localhost:4000/api/auth/google/callback"
     : "https://kgt.ktminks.com/api/auth/google/callback";
 
+  console.log(callback);
   // Use the GoogleStrategy within Passport.
   //   Strategies in Passport require a `verify` function, which accept
   //   credentials (in this case, an accessToken, refreshToken, and Google
   //   profile), and invoke a callback with a user object.
-  passport.use(new GoogleStrategy({
-    clientID: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-    callbackURL: callback,
-  },
-  ((accessToken, refreshToken, profile, done) => done(null, profile))));
+  passport.use(new GoogleStrategy(
+    {
+      clientID: CLIENT_ID,
+      clientSecret: CLIENT_SECRET,
+      callbackURL: callback,
+    },
+    ((accessToken, refreshToken, profile, done) => done(null, profile)),
+  ));
 };
 
 export default function initPassport(app) {

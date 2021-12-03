@@ -35,25 +35,24 @@ const Header = ({ currentKitten, handleDelete, buttons }) => {
           </div>
         </div>
         {(buttons
-        && (
-        <div className="d-flex flex-row flex-sm-column flex-shrink-1 flex-lg-row">
-          <Link
-            to={`/kittens/edit/id=${id}`}
-            className="btn btn-warning m-1"
-          >
-            Edit
-          </Link>
+          ? (
+            <div className="d-flex flex-row flex-sm-column flex-shrink-1 flex-lg-row">
+              <Link
+                to={`/kittens/edit/id=${id}`}
+                className="btn btn-warning m-1"
+              >
+                Edit
+              </Link>
 
-          <Link
-            to="/kittens"
-            className="btn btn-danger m-1"
-            onClick={onDelete}
-          >
-            Delete
-          </Link>
-        </div>
-        )
-        )}
+              <Link
+                to="/kittens"
+                className="btn btn-danger m-1"
+                onClick={onDelete}
+              >
+                Delete
+              </Link>
+            </div>
+          ) : null)}
       </div>
     </div>
   );

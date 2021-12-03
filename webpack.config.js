@@ -1,14 +1,14 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 module.exports = {
-  entry: ["./src/index.jsx"],
-  mode: "production",
+  entry: ["./front-end/src/index.jsx"],
+  mode: "development",
   output: {
     filename: "kgt.bundle.js",
     path: path.resolve("dist"),
-    publicPath: "https://kgt.ktminks.com",
+    publicPath: "http://localhost:4001",
   },
   resolve: {
     extensions: [".js", ".jsx", ".json"],
@@ -39,11 +39,24 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-    }),
     new Dotenv(),
+    new ESLintPlugin({
+      fix: true,
+    }),
   ],
+  devServer: {
+    historyApiFallback: true,
+    port: process.env.PORT ? Number(process.env.PORT) + 1 || 80 : 4001,
+    hot: true,
+    open: true,
+    devMiddleware: { index: false },
+    proxy: {
+      "/api": {
+        target: "http://localhost:4000/api",
+        changeOrigin: true,
+      },
+    },
+  },
   externals: {
   // global app config object
     config: JSON.stringify({
@@ -54,5 +67,8 @@ module.exports = {
     hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000,
+  },
+  experiments: {
+    topLevelAwait: true,
   },
 };
