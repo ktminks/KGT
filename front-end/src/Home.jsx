@@ -21,10 +21,7 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
         const { newKittens } = res;
         const id = await kittenService.getCurrentKitten();
         setKittens(newKittens);
-        console.log(newKittens);
-        const index = id >= 0 ? await kittenService.getKittenIndex(id, newKittens) : 0;
-        console.log(index);
-        console.log(newKittens[index]);
+        const index = id === null ? 0 : await kittenService.getKittenIndex(id, newKittens);
         setCurrentIndex(index);
       }
     };
@@ -81,7 +78,7 @@ const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
     try {
       const index = kittens.findIndex((k) => k.id === id);
       const kittenToEdit = kittens[index];
-      console.log(kittenToEdit);
+      // console.log(kittenToEdit);
       const editedKitten = await editKitten(kittenToEdit, data);
       if (editedKitten) {
         const newKittens = [...kittens];
