@@ -3,7 +3,7 @@ import { Switch, Route, useHistory } from "react-router-dom";
 
 import {
   NavBar, KittenDisplay, GrowthDisplay, Dashboard,
-} from "./components";
+} from ".";
 
 const Home = ({ kittenService, defaultKittens, useAuthStatus }) => {
   const [kittens, setKittens] = useState(defaultKittens);

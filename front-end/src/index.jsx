@@ -11,7 +11,7 @@ import { kittens } from "./_utilities/data";
 import "bootstrap/dist/css/bootstrap.css";
 import "./public/App.css";
 
-import Home from "./Home";
+import Home from "./components/Home";
 
 const options = {
   timeout: 2000,
