@@ -5,27 +5,25 @@ module.exports = {
     "jest/globals": true,
   },
   extends: [
-    "plugin:react/recommended",
+    "eslint:recommended",
     "airbnb",
   ],
   parser: "@babel/eslint-parser",
   parserOptions: {
-    babelOptions: {
-      configFile: `${__dirname}/babel.config.json`,
-    },
+    sourceType: "module",
+    allowImportExportEverywhere: false,
+    ecmaVersion: 12,
     ecmaFeatures: {
+      globalReturn: false,
       jsx: true,
     },
-    ecmaVersion: 12,
-    sourceType: "module",
+    babelOptions: {
+      configFile: "./babel.config.json",
+    },
   },
   plugins: [
-    "react",
-    "react-hooks",
-    "testing-library",
-    "jsx",
-    "jsx-a11y",
     "import",
+    "jest",
     "@babel",
   ],
   rules: {
@@ -42,16 +40,58 @@ module.exports = {
     "linebreak-style": "off",
     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "jest/no-hooks": "off",
   },
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".jsx"],
+        extensions: [
+          ".js",
+        ],
       },
     },
   },
-
   overrides: [
+    {
+      files: [
+        "**/*.jsx",
+      ],
+      extends: [
+        "plugin:react/recommended",
+      ],
+      plugins: [
+        "react",
+        "react-hooks",
+        "testing-library",
+        "jsx",
+        "jsx-a11y",
+        "jest-dom",
+      ],
+      rules: {
+        "react/prop-types": 0,
+        "linebreak-style": ["error", "unix"],
+        "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+        "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+        "react/function-component-definition": ["error", {
+          namedComponents: "arrow-function",
+          unnamedComponents: "function-expression",
+        }],
+      },
+      settings: {
+        "import/resolver": {
+          node: {
+            extensions: [
+              ".jsx",
+            ],
+          },
+        },
+      },
+    },
     {
       files: [
         "**/*.test.js",
@@ -67,7 +107,6 @@ module.exports = {
       ],
       plugins: [
         "jest",
-        "jest-dom",
       ],
       rules: {
         "jest/no-disabled-tests": "warn",
@@ -75,7 +114,6 @@ module.exports = {
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
         "jest/valid-expect": "error",
-        "jest/no-hooks": "off",
       },
     },
   ],

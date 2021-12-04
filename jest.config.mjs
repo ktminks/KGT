@@ -29,6 +29,8 @@ export default {
   coveragePathIgnorePatterns: [
     "\\\\node_modules\\\\",
     "\\\\index\\\\",
+    "\\\\debug\\\\",
+    "\\\\mocks\\\\",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -73,7 +75,7 @@ export default {
   // An array of directory names to be searched recursively up from the requiring module's location
   moduleDirectories: [
     "node_modules",
-    "front-end",
+    "./node_modules",
   ],
 
   // An array of file extensions your modules use
@@ -164,9 +166,10 @@ export default {
 
   // An array of regexp pattern strings that are matched against all test paths,
   // matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  testPathIgnorePatterns: [
+    "\\\\node_modules\\\\",
+    "\\\\debug\\\\",
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],

@@ -4,7 +4,7 @@
         "@babel/react"
     ],
     "plugins": [
-        "@babel/plugin-syntax-jsx",
-        "@babel/plugin-transform-runtime"
+        "@babel/syntax-jsx",
+        "@babel/transform-runtime"
     ]
-}
+  }

@@ -2,6 +2,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 
 export default function setSession(app, client) {
+  // eslint-disable-next-line no-promise-executor-return
   const clientPromise = new Promise((res) => res(client));
 
   app.use(session({

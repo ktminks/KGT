@@ -1,4 +1,4 @@
-import checkMode from "../checkMode.js";
+import checkMode from "../checkMode";
 
 describe("checkMode", () => {
   it("should return development", () => {
